@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Arua — Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,340;9..144,400;9..144,500&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <rect width="200" height="200" fill="#F6F1E8"/>
+    <text x="100" y="118" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-size="56" fill="#15140F" letter-spacing="-3">arua</text>
+    <line x1="60" y1="138" x2="140" y2="138" stroke="#8C4A2F" stroke-width="2"/>
+  </svg>
+</template>
+
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:"Inter Tight",-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased;background:#F6F1E8;color:#15140F}
+  ::selection{background:#8C4A2F;color:#F6F1E8}
+  button{font-family:inherit}
+  h1,h2,h3,p{margin:0}
+  .arua-btn{transition:all 180ms ease;cursor:pointer}
+  .card-hover{transition:transform 240ms ease,box-shadow 240ms ease}
+  .card-hover:hover{transform:translateY(-2px);box-shadow:0 12px 32px -16px rgba(0,0,0,.25)}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" data-presets="react" src="tweaks-panel.jsx"></script>
+<script type="text/babel" data-presets="react" src="arua.jsx"></script>
+</body>
+</html>

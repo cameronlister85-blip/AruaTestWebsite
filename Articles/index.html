@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Library — Arua</title>
+  <meta name="description" content="Straight answers to questions men don't ask out loud. Clinically reviewed. No scare tactics. No filler." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,380;0,9..144,500;1,9..144,340;1,9..144,380&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { page:'#F6F1E8','page-alt':'#EDE5D8',surface:'#FFFFFF',ink:'#15140F','ink-soft':'#3B3933',muted:'#8A867D',hairline:'#D9CFBF','hairline-soft':'#E5DCCC',accent:'#8C4A2F','accent-ink':'#FFFFFF','accent-deep':'#5C2E1A',sage:'#DCE3D2','sage-deep':'#5E6B4F' },
+          fontFamily: { display:['"Fraunces"','Georgia','serif'],body:['"Inter Tight"','-apple-system','system-ui','sans-serif'],mono:['"JetBrains Mono"','ui-monospace','monospace'] },
+          letterSpacing: { display:'-0.035em',eyebrow:'0.18em',tag:'0.14em','mono-sm':'0.04em' },
+          borderRadius: { pill:'999px',card:'6px' },
+          transitionTimingFunction: { spring:'cubic-bezier(0.34,1.3,0.64,1)' },
+        }
+      }
+    }
+  </script>
+  <style>
+    .dp   { font-family:'Fraunces',Georgia,serif; font-feature-settings:"ss01" 1,"ss02" 1; }
+    .dp-i { font-family:'Fraunces',Georgia,serif; font-feature-settings:"ss01" 1,"ss02" 1; font-style:italic; }
+    .lift { transition:transform 0.28s cubic-bezier(0.34,1.3,0.64,1), box-shadow 0.28s ease; }
+    .lift:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(21,20,15,.10); }
+    .focus-ring:focus-visible { outline:2px solid #8C4A2F; outline-offset:3px; }
+  </style>
+</head>
+<body class="bg-page font-body text-ink antialiased">
+
+<nav id="nav" class="sticky top-0 z-50 bg-page border-b border-transparent transition-colors duration-200">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-16 flex items-center justify-between gap-8">
+    <a href="../" class="dp font-[380] text-[26px] tracking-display text-ink focus-ring rounded-sm">arua</a>
+    <div class="hidden md:flex items-center gap-7">
+      <a href="../#conditions"   class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
+      <a href="../#how-it-works" class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">How it works</a>
+      <a href="../#library"      class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Library</a>
+      <a href="../#about"        class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About</a>
+    </div>
+    <button class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium hover:bg-ink-soft active:scale-[.97] transition-[background,transform] duration-150 focus-ring">
+      Start assessment
+    </button>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header class="bg-page-alt border-b border-hairline py-20">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16">
+    <div class="grid md:grid-cols-[220px_1fr] gap-12">
+      <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted pt-2">The library</p>
+      <div>
+        <h1 class="dp font-[380] tracking-display leading-[1.05] text-[48px] mb-4">Straight answers to questions men don't ask out loud.</h1>
+        <p class="text-base leading-[1.6] text-ink-soft max-w-[480px]">Clinically reviewed. No scare tactics. No filler.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- SEXUAL HEALTH -->
+<section class="py-16 border-b border-hairline">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16">
+    <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-8">Sexual health</p>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <a href="why-ed-happens.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+        <div class="p-6">
+          <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Sexual Health</span>
+          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Why ED happens: the physiological causes most men don't know about.</h3>
+          <p class="text-sm text-ink-soft leading-[1.6] mb-4">Erectile dysfunction affects roughly one in three New Zealand men over 40. Understanding the mechanism points directly to what can be done about it.</p>
+          <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
+            <span class="font-mono text-[11px] text-muted">7 min read</span>
+            <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="ed-and-mental-health.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+        <div class="p-6">
+          <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Sexual Health</span>
+          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">ED and mental health: the relationship most men never hear about.</h3>
+          <p class="text-sm text-ink-soft leading-[1.6] mb-4">The relationship is bidirectional and self-reinforcing. Getting the full picture changes how the problem is approached — and produces better outcomes.</p>
+          <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
+            <span class="font-mono text-[11px] text-muted">7 min read</span>
+            <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- HORMONAL HEALTH -->
+<section class="py-16 border-b border-hairline">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16">
+    <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-8">Hormonal health</p>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <a href="testosterone-decline.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+        <div class="p-6">
+          <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Hormonal Health</span>
+          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Testosterone decline in men: what actually happens and when to act.</h3>
+          <p class="text-sm text-ink-soft leading-[1.6] mb-4">Yes, testosterone declines with age. But the story most men have heard is considerably more complicated than that.</p>
+          <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
+            <span class="font-mono text-[11px] text-muted">8 min read</span>
+            <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="low-energy-at-40.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+        <div class="p-6">
+          <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Hormonal Health</span>
+          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Low energy at 40: is it age, or something worth investigating?</h3>
+          <p class="text-sm text-ink-soft leading-[1.6] mb-4">Most men file significant fatigue under inevitable. Sometimes they're right. But the two look almost identical from the inside.</p>
+          <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
+            <span class="font-mono text-[11px] text-muted">6 min read</span>
+            <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="testosterone-weight-energy.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+        <div class="p-6">
+          <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Hormonal Health</span>
+          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Testosterone, weight, and energy: why the three move together.</h3>
+          <p class="text-sm text-ink-soft leading-[1.6] mb-4">These aren't separate systems operating independently — they're components of the same metabolic loop.</p>
+          <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
+            <span class="font-mono text-[11px] text-muted">6 min read</span>
+            <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- HAIR LOSS + PREVENTIVE + LONGEVITY + MEN'S HEALTH -->
+<section class="py-16">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16">
+    <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-8">Hair loss, longevity & more</p>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <a href="hair-loss-finasteride.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+        <div class="p-6">
+          <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Hair Loss</span>
+          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Hair loss in men: what finasteride actually does — and what it doesn't.</h3>
+          <p class="text-sm text-ink-soft leading-[1.6] mb-4">The side effect picture is considerably less alarming than the internet would have you believe. Here are the actual numbers.</p>
+          <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
+            <span class="font-mono text-[11px] text-muted">7 min read</span>
+            <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="why-men-die-younger.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+        <div class="p-6">
+          <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Longevity</span>
+          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Why men die younger — and what changes that outcome.</h3>
+          <p class="text-sm text-ink-soft leading-[1.6] mb-4">The gap persists across ethnicity, income, and geography. It's not primarily biological — and it's largely preventable.</p>
+          <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
+            <span class="font-mono text-[11px] text-muted">7 min read</span>
+            <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="baseline-blood-test.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+        <div class="p-6">
+          <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Preventive Health</span>
+          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">What a baseline blood test tells you — and why most men don't have one.</h3>
+          <p class="text-sm text-ink-soft leading-[1.6] mb-4">Ten minutes, a needle, a few days — and you have a picture of systems you otherwise can't see.</p>
+          <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
+            <span class="font-mono text-[11px] text-muted">6 min read</span>
+            <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="sleep-mens-health.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+        <div class="p-6">
+          <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Longevity</span>
+          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Sleep and men's health: the connection your GP hasn't had time to explain.</h3>
+          <p class="text-sm text-ink-soft leading-[1.6] mb-4">Sleep isn't passive recovery. The consequences of chronic sleep disruption are direct, measurable, and far more significant than most men realise.</p>
+          <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
+            <span class="font-mono text-[11px] text-muted">6 min read</span>
+            <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="why-men-dont-ask-for-help.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+        <div class="p-6">
+          <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Men's Health</span>
+          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Why men don't ask for help — and what happens when the system makes it easier.</h3>
+          <p class="text-sm text-ink-soft leading-[1.6] mb-4">Telling men to engage with healthcare the way women do hasn't closed the gap. The more useful question is why — and what a better system looks like.</p>
+          <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
+            <span class="font-mono text-[11px] text-muted">7 min read</span>
+            <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="bg-ink text-page py-20">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 text-center">
+    <h2 class="dp font-[380] tracking-display leading-[1.1] text-[38px] mb-4">Ready to start?</h2>
+    <p class="text-base leading-[1.6] mb-8 max-w-[440px] mx-auto" style="color:rgba(246,241,232,.7)">Private. Structured. NZ-registered clinicians. Delivered to your door in 48 hours.</p>
+    <button class="h-12 px-8 rounded-pill bg-page text-ink text-[15px] font-medium hover:bg-page-alt active:scale-[.97] transition-[background,transform] duration-150 focus-ring">
+      Start assessment&thinsp;→
+    </button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-ink text-page py-16 border-t border-white/5">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16">
+    <div class="grid md:grid-cols-[1fr_auto_auto_auto] gap-12 items-start mb-14">
+      <div>
+        <p class="dp font-[380] tracking-display text-[40px] leading-none mb-5">arua</p>
+        <p class="text-sm leading-[1.7]" style="color:rgba(246,241,232,.6)">Private men's health.<br>NZ-registered clinicians.</p>
+      </div>
+      <nav class="flex flex-col gap-3">
+        <p class="font-mono text-[11px] tracking-eyebrow uppercase" style="color:rgba(246,241,232,.4)">Conditions</p>
+        <a href="../#conditions" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Erectile dysfunction</a>
+        <a href="../#conditions" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Low testosterone</a>
+        <a href="../#conditions" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Hair loss</a>
+        <a href="../#conditions" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Weight management</a>
+      </nav>
+      <nav class="flex flex-col gap-3">
+        <p class="font-mono text-[11px] tracking-eyebrow uppercase" style="color:rgba(246,241,232,.4)">Company</p>
+        <a href="../#about" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">About Arua</a>
+        <a href="../#about" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Our clinicians</a>
+        <a href="index.html" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">The library</a>
+      </nav>
+    </div>
+    <div class="border-t pt-8 flex flex-col sm:flex-row justify-between gap-4" style="border-color:rgba(217,207,191,.15)">
+      <p class="font-mono text-[11px]" style="color:rgba(246,241,232,.35)">© 2025 Arua Health Ltd. NZ-registered. Not a substitute for medical advice.</p>
+      <div class="flex gap-6">
+        <a href="../privacy.html" class="font-mono text-[11px] focus-ring rounded-sm" style="color:rgba(246,241,232,.35)">Privacy</a>
+        <a href="../terms.html" class="font-mono text-[11px] focus-ring rounded-sm" style="color:rgba(246,241,232,.35)">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.borderColor = window.scrollY > 10 ? '#E5DCCC' : 'transparent';
+  }, { passive: true });
+</script>
+</body>
+</html>

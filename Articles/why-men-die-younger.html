@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Why Men Die Younger — and What Changes That Outcome — Arua</title>
+  <meta name="description" content="New Zealand men die on average four to five years younger than women. The gap is largely preventable. Understanding the mechanisms is the starting point for doing something about them." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,380;0,9..144,500;1,9..144,340;1,9..144,380&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { page:'#F6F1E8','page-alt':'#EDE5D8',surface:'#FFFFFF',ink:'#15140F','ink-soft':'#3B3933',muted:'#8A867D',hairline:'#D9CFBF','hairline-soft':'#E5DCCC',accent:'#8C4A2F','accent-ink':'#FFFFFF','accent-deep':'#5C2E1A',sage:'#DCE3D2','sage-deep':'#5E6B4F' },
+          fontFamily: { display:['"Fraunces"','Georgia','serif'],body:['"Inter Tight"','-apple-system','system-ui','sans-serif'],mono:['"JetBrains Mono"','ui-monospace','monospace'] },
+          letterSpacing: { display:'-0.035em',eyebrow:'0.18em',tag:'0.14em','mono-sm':'0.04em' },
+          borderRadius: { pill:'999px',card:'6px' },
+          transitionTimingFunction: { spring:'cubic-bezier(0.34,1.3,0.64,1)' },
+        }
+      }
+    }
+  </script>
+  <style>
+    .dp   { font-family:'Fraunces',Georgia,serif; font-feature-settings:"ss01" 1,"ss02" 1; }
+    .lift { transition:transform 0.28s cubic-bezier(0.34,1.3,0.64,1), box-shadow 0.28s ease; }
+    .lift:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(21,20,15,.10); }
+    .focus-ring:focus-visible { outline:2px solid #8C4A2F; outline-offset:3px; }
+    .prose h2 { font-family:'Fraunces',Georgia,serif; font-weight:380; font-size:22px; line-height:1.25; letter-spacing:-0.025em; font-feature-settings:"ss01" 1,"ss02" 1; color:#15140F; margin-top:48px; margin-bottom:14px; }
+    .prose p  { font-size:17px; line-height:1.78; color:#3B3933; margin-bottom:20px; }
+    .pull-quote { border-left:2px solid #8C4A2F; background:#EDE5D8; border-radius:0 6px 6px 0; padding:24px 32px; margin:36px 0; font-family:'Fraunces',Georgia,serif; font-weight:340; font-size:18px; line-height:1.5; font-style:italic; font-feature-settings:"ss01" 1,"ss02" 1; color:#15140F; }
+  </style>
+</head>
+<body class="bg-page font-body text-ink antialiased">
+
+<nav id="nav" class="sticky top-0 z-50 bg-page border-b border-transparent transition-colors duration-200">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-16 flex items-center justify-between gap-8">
+    <a href="../" class="dp font-[380] text-[26px] tracking-display text-ink focus-ring rounded-sm">arua</a>
+    <div class="hidden md:flex items-center gap-7">
+      <a href="../#conditions"   class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
+      <a href="../#how-it-works" class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">How it works</a>
+      <a href="../#library"      class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Library</a>
+      <a href="../#about"        class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About</a>
+    </div>
+    <button class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium hover:bg-ink-soft active:scale-[.97] transition-[background,transform] duration-150 focus-ring">
+      Start assessment
+    </button>
+  </div>
+</nav>
+
+<header class="bg-page-alt border-b border-hairline">
+  <div class="max-w-[760px] mx-auto px-8 py-14">
+    <a href="../#library" class="inline-flex items-center gap-2 text-sm text-muted hover:text-ink transition-colors duration-150 focus-ring rounded-sm mb-8">
+      <span>←</span> <span>Library</span>
+    </a>
+    <div class="flex items-center gap-3 mb-6">
+      <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill">Longevity</span>
+      <span class="font-mono text-[11px] text-muted">7 min read</span>
+    </div>
+    <h1 class="dp font-[380] tracking-display leading-[1.08] text-[38px] md:text-[46px] mb-6">
+      Why men die younger — and what changes that outcome.
+    </h1>
+    <p class="text-[18px] leading-[1.65] text-ink-soft max-w-[620px]">
+      In New Zealand, men die on average four to five years younger than women. The gap persists across ethnicity, income, and geography. It's not a coincidence — and it's not primarily biological. The mechanisms are well understood. So are the solutions.
+    </p>
+  </div>
+</header>
+
+<article class="max-w-[760px] mx-auto px-8 py-16">
+  <div class="prose">
+
+    <h2>The biology contributes less than you'd expect</h2>
+    <p>Some of the mortality gap is genuinely biological. Testosterone is associated with higher rates of risk-taking behaviour, which contributes to accidental death — particularly in younger men. Oestrogen appears to offer some cardiovascular protection that men lack until later in life. Men accumulate visceral fat more readily than pre-menopausal women, increasing metabolic and cardiovascular risk.</p>
+    <p>These factors are real. They account for perhaps one to two years of the gap. They don't account for the majority of it. The primary driver is behavioural: men present to healthcare later, get diagnosed at more advanced stages, and are significantly more likely to die from conditions that are highly treatable when caught early. The gap isn't mainly about what men have — it's about what men do. Specifically, what they don't do.</p>
+
+    <h2>The conditions doing the most damage</h2>
+    <p>Cardiovascular disease is the leading cause of death in New Zealand men — accounting for roughly 30% of male deaths annually. The risk factors (high blood pressure, elevated cholesterol, central weight gain, physical inactivity, smoking, type 2 diabetes) are all modifiable and all responsive to early detection and management. The reason cardiovascular disease kills so many men isn't that treatment doesn't exist. It's that men arrive for treatment too late — or don't arrive at all until they're in an ambulance.</p>
+    <p>Prostate cancer is the most commonly diagnosed cancer in New Zealand men, with around 3,500 new diagnoses annually. Many prostate cancers are slow-growing and highly treatable when detected early. Five-year survival for localised prostate cancer is above 99%. For metastatic prostate cancer, it drops to around 30%. The difference is almost entirely a matter of when it's found.</p>
+    <p>Colorectal cancer, lung cancer, type 2 diabetes, and chronic obstructive pulmonary disease — all disproportionately affecting men — share the same pattern: significantly more treatable early, and men present late.</p>
+
+    <div class="pull-quote">
+      Five-year survival for localised prostate cancer is above 99%. For metastatic disease, it's around 30%. The difference is almost entirely when it's found.
+    </div>
+
+    <h2>The help-seeking gap</h2>
+    <p>Men use primary care services at significantly lower rates than women across all age groups. They're less likely to attend regular check-ups, more likely to present to emergency departments as their first point of contact with the healthcare system, and more likely to delay seeking care when symptoms appear. Research consistently shows that by the time many men seek treatment for conditions like depression, cardiovascular disease, or cancer, the condition is considerably more advanced than it would be in a woman presenting with equivalent symptoms.</p>
+    <p>The reasons aren't simple. Men describe healthcare environments as feeling designed for others — the interaction style, the communication norms, the implicit expectation of expressed vulnerability. They cite concerns about exposure, about being seen as fragile or as a burden, about the loss of control that comes with accepting a sick role. These aren't character flaws. They're predictable responses to a system that, in its design and culture, hasn't fully accounted for how men actually make decisions about their health.</p>
+
+    <h2>What actually closes the gap</h2>
+    <p>The interventions that consistently improve male health outcomes share a feature: they reduce friction. They make it easier for men to access care without first having to overcome a significant psychological barrier.</p>
+    <p>Telehealth services designed specifically for men show higher uptake, earlier presentation, and better treatment adherence than traditional models. Research from comparable platforms in Australia demonstrated that men engage with healthcare at rates approaching women's when the pathway is private, structured, and doesn't require them to articulate vulnerability in person.</p>
+    <p>The model that works meets men where they are, frames health engagement as practical self-management rather than an admission of decline, and makes the first step feel manageable rather than exposing.</p>
+
+    <h2>The modifiable risk factors, plainly</h2>
+    <p>Blood pressure, measured regularly. A substantial proportion of New Zealand men with hypertension don't know they have it — it's asymptomatic until it causes damage, and by then it's been accumulating vascular injury for years.</p>
+    <p>Cholesterol and lipids, assessed and managed. Most men who die of their first cardiac event had elevated cholesterol that was either not measured or not treated.</p>
+    <p>Blood glucose, monitored. The Ministry of Health estimates around 100,000 New Zealanders have undiagnosed type 2 diabetes. Pre-diabetes is reversible. Caught early, type 2 diabetes is manageable. Left alone, it damages blood vessels, kidneys, eyes, and nerves over years.</p>
+    <p>Body composition, tracked honestly. Central obesity is the single most predictive physical marker of metabolic and cardiovascular risk. It's also addressable.</p>
+
+    <div class="pull-quote">
+      Most men who die of their first cardiac event had elevated cholesterol that was either not measured or not treated. That's not inevitable — it's a gap in monitoring.
+    </div>
+
+    <h2>What to do with this</h2>
+    <p>The mortality gap is produced by identifiable, modifiable causes. If you're a man in your late 30s or beyond who hasn't had a blood panel in the past two years, that's the practical starting point. Not because something is probably wrong — but because knowing your baseline is the precondition for everything else. You can't manage what you haven't measured.</p>
+
+  </div>
+</article>
+
+<section class="max-w-[760px] mx-auto px-8 pb-20">
+  <div class="bg-page-alt rounded-card border border-hairline-soft p-10">
+    <p class="dp font-[380] tracking-display text-[22px] leading-[1.3] mb-2">A baseline blood panel — cholesterol, blood glucose, blood pressure, testosterone — is the most useful health investment a man in his 30s or 40s can make.</p>
+    <p class="text-base text-ink-soft mb-7">It takes less time than most men expect.</p>
+    <button class="h-11 px-6 rounded-pill bg-ink text-page text-[15px] font-medium hover:bg-ink-soft active:scale-[.97] transition-[background,transform] duration-150 focus-ring">
+      Start assessment&thinsp;→
+    </button>
+  </div>
+</section>
+
+<section class="border-t border-hairline py-16">
+  <div class="max-w-[760px] mx-auto px-8">
+    <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-8">Related reading</p>
+    <div class="grid sm:grid-cols-2 gap-5">
+
+      <a href="baseline-blood-test.html" class="lift focus-ring block border border-hairline-soft rounded-card p-6 bg-surface">
+        <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Preventive Health</span>
+        <h3 class="dp font-[380] tracking-display text-[18px] leading-[1.25] mb-3">What a baseline blood test tells you — and why most men don't have one.</h3>
+        <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
+          <span class="font-mono text-[11px] text-muted">6 min read</span>
+          <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
+        </div>
+      </a>
+
+      <a href="why-men-dont-ask-for-help.html" class="lift focus-ring block border border-hairline-soft rounded-card p-6 bg-surface">
+        <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Men's Health</span>
+        <h3 class="dp font-[380] tracking-display text-[18px] leading-[1.25] mb-3">Why men don't ask for help — and what happens when the system makes it easier.</h3>
+        <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
+          <span class="font-mono text-[11px] text-muted">7 min read</span>
+          <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<footer class="bg-ink text-page py-16">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16">
+    <div class="grid md:grid-cols-[1fr_auto_auto_auto] gap-12 items-start mb-14">
+      <div>
+        <p class="dp font-[380] tracking-display text-[40px] leading-none mb-5">arua</p>
+        <p class="text-sm leading-[1.7]" style="color:rgba(246,241,232,.6)">Private men's health.<br>NZ-registered clinicians.</p>
+      </div>
+      <nav class="flex flex-col gap-3">
+        <p class="font-mono text-[11px] tracking-eyebrow uppercase" style="color:rgba(246,241,232,.4)">Conditions</p>
+        <a href="../#conditions" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Erectile dysfunction</a>
+        <a href="../#conditions" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Low testosterone</a>
+        <a href="../#conditions" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Hair loss</a>
+        <a href="../#conditions" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Weight management</a>
+      </nav>
+      <nav class="flex flex-col gap-3">
+        <p class="font-mono text-[11px] tracking-eyebrow uppercase" style="color:rgba(246,241,232,.4)">Company</p>
+        <a href="../#about" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">About Arua</a>
+        <a href="../#about" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Our clinicians</a>
+        <a href="../#library" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">The library</a>
+      </nav>
+    </div>
+    <div class="border-t pt-8 flex flex-col sm:flex-row justify-between gap-4" style="border-color:rgba(217,207,191,.15)">
+      <p class="font-mono text-[11px]" style="color:rgba(246,241,232,.35)">© 2025 Arua Health Ltd. NZ-registered. Not a substitute for medical advice.</p>
+      <div class="flex gap-6">
+        <a href="../privacy.html" class="font-mono text-[11px] focus-ring rounded-sm" style="color:rgba(246,241,232,.35)">Privacy</a>
+        <a href="../terms.html" class="font-mono text-[11px] focus-ring rounded-sm" style="color:rgba(246,241,232,.35)">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.borderColor = window.scrollY > 10 ? '#E5DCCC' : 'transparent';
+  }, { passive: true });
+</script>
+</body>
+</html>

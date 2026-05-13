@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Terms of Service — Arua</title>
+  <meta name="description" content="Arua's terms of service. The agreement between you and Arua when you use our website and services." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,380;0,9..144,500;1,9..144,340;1,9..144,380&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            page:           '#F6F1E8',
+            'page-alt':     '#EDE5D8',
+            surface:        '#FFFFFF',
+            ink:            '#15140F',
+            'ink-soft':     '#3B3933',
+            muted:          '#8A867D',
+            hairline:       '#D9CFBF',
+            'hairline-soft':'#E5DCCC',
+            accent:         '#8C4A2F',
+            'accent-ink':   '#FFFFFF',
+            'accent-deep':  '#5C2E1A',
+            sage:           '#DCE3D2',
+            'sage-deep':    '#5E6B4F',
+          },
+          fontFamily: {
+            display: ['"Fraunces"', 'Georgia', 'serif'],
+            body:    ['"Inter Tight"', '-apple-system', 'system-ui', 'sans-serif'],
+            mono:    ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+          },
+          letterSpacing: {
+            display:  '-0.035em',
+            eyebrow:  '0.18em',
+            tag:      '0.14em',
+            'mono-sm':'0.04em',
+          },
+          borderRadius: {
+            pill: '999px',
+            card: '6px',
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    ::selection { background: #8C4A2F; color: #F6F1E8; }
+
+    .dp { font-family: 'Fraunces', Georgia, serif; font-feature-settings: "ss01" 1, "ss02" 1; }
+
+    .focus-ring:focus-visible { outline: 2px solid #8C4A2F; outline-offset: 2px; }
+
+    .prose h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-feature-settings: "ss01" 1, "ss02" 1;
+      font-weight: 380;
+      font-size: 20px;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      color: #15140F;
+      margin-top: 48px;
+      margin-bottom: 12px;
+    }
+    .prose p {
+      font-size: 16px;
+      line-height: 1.78;
+      color: #3B3933;
+      margin-bottom: 16px;
+    }
+    .prose ul {
+      margin-bottom: 16px;
+      padding-left: 0;
+      list-style: none;
+    }
+    .prose ul li {
+      font-size: 16px;
+      line-height: 1.78;
+      color: #3B3933;
+      padding-left: 20px;
+      position: relative;
+      margin-bottom: 10px;
+    }
+    .prose ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 11px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #8C4A2F;
+    }
+    .prose a {
+      color: #8C4A2F;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .prose a:hover { color: #5C2E1A; }
+  </style>
+</head>
+<body class="bg-page text-ink font-body antialiased">
+
+<!-- NAV -->
+<nav id="nav" class="sticky top-0 z-50 border-b border-transparent transition-[border-color,box-shadow] duration-300 bg-page/[.88] backdrop-blur-xl backdrop-saturate-150">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-[68px] flex items-center justify-between">
+    <a href="/" class="dp font-[380] text-[26px] tracking-display text-ink focus-ring rounded-sm">arua</a>
+
+    <div class="hidden md:flex items-center gap-8">
+      <a href="/#conditions" class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
+      <a href="/#library"    class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Library</a>
+      <a href="/#about"      class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About</a>
+      <a href="/#early-access" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium
+                   hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">
+        Sign up for early access
+      </a>
+    </div>
+
+    <button class="md:hidden flex flex-col gap-[5px] p-1 focus-ring rounded-sm" aria-label="Menu">
+      <span class="block w-5 h-px bg-ink"></span>
+      <span class="block w-5 h-px bg-ink"></span>
+      <span class="block w-5 h-px bg-ink"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header class="bg-page-alt border-b border-hairline">
+  <div class="max-w-[760px] mx-auto px-8 py-16">
+    <a href="/" class="inline-flex items-center gap-2 text-sm text-muted hover:text-ink transition-colors duration-150 focus-ring rounded-sm mb-10">
+      <span>&#8592;</span> <span>Arua</span>
+    </a>
+    <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-5">Legal</p>
+    <h1 class="dp font-[380] tracking-display leading-[1.05] text-[38px] md:text-[48px] mb-5">
+      Terms of Service
+    </h1>
+    <p class="font-mono text-[12px] text-muted">
+      arua.co.nz &ensp;&#183;&ensp; Last updated: 13 May 2026
+    </p>
+  </div>
+</header>
+
+<!-- INTRO -->
+<section class="max-w-[760px] mx-auto px-8 pt-14 pb-4">
+  <p class="text-[18px] leading-[1.7] text-ink-soft border-b border-hairline-soft pb-14">
+    These terms set out the agreement between you and Arua when you use our website and services. They're written to be clear rather than long. Read them — by creating an account or placing an order, you're agreeing to them.
+  </p>
+</section>
+
+<!-- CONTENT -->
+<article class="max-w-[760px] mx-auto px-8 pb-20">
+  <div class="prose">
+
+    <h2>1. Who we are and who these terms apply to</h2>
+    <p>Arua is a New Zealand men's health service operating at arua.co.nz. Our services are available to people aged 18 and over who live in New Zealand. If you're under 18, or you're outside New Zealand, our services aren't for you.</p>
+    <p>These terms apply to anyone who uses the site or signs up for an account, whether or not you go on to purchase anything.</p>
+
+    <h2>2. How the service works</h2>
+    <p>Arua connects you with New Zealand-registered prescribers who can assess whether treatment is appropriate for you, and prescribe medication where it is. The clinical assessment is done by an independent prescriber based on the information you provide in your health questionnaire and any follow-up they require. Arua provides the platform; the prescriber provides the clinical care.</p>
+    <p>A prescriber may decline to prescribe if treatment isn't appropriate, isn't safe based on what you've told them, or if they need more information than the questionnaire provides. That's a clinical decision and it sits with them, not us. If you're declined, we'll tell you, and any payment you've made for the prescription itself will be refunded — though assessment fees may not be, depending on the model in place at the time.</p>
+    <p>Any medication prescribed to you is dispensed by a registered New Zealand pharmacy partner and delivered to the address you provide.</p>
+
+    <h2>3. Your account</h2>
+    <p>To use most of the service you need an account. You're responsible for keeping your login details secure and for everything that happens under your account. If you think someone else has accessed your account, tell us as soon as possible at <a href="mailto:hello@arua.co.nz">hello@arua.co.nz</a>.</p>
+    <p>The information you give us — in your account and especially in your health questionnaire — needs to be accurate, complete, and current. Treatment decisions are made on the basis of what you tell us. If you leave things out or aren't truthful, the prescriber can't assess you properly, and that's on you rather than us.</p>
+    <p>You can close your account at any time by contacting us. We'll retain your health information for the period required by New Zealand law (see our <a href="/privacy.html">Privacy Policy</a> for detail), and delete the rest within a reasonable period.</p>
+
+    <h2>4. Payments, pricing, and refunds</h2>
+    <p>Prices for our services are shown on the site at the time you place an order. We may change pricing from time to time; changes won't affect orders you've already placed and paid for. Where ongoing or recurring payments apply to a particular service, the terms specific to that — including how to cancel, when you'll be charged, and what happens at renewal — will be made clear before you sign up.</p>
+    <p>Payment is taken at the time of order through our payment processor. We don't store your full card details ourselves.</p>
+    <p>Refunds are handled on the following basis:</p>
+    <ul>
+      <li>If a prescriber declines to prescribe, the cost of the prescription is refunded. Any assessment or consultation fees that have been clearly disclosed as non-refundable will not be.</li>
+      <li>If something goes wrong on our end — wrong medication dispensed, lost in transit, that kind of thing — we'll make it right, either by reshipping or refunding, whichever is appropriate.</li>
+      <li>Prescription medication that has been correctly dispensed cannot be returned for a refund. This is a requirement under the Medicines Act, not a policy we get to choose.</li>
+    </ul>
+    <p>Your rights under the Consumer Guarantees Act and Fair Trading Act apply alongside these terms and aren't excluded by them.</p>
+
+    <h2>5. Delivery</h2>
+    <p>We deliver within New Zealand only. Estimated delivery times are shown at checkout and are estimates, not guarantees — courier networks have bad days. If a delivery is taking significantly longer than expected, get in touch and we'll chase it up.</p>
+    <p>Risk in your order passes to you on delivery. If your order arrives damaged or something's missing, tell us within a reasonable time so we can sort it out.</p>
+
+    <h2>6. The clinical side — important</h2>
+    <p>Arua is not a substitute for your usual GP or for emergency care. If you have a medical emergency, call 111. If you have ongoing health issues that need broader management than what we treat, see your GP.</p>
+    <p>Information on our website — articles, content library entries, FAQs — is general health information, not personal medical advice. It's intended to help you make sense of conditions and treatments at a general level. It does not replace the clinical assessment and advice you receive from a prescriber through the service.</p>
+    <p>Medications carry side effects. Before you start any treatment, read the information provided with your medication and the guidance your prescriber gives you. If you experience a serious side effect, stop the medication and contact a doctor — call 111 if it's urgent.</p>
+
+    <h2>7. Acceptable use</h2>
+    <p>Use the service for what it's for. Don't:</p>
+    <ul>
+      <li>Create an account using someone else's identity, or provide false information.</li>
+      <li>Order medication intended for someone else, or onsell medication prescribed to you.</li>
+      <li>Attempt to interfere with the site — scraping, automated access, security probing, that kind of thing.</li>
+      <li>Use the service to harass our staff or our contracted prescribers.</li>
+    </ul>
+    <p>If you breach these terms in a way that's serious or repeated, we may suspend or close your account. Where it's a safety issue, we may also report it to the relevant authority.</p>
+
+    <h2>8. Intellectual property</h2>
+    <p>The Arua name, logo, website, written content, and the way the service is put together are owned by Arua or licensed to us. You're welcome to view and use the site for its intended purpose. You're not welcome to copy substantial parts of it, reproduce our content elsewhere, or use our branding for your own purposes without written permission.</p>
+    <p>Content you provide to us — your questionnaire answers, anything you send us — remains yours. By providing it, you give us the permission we need to use it for the purposes set out in our <a href="/privacy.html">Privacy Policy</a> (delivering the service to you, essentially).</p>
+
+    <h2>9. Things we're not liable for</h2>
+    <p>We do our best to make the service work properly and to make accurate information available to you. We can't guarantee that the site will always be available, that every piece of information on it is current to the day, or that the service will meet every possible expectation.</p>
+    <p>To the extent allowed by New Zealand law, Arua is not liable for indirect or consequential loss — lost income, lost opportunity, lost data, that kind of thing — arising from your use of the service. Our total liability to you for anything that does arise is limited to the amount you've paid us in the twelve months before the issue arose.</p>
+    <p>Nothing in these terms limits your rights under the Consumer Guarantees Act, the Fair Trading Act, or any other law that can't be contracted out of.</p>
+
+    <h2>10. Changes to these terms</h2>
+    <p>We'll update these terms from time to time — the version date at the top tells you when. If we make a change that materially affects your rights or obligations, we'll tell you directly (by email or through your account) before it takes effect. Continuing to use the service after a change means you accept the updated terms; if you don't, you can close your account.</p>
+
+    <h2>11. Governing law</h2>
+    <p>These terms are governed by New Zealand law. Any dispute that can't be sorted out between us directly will be dealt with by the New Zealand courts.</p>
+
+    <h2>12. Contact</h2>
+    <p>General questions: <a href="mailto:hello@arua.co.nz">hello@arua.co.nz</a></p>
+    <p>Privacy questions: <a href="mailto:privacy@arua.co.nz">privacy@arua.co.nz</a></p>
+
+  </div>
+</article>
+
+<!-- FOOTER -->
+<footer class="bg-ink text-page pt-[72px] pb-12">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16">
+    <div class="grid md:grid-cols-[1.4fr_1fr_1fr_1fr] gap-12 pb-14 mb-8" style="border-bottom:1px solid rgba(246,241,232,.09)">
+      <div>
+        <p class="dp font-[380] tracking-display text-[52px] leading-none mb-5">arua</p>
+        <p class="text-[13px] leading-[1.65] max-w-[240px]" style="color:rgba(246,241,232,.5)">Men's health. New Zealand.<br>Private, direct, evidence-based.</p>
+      </div>
+      <div>
+        <p class="font-mono text-[11px] tracking-eyebrow uppercase mb-5" style="color:rgba(246,241,232,.38)">Conditions</p>
+        <nav class="flex flex-col gap-3">
+          <a href="/conditions/ed.html" class="text-sm transition-colors duration-150 focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Erectile dysfunction</a>
+          <a href="/conditions/hair-loss.html" class="text-sm transition-colors duration-150 focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Hair loss</a>
+        </nav>
+      </div>
+      <div>
+        <p class="font-mono text-[11px] tracking-eyebrow uppercase mb-5" style="color:rgba(246,241,232,.38)">Company</p>
+        <nav class="flex flex-col gap-3">
+          <a href="/#about" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">About Arua</a>
+          <a href="/Articles/index.html" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">The library</a>
+          <a href="/#early-access" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Early access</a>
+        </nav>
+      </div>
+      <div>
+        <p class="font-mono text-[11px] tracking-eyebrow uppercase mb-5" style="color:rgba(246,241,232,.38)">Legal</p>
+        <nav class="flex flex-col gap-3">
+          <a href="/privacy.html" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Privacy policy</a>
+          <a href="/terms.html" class="text-sm focus-ring rounded-sm" style="color:#F6F1E8">Terms of service</a>
+          <a href="mailto:hello@arua.co.nz" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Contact</a>
+        </nav>
+      </div>
+    </div>
+    <div class="flex justify-between items-center flex-wrap gap-3">
+      <p class="text-xs" style="color:rgba(246,241,232,.35)">&#169; 2026 Arua Health Limited. All rights reserved.</p>
+      <p class="text-xs" style="color:rgba(246,241,232,.35)">NZ-registered clinicians&ensp;&#183;&ensp;Medsafe approved treatments</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav')
+  addEventListener('scroll', () => {
+    const s = scrollY > 10
+    nav.style.borderColor = s ? '#E5DCCC' : 'transparent'
+    nav.style.boxShadow   = s ? '0 2px 24px -8px rgba(21,20,15,.10)' : 'none'
+  }, { passive: true })
+</script>
+
+</body>
+</html>

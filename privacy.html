@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy — Arua</title>
+  <meta name="description" content="Arua's privacy policy. What we collect, why we collect it, how we protect it, and your rights under New Zealand law." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,380;0,9..144,500;1,9..144,340;1,9..144,380&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            page:           '#F6F1E8',
+            'page-alt':     '#EDE5D8',
+            surface:        '#FFFFFF',
+            ink:            '#15140F',
+            'ink-soft':     '#3B3933',
+            muted:          '#8A867D',
+            hairline:       '#D9CFBF',
+            'hairline-soft':'#E5DCCC',
+            accent:         '#8C4A2F',
+            'accent-ink':   '#FFFFFF',
+            'accent-deep':  '#5C2E1A',
+            sage:           '#DCE3D2',
+            'sage-deep':    '#5E6B4F',
+          },
+          fontFamily: {
+            display: ['"Fraunces"', 'Georgia', 'serif'],
+            body:    ['"Inter Tight"', '-apple-system', 'system-ui', 'sans-serif'],
+            mono:    ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+          },
+          letterSpacing: {
+            display:  '-0.035em',
+            eyebrow:  '0.18em',
+            tag:      '0.14em',
+            'mono-sm':'0.04em',
+          },
+          borderRadius: {
+            pill: '999px',
+            card: '6px',
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    ::selection { background: #8C4A2F; color: #F6F1E8; }
+
+    .dp { font-family: 'Fraunces', Georgia, serif; font-feature-settings: "ss01" 1, "ss02" 1; }
+
+    .focus-ring:focus-visible { outline: 2px solid #8C4A2F; outline-offset: 2px; }
+
+    .prose h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-feature-settings: "ss01" 1, "ss02" 1;
+      font-weight: 380;
+      font-size: 20px;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      color: #15140F;
+      margin-top: 48px;
+      margin-bottom: 12px;
+    }
+    .prose p {
+      font-size: 16px;
+      line-height: 1.78;
+      color: #3B3933;
+      margin-bottom: 16px;
+    }
+    .prose ul {
+      margin-bottom: 16px;
+      padding-left: 0;
+      list-style: none;
+    }
+    .prose ul li {
+      font-size: 16px;
+      line-height: 1.78;
+      color: #3B3933;
+      padding-left: 20px;
+      position: relative;
+      margin-bottom: 10px;
+    }
+    .prose ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 11px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #8C4A2F;
+    }
+    .prose a {
+      color: #8C4A2F;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .prose a:hover { color: #5C2E1A; }
+  </style>
+</head>
+<body class="bg-page text-ink font-body antialiased">
+
+<!-- NAV -->
+<nav id="nav" class="sticky top-0 z-50 border-b border-transparent transition-[border-color,box-shadow] duration-300 bg-page/[.88] backdrop-blur-xl backdrop-saturate-150">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-[68px] flex items-center justify-between">
+    <a href="/" class="dp font-[380] text-[26px] tracking-display text-ink focus-ring rounded-sm">arua</a>
+
+    <div class="hidden md:flex items-center gap-8">
+      <a href="/#conditions" class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
+      <a href="/#library"    class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Library</a>
+      <a href="/#about"      class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About</a>
+      <a href="/#early-access" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium
+                   hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">
+        Sign up for early access
+      </a>
+    </div>
+
+    <button class="md:hidden flex flex-col gap-[5px] p-1 focus-ring rounded-sm" aria-label="Menu">
+      <span class="block w-5 h-px bg-ink"></span>
+      <span class="block w-5 h-px bg-ink"></span>
+      <span class="block w-5 h-px bg-ink"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header class="bg-page-alt border-b border-hairline">
+  <div class="max-w-[760px] mx-auto px-8 py-16">
+    <a href="/" class="inline-flex items-center gap-2 text-sm text-muted hover:text-ink transition-colors duration-150 focus-ring rounded-sm mb-10">
+      <span>&#8592;</span> <span>Arua</span>
+    </a>
+    <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-5">Legal</p>
+    <h1 class="dp font-[380] tracking-display leading-[1.05] text-[38px] md:text-[48px] mb-5">
+      Privacy Policy
+    </h1>
+    <p class="font-mono text-[12px] text-muted">
+      arua.co.nz &ensp;&#183;&ensp; Last updated: 13 May 2026
+    </p>
+  </div>
+</header>
+
+<!-- INTRO -->
+<section class="max-w-[760px] mx-auto px-8 pt-14 pb-4">
+  <p class="text-[18px] leading-[1.7] text-ink-soft border-b border-hairline-soft pb-14">
+    This policy explains what information Arua collects from you, why we collect it, how we look after it, and the choices you have about it. It is written to be clear rather than exhaustive. If anything here is unclear, or you want more detail on something specific, get in touch using the contact details at the bottom.
+  </p>
+  <p class="text-[15px] leading-[1.7] text-muted pt-8 pb-2">
+    Arua operates in New Zealand and is bound by the Privacy Act 2020 and the Health Information Privacy Code 2020. Health information is treated as sensitive information under both.
+  </p>
+</section>
+
+<!-- CONTENT -->
+<article class="max-w-[760px] mx-auto px-8 pb-20">
+  <div class="prose">
+
+    <h2>1. Who we are</h2>
+    <p>Arua is a men's health service operating at arua.co.nz. Clinical care is delivered by New Zealand-registered prescribers we contract with. They are independently responsible for the clinical advice and prescribing decisions they make; Arua is responsible for the platform that connects you to them and for how your information is handled within that platform.</p>
+    <p>If you have any questions or concerns about your information, including requests to access or correct it, you can reach our privacy team at <a href="mailto:privacy@arua.co.nz">privacy@arua.co.nz</a>.</p>
+
+    <h2>2. What we collect</h2>
+    <p>We collect two categories of information from you, and only what we need.</p>
+
+    <p><strong>Account information</strong></p>
+    <p>When you create an account, we collect your name, date of birth, email address, phone number, delivery address, and a password (stored hashed, not as plain text). We also record account activity: when you log in, what you have viewed, what you have ordered.</p>
+
+    <p><strong>Health questionnaire</strong></p>
+    <p>Before a prescriber can assess you, you complete a health questionnaire. This includes information about your symptoms, relevant medical history, current medications, allergies, and lifestyle factors that affect the conditions you are seeking care for. This is health information under New Zealand law and we treat it accordingly.</p>
+    <p>We do not currently collect blood test results, ongoing consultation notes, or a full clinical record. If that changes, we will update this policy and tell you before it applies to you.</p>
+
+    <p><strong>Information collected automatically</strong></p>
+    <p>When you use the site, we collect standard technical information: your IP address, browser type, device type, the pages you visit, and how you got to us. This is collected through cookies and analytics tools.</p>
+
+    <h2>3. Why we collect it</h2>
+    <p>We use your information for specific, defined purposes:</p>
+    <ul>
+      <li>To let a prescriber assess whether treatment is appropriate for you, and what treatment is appropriate.</li>
+      <li>To dispense and deliver any medication prescribed to you.</li>
+      <li>To run your account: log you in, take payment, send you order updates, respond when you contact us.</li>
+      <li>To improve the service: understand which parts of the site are useful, where people get stuck, what to fix.</li>
+      <li>To meet legal and regulatory obligations, including the record-keeping requirements that apply to health services in New Zealand.</li>
+    </ul>
+    <p>We do not sell your information. We do not share your health information with advertisers. We do not use your health information to train AI models.</p>
+
+    <h2>4. Who we share it with</h2>
+    <p>Your information is shared only with the parties who need it to deliver the service you have asked for:</p>
+    <ul>
+      <li><strong>The New Zealand-registered prescriber assessing you.</strong> They receive your health questionnaire and account details. They keep their own clinical record as required by their professional obligations.</li>
+      <li><strong>Our dispensing pharmacy partner,</strong> who fills and dispatches prescriptions. They receive your name, delivery address, and prescription details.</li>
+      <li><strong>Our payment processor (Stripe),</strong> who handles card payments. We never see or store your full card number. Stripe receives your name, email, and transaction details and operates under their own security standards.</li>
+      <li><strong>Our analytics providers,</strong> who help us understand how the site is used. This is technical and behavioural data only: not health information, not anything that identifies you personally to them where we can avoid it.</li>
+    </ul>
+    <p>We may also disclose information where we are legally required to, for example in response to a lawful request from a regulator or a court order. If that happens, we will tell you unless we are prohibited from doing so.</p>
+
+    <h2>5. Where it is stored and how we protect it</h2>
+    <p>Your information is stored on servers located in New Zealand. We do not transfer your personal or health information offshore for storage.</p>
+    <p>We use the security measures expected of a health service: encrypted connections (TLS) between your device and our servers, encrypted storage at rest, role-based access controls so that staff only see information they need to see, logging of access to health information, and regular security review. No system is perfectly secure, but these are the standards we hold ourselves to and the ones we would expect any health service to meet.</p>
+
+    <h2>6. How long we keep it</h2>
+    <p>Health information is retained for a minimum of 10 years from the date of the last consultation or transaction, in line with the Health (Retention of Health Information) Regulations 1996. After that, we either securely delete it or anonymise it for service-improvement purposes.</p>
+    <p>Non-health account information is kept while your account is active and for a reasonable period afterwards (typically up to 7 years for tax and audit purposes), then deleted.</p>
+    <p>If you close your account, your health record is retained for the legally required period and then deleted. You can ask us about retention timelines at any time.</p>
+
+    <h2>7. Your rights</h2>
+    <p>Under the Privacy Act 2020 and the Health Information Privacy Code 2020, you have specific rights over your information. The ones that matter most in practice:</p>
+    <ul>
+      <li><strong>Access.</strong> You can ask us for a copy of the information we hold about you. We will respond within 20 working days.</li>
+      <li><strong>Correction.</strong> If something we hold about you is wrong, you can ask us to correct it. If we disagree, you have the right to have a note attached to the record stating your view.</li>
+      <li><strong>Withdraw consent.</strong> You can withdraw your consent to ongoing use of your information at any time, though this may mean we cannot continue to provide the service.</li>
+      <li><strong>Complain.</strong> If you think we have mishandled your information, raise it with us first using the contact details below. If you are not satisfied with our response, you can complain to the Office of the Privacy Commissioner.</li>
+    </ul>
+    <p>To exercise any of these rights, contact us at <a href="mailto:privacy@arua.co.nz">privacy@arua.co.nz</a>.</p>
+
+    <h2>8. Cookies and analytics</h2>
+    <p>We use cookies to make the site work properly, for example to keep you logged in, and to understand how the site is used so we can improve it. Some cookies are essential and cannot be turned off without breaking the site. Others are analytics cookies, which you can decline through the cookie banner on your first visit, or by adjusting your browser settings.</p>
+    <p>Our analytics providers may set their own cookies. We have configured them to limit what they can see, for example IP addresses are anonymised where the provider supports it. We do not allow analytics providers to access your health information.</p>
+
+    <h2>9. Children</h2>
+    <p>Arua's services are for adults. We do not knowingly collect information from anyone under 18. If you believe a minor has provided us with information, contact us and we will delete it.</p>
+
+    <h2>10. Changes to this policy</h2>
+    <p>We will update this policy from time to time. If we make a change that materially affects how we use your information, we will tell you directly, by email or through a notice in your account, before the change takes effect. The version date at the top of this page tells you when it was last updated.</p>
+
+    <h2>11. Contact us</h2>
+    <p>For anything in this policy, or any question about your information, get in touch:</p>
+    <ul>
+      <li>Email: <a href="mailto:privacy@arua.co.nz">privacy@arua.co.nz</a></li>
+    </ul>
+    <p>If you would prefer to take a complaint outside of Arua, the Office of the Privacy Commissioner can be contacted at <a href="https://www.privacy.org.nz" target="_blank" rel="noopener">privacy.org.nz</a> or 0800 803 909.</p>
+
+  </div>
+</article>
+
+<!-- FOOTER -->
+<footer class="bg-ink text-page pt-[72px] pb-12">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16">
+    <div class="grid md:grid-cols-[1.4fr_1fr_1fr_1fr] gap-12 pb-14 mb-8" style="border-bottom:1px solid rgba(246,241,232,.09)">
+      <div>
+        <p class="dp font-[380] tracking-display text-[52px] leading-none mb-5">arua</p>
+        <p class="text-[13px] leading-[1.65] max-w-[240px]" style="color:rgba(246,241,232,.5)">Men's health. New Zealand.<br>Private, direct, evidence-based.</p>
+      </div>
+      <div>
+        <p class="font-mono text-[11px] tracking-eyebrow uppercase mb-5" style="color:rgba(246,241,232,.38)">Conditions</p>
+        <nav class="flex flex-col gap-3">
+          <a href="/conditions/ed.html" class="text-sm transition-colors duration-150 focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Erectile dysfunction</a>
+          <a href="/conditions/hair-loss.html" class="text-sm transition-colors duration-150 focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Hair loss</a>
+        </nav>
+      </div>
+      <div>
+        <p class="font-mono text-[11px] tracking-eyebrow uppercase mb-5" style="color:rgba(246,241,232,.38)">Company</p>
+        <nav class="flex flex-col gap-3">
+          <a href="/#about" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">About Arua</a>
+          <a href="/articles/index.html" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">The library</a>
+          <a href="/#early-access" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Early access</a>
+        </nav>
+      </div>
+      <div>
+        <p class="font-mono text-[11px] tracking-eyebrow uppercase mb-5" style="color:rgba(246,241,232,.38)">Legal</p>
+        <nav class="flex flex-col gap-3">
+          <a href="/privacy.html" class="text-sm focus-ring rounded-sm" style="color:#F6F1E8">Privacy policy</a>
+          <a href="/terms.html" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Terms of service</a>
+          <a href="mailto:privacy@arua.co.nz" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Contact</a>
+        </nav>
+      </div>
+    </div>
+    <div class="flex justify-between items-center flex-wrap gap-3">
+      <p class="text-xs" style="color:rgba(246,241,232,.35)">&#169; 2026 Arua Health Limited. All rights reserved.</p>
+      <p class="text-xs" style="color:rgba(246,241,232,.35)">NZ-registered clinicians&ensp;&#183;&ensp;Medsafe approved treatments</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav')
+  addEventListener('scroll', () => {
+    const s = scrollY > 10
+    nav.style.borderColor = s ? '#E5DCCC' : 'transparent'
+    nav.style.boxShadow   = s ? '0 2px 24px -8px rgba(21,20,15,.10)' : 'none'
+  }, { passive: true })
+</script>
+
+</body>
+</html>

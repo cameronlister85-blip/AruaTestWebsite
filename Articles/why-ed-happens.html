@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Why ED Happens: The Physiological Causes — Arua</title>
+  <meta name="description" content="Erectile dysfunction affects one in three NZ men over 40. Understanding the mechanism — blood flow, wiring, hormones — points directly to what can be done about it." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,380;0,9..144,500;1,9..144,340;1,9..144,380&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            page:           '#F6F1E8',
+            'page-alt':     '#EDE5D8',
+            surface:        '#FFFFFF',
+            ink:            '#15140F',
+            'ink-soft':     '#3B3933',
+            muted:          '#8A867D',
+            hairline:       '#D9CFBF',
+            'hairline-soft':'#E5DCCC',
+            accent:         '#8C4A2F',
+            'accent-ink':   '#FFFFFF',
+            'accent-deep':  '#5C2E1A',
+            sage:           '#DCE3D2',
+            'sage-deep':    '#5E6B4F',
+          },
+          fontFamily: {
+            display: ['"Fraunces"', 'Georgia', 'serif'],
+            body:    ['"Inter Tight"', '-apple-system', 'system-ui', 'sans-serif'],
+            mono:    ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+          },
+          letterSpacing: {
+            display:  '-0.035em',
+            eyebrow:  '0.18em',
+            tag:      '0.14em',
+            'mono-sm':'0.04em',
+          },
+          borderRadius: {
+            pill: '999px',
+            card: '6px',
+          },
+          transitionTimingFunction: {
+            spring: 'cubic-bezier(0.34,1.3,0.64,1)',
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    .dp   { font-family:'Fraunces',Georgia,serif; font-feature-settings:"ss01" 1,"ss02" 1; }
+    .dp-i { font-family:'Fraunces',Georgia,serif; font-feature-settings:"ss01" 1,"ss02" 1; font-style:italic; }
+    .lift { transition:transform 0.28s cubic-bezier(0.34,1.3,0.64,1), box-shadow 0.28s ease; }
+    .lift:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(21,20,15,.10); }
+    .focus-ring:focus-visible { outline:2px solid #8C4A2F; outline-offset:3px; }
+
+    .prose h2 {
+      font-family:'Fraunces',Georgia,serif;
+      font-weight:380;
+      font-size:22px;
+      line-height:1.25;
+      letter-spacing:-0.025em;
+      font-feature-settings:"ss01" 1,"ss02" 1;
+      color:#15140F;
+      margin-top:48px;
+      margin-bottom:14px;
+    }
+    .prose p {
+      font-size:17px;
+      line-height:1.78;
+      color:#3B3933;
+      margin-bottom:20px;
+    }
+    .pull-quote {
+      border-left:2px solid #8C4A2F;
+      background:#EDE5D8;
+      border-radius:0 6px 6px 0;
+      padding:24px 32px;
+      margin:36px 0;
+      font-family:'Fraunces',Georgia,serif;
+      font-weight:340;
+      font-size:18px;
+      line-height:1.5;
+      font-style:italic;
+      font-feature-settings:"ss01" 1,"ss02" 1;
+      color:#15140F;
+    }
+  </style>
+</head>
+<body class="bg-page font-body text-ink antialiased">
+
+<!-- NAV -->
+<nav id="nav" class="sticky top-0 z-50 bg-page border-b border-transparent transition-colors duration-200">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-16 flex items-center justify-between gap-8">
+    <a href="../" class="dp font-[380] text-[26px] tracking-display text-ink focus-ring rounded-sm">arua</a>
+    <div class="hidden md:flex items-center gap-7">
+      <a href="../#conditions"   class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
+      <a href="../#how-it-works" class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">How it works</a>
+      <a href="../#library"      class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Library</a>
+      <a href="../#about"        class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About</a>
+    </div>
+    <button class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium hover:bg-ink-soft active:scale-[.97] transition-[background,transform] duration-150 focus-ring">
+      Start assessment
+    </button>
+  </div>
+</nav>
+
+<!-- ARTICLE HEADER -->
+<header class="bg-page-alt border-b border-hairline">
+  <div class="max-w-[760px] mx-auto px-8 py-14">
+    <a href="../#library" class="inline-flex items-center gap-2 text-sm text-muted hover:text-ink transition-colors duration-150 focus-ring rounded-sm mb-8">
+      <span>←</span> <span>Library</span>
+    </a>
+    <div class="flex items-center gap-3 mb-6">
+      <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill">Sexual Health</span>
+      <span class="font-mono text-[11px] text-muted">7 min read</span>
+    </div>
+    <h1 class="dp font-[380] tracking-display leading-[1.08] text-[38px] md:text-[46px] mb-6">
+      Why ED happens: the physiological causes most men don't know about.
+    </h1>
+    <p class="text-[18px] leading-[1.65] text-ink-soft max-w-[620px]">
+      Erectile dysfunction affects roughly one in three New Zealand men over 40. Understanding the mechanism — blood flow, wiring, and chemistry — points directly to what can be done about it, and makes the whole thing considerably less alarming.
+    </p>
+  </div>
+</header>
+
+<!-- ARTICLE BODY -->
+<article class="max-w-[760px] mx-auto px-8 py-16">
+  <div class="prose">
+
+    <h2>How an erection actually works</h2>
+    <p>Think of an erection as a hydraulic event triggered by an electrical signal. Your brain and nervous system send the signal; your blood vessels do the work. Blood flows into two spongy chambers inside the penis — imagine them like a pair of balloons — and as they fill, they squeeze shut the veins that would normally drain blood away. The result is firmness.</p>
+    <p>For that to happen reliably, three things need to work together: the nervous system has to send the signal clearly, the blood vessels have to deliver adequate flow, and the smooth muscle inside those chambers has to relax enough to let blood in. A problem at any one of those three points produces erectile dysfunction. The question your doctor is really asking when they investigate ED is: where in that chain is the failure?</p>
+
+    <h2>The most common cause: restricted blood flow</h2>
+    <p>In most men — particularly over 40 — ED is primarily a blood flow problem. The arteries that supply the penis are among the smallest in the body, roughly the diameter of a matchstick. Think of a garden hose: when the hose is fully open, water flows freely. When it's partially kinked or narrowed, pressure drops and flow weakens. That's what happens when arterial walls thicken or become less elastic over time.</p>
+    <p>Here's the part that surprises most men: because those penile arteries are so small, they show the effects of vascular disease earlier than the larger arteries around your heart. Erectile dysfunction in your 40s or early 50s is frequently the first visible sign that something is happening in your cardiovascular system — often years before any chest pain or cardiac symptoms appear. That doesn't mean a heart attack is imminent. It means your body is giving you an early signal worth paying attention to.</p>
+    <p>The usual suspects — high blood pressure, elevated cholesterol, type 2 diabetes, smoking, and central weight gain — all damage blood vessels through overlapping mechanisms. High blood pressure stiffens arterial walls. Diabetes damages both the small blood vessels and the nerves that coordinate erections. Smoking causes blood vessels to constrict immediately and accelerates arterial damage over years. These aren't separate causes of ED. They're different entry points into the same underlying problem.</p>
+
+    <div class="pull-quote">
+      ED in your 40s is often the first signal your cardiovascular system sends — years before anything else becomes apparent. It's worth listening to.
+    </div>
+
+    <h2>The wiring side: your nervous system</h2>
+    <p>If blood vessels are the plumbing, the nervous system is the wiring. Erections depend on a specific branch of your autonomic nervous system — the parasympathetic branch, which governs rest and recovery — sending a chemical signal that tells those smooth muscle chambers to relax and let blood in. That chemical is nitric oxide, and without it, nothing happens downstream.</p>
+    <p>Diabetes is the most common condition that damages this wiring — diabetic nerve damage (neuropathy) affects the nerves that control erections in a significant proportion of men with long-term diabetes. Pelvic surgery, particularly for prostate cancer, can also disrupt the nerve bundles that run alongside the prostate and are essential for erectile function. In those cases, the blood supply may be completely intact but the signal never arrives clearly.</p>
+    <p>This distinction matters because it changes the treatment. Nerve-related ED responds differently to medication than blood-flow-related ED, and recovery timelines after surgery are longer and less predictable.</p>
+
+    <h2>The hormonal piece: testosterone's real role</h2>
+    <p>Testosterone's role in erections is smaller than most men assume — and different in kind. It drives libido (your interest in sex) more than it drives the mechanics of erection itself. A man with genuinely low testosterone typically notices reduced desire before he notices erectile difficulty. Treating low testosterone tends to restore libido before it restores reliable erections.</p>
+    <p>That said, testosterone does contribute to the nitric oxide pathway that makes erections possible, so significant deficiency does affect erectile function over time. The critical caveat: low testosterone is frequently assumed but rarely confirmed. Many men arrive at the conclusion that their testosterone is the issue without having had a blood test. The only way to know is to measure it — and treatment without measurement produces inconsistent results.</p>
+
+    <h2>What the medications actually do</h2>
+    <p>Sildenafil (the active ingredient in Viagra), tadalafil (Cialis), and their generics work by amplifying the chemical signal your body already generates during arousal — they don't create erections independently. Think of them like a volume dial rather than an on/off switch. They block an enzyme that would normally switch off the nitric oxide signal too quickly, letting the signal run longer and giving blood vessels more time to respond.</p>
+    <p>This is why these medications require some level of sexual stimulation to work — there needs to be a signal to amplify. It also explains why they work well for most men with mild-to-moderate vascular ED, and less reliably for men with significant nerve damage or severely restricted blood supply. They're amplifying something that has to be there in the first place.</p>
+    <p>About 70% of men with ED respond well to this class of medication. For the 30% who don't respond adequately, the investigation shifts to identifying which part of the system needs more targeted support.</p>
+
+    <div class="pull-quote">
+      Sildenafil and tadalafil don't switch erections on. They turn up the volume on a signal your body is already generating — which is why stimulation still matters.
+    </div>
+
+    <h2>The psychological dimension</h2>
+    <p>The line between physical and psychological ED is blurrier than it sounds. Anxiety and stress are not just feelings — they activate your sympathetic nervous system (the fight-or-flight branch), which actively works against erection by constricting blood vessels and suppressing the parasympathetic signal that erections depend on. In practical terms: stress is physiologically incompatible with reliable erections.</p>
+    <p>Performance anxiety is particularly self-reinforcing. One unreliable erection — caused by anything: stress, alcohol, fatigue — creates anxiety about the next attempt. That anxiety makes the next one less likely. Within a few repetitions, the anticipation of failure becomes the problem, independent of the original cause. In younger men, this is often the primary driver of ED. In men over 40, physical causes usually set things off, and anxiety amplifies them.</p>
+
+    <h2>When it's worth getting assessed</h2>
+    <p>If ED is happening consistently — not occasionally after a late night, but regularly — it warrants a look. Not because something catastrophic is happening, but because the underlying picture is worth understanding. A simple assessment covers the basics: blood pressure, a blood panel (testosterone, cholesterol, glucose), and a clinical history. That's typically enough to identify the most likely contributing factors and map out a pathway — whether that's medication, lifestyle changes, or both.</p>
+    <p>The assessment is less daunting than most men expect. And given what ED can signal about cardiovascular health, getting it looked at is genuinely worthwhile beyond the immediate issue of sexual function.</p>
+
+  </div>
+</article>
+
+<!-- CTA -->
+<section class="max-w-[760px] mx-auto px-8 pb-20">
+  <div class="bg-page-alt rounded-card border border-hairline-soft p-10">
+    <p class="dp font-[380] tracking-display text-[22px] leading-[1.3] mb-2">If ED has become a consistent pattern, a clinical conversation is the practical next step.</p>
+    <p class="text-base text-ink-soft mb-7">Arua makes that conversation private, structured, and straightforward to begin.</p>
+    <button class="h-11 px-6 rounded-pill bg-ink text-page text-[15px] font-medium hover:bg-ink-soft active:scale-[.97] transition-[background,transform] duration-150 focus-ring">
+      Start assessment&thinsp;→
+    </button>
+  </div>
+</section>
+
+<!-- RELATED -->
+<section class="border-t border-hairline py-16">
+  <div class="max-w-[760px] mx-auto px-8">
+    <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-8">Related reading</p>
+    <div class="grid sm:grid-cols-2 gap-5">
+
+      <a href="ed-and-mental-health.html" class="lift focus-ring block border border-hairline-soft rounded-card p-6 bg-surface">
+        <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Sexual Health</span>
+        <h3 class="dp font-[380] tracking-display text-[18px] leading-[1.25] mb-3">ED and mental health: the relationship most men never hear about.</h3>
+        <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
+          <span class="font-mono text-[11px] text-muted">7 min read</span>
+          <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
+        </div>
+      </a>
+
+      <a href="testosterone-decline.html" class="lift focus-ring block border border-hairline-soft rounded-card p-6 bg-surface">
+        <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Hormonal Health</span>
+        <h3 class="dp font-[380] tracking-display text-[18px] leading-[1.25] mb-3">Testosterone decline in men: what actually happens and when to act.</h3>
+        <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
+          <span class="font-mono text-[11px] text-muted">8 min read</span>
+          <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-ink text-page py-16">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16">
+    <div class="grid md:grid-cols-[1fr_auto_auto_auto] gap-12 items-start mb-14">
+      <div>
+        <p class="dp font-[380] tracking-display text-[40px] leading-none mb-5">arua</p>
+        <p class="text-sm leading-[1.7]" style="color:rgba(246,241,232,.6)">Private men's health.<br>NZ-registered clinicians.</p>
+      </div>
+      <nav class="flex flex-col gap-3">
+        <p class="font-mono text-[11px] tracking-eyebrow uppercase" style="color:rgba(246,241,232,.4)">Conditions</p>
+        <a href="../#conditions" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Erectile dysfunction</a>
+        <a href="../#conditions" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Low testosterone</a>
+        <a href="../#conditions" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Hair loss</a>
+        <a href="../#conditions" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Weight management</a>
+      </nav>
+      <nav class="flex flex-col gap-3">
+        <p class="font-mono text-[11px] tracking-eyebrow uppercase" style="color:rgba(246,241,232,.4)">Company</p>
+        <a href="../#about" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">About Arua</a>
+        <a href="../#about" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Our clinicians</a>
+        <a href="../#library" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">The library</a>
+      </nav>
+    </div>
+    <div class="border-t pt-8 flex flex-col sm:flex-row justify-between gap-4" style="border-color:rgba(217,207,191,.15)">
+      <p class="font-mono text-[11px]" style="color:rgba(246,241,232,.35)">© 2025 Arua Health Ltd. NZ-registered. Not a substitute for medical advice.</p>
+      <div class="flex gap-6">
+        <a href="../privacy.html" class="font-mono text-[11px] focus-ring rounded-sm" style="color:rgba(246,241,232,.35)">Privacy</a>
+        <a href="../terms.html" class="font-mono text-[11px] focus-ring rounded-sm" style="color:rgba(246,241,232,.35)">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.borderColor = window.scrollY > 10 ? '#E5DCCC' : 'transparent';
+  }, { passive: true });
+</script>
+</body>
+</html>
