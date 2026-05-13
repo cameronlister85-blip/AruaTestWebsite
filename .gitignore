@@ -5,3 +5,5 @@ temporary screenshots/
 tools/
 package.json
 package-lock.json
+serve.mjs
+screenshot.mjs
