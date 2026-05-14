@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -79,7 +79,7 @@
 <!-- NAV -->
 <nav id="nav" class="sticky top-0 z-50 border-b border-transparent transition-[border-color,box-shadow] duration-300 bg-page/[.88] backdrop-blur-xl backdrop-saturate-150">
   <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-[68px] flex items-center justify-between">
-    <a href="../" class="dp font-[380] text-[26px] tracking-display text-ink focus-ring rounded-sm">arua</a>
+    <a href="../" class="dp font-[380] text-[52px] leading-none tracking-display text-ink focus-ring rounded-sm">arua</a>
 
     <div class="hidden md:flex items-center gap-8">
       <a href="../#conditions" class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
@@ -100,8 +100,10 @@
 </nav>
 
 <!-- HEADER -->
-<header class="bg-page-alt border-b border-hairline">
-  <div class="max-w-[860px] mx-auto px-8 py-16">
+<header class="relative overflow-hidden border-b border-hairline">
+  <img src="../Images/Photo Image Library/Piha 2.jpg" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 40%;" />
+  <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(246,241,232,0.92) 0%, rgba(246,241,232,0.82) 50%, rgba(235,220,195,0.60) 100%);"></div>
+  <div class="relative z-10 max-w-[860px] mx-auto px-8 py-28">
     <a href="../" class="inline-flex items-center gap-2 text-sm text-muted hover:text-ink transition-colors duration-150 focus-ring rounded-sm mb-10">
       <span>&#8592;</span> <span>Arua</span>
     </a>
@@ -117,6 +119,7 @@
     </p>
   </div>
 </header>
+
 
 <!-- WHAT THIS IS -->
 <section class="max-w-[860px] mx-auto px-8 py-20">
@@ -215,8 +218,10 @@
 </section>
 
 <!-- EARLY ACCESS -->
-<section id="early-access" class="border-t border-hairline py-24">
-  <div class="max-w-[600px] mx-auto px-8 text-center">
+<section id="early-access" class="py-28 relative overflow-hidden">
+  <img src="../Images/Photo Image Library/Waikato 2.jpg" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 50%;" />
+  <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(246,241,232,0.88) 0%, rgba(246,241,232,0.80) 100%);"></div>
+  <div class="relative z-10 max-w-[600px] mx-auto px-8 text-center">
     <span class="inline-block font-mono text-[11px] tracking-tag uppercase bg-accent text-accent-ink px-3 py-[5px] rounded-pill mb-7">Coming soon</span>
     <h2 class="dp font-[380] tracking-display leading-[1.0] text-[42px] md:text-[54px] mb-5">
       Be first in the door.
