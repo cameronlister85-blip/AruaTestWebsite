@@ -7,3 +7,10 @@ package.json
 package-lock.json
 serve.mjs
 screenshot.mjs
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
