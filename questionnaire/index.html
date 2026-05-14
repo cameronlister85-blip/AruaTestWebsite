@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Start your assessment — Arua</title>
+  <meta name="description" content="Private men's health assessment. NZ-registered clinicians. Start in minutes." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,380;0,9..144,500;1,9..144,340;1,9..144,380&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            page:           '#F6F1E8',
+            'page-alt':     '#EDE5D8',
+            surface:        '#FFFFFF',
+            ink:            '#15140F',
+            'ink-soft':     '#3B3933',
+            muted:          '#8A867D',
+            hairline:       '#D9CFBF',
+            'hairline-soft':'#E5DCCC',
+            accent:         '#8C4A2F',
+            'accent-ink':   '#FFFFFF',
+            sage:           '#DCE3D2',
+            'sage-deep':    '#5E6B4F',
+          },
+          fontFamily: {
+            display: ['"Fraunces"', 'Georgia', 'serif'],
+            body:    ['"Inter Tight"', '-apple-system', 'system-ui', 'sans-serif'],
+            mono:    ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+          },
+          borderRadius: { pill: '999px', card: '6px' },
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    ::selection { background: #8C4A2F; color: #F6F1E8; }
+    .dp { font-family: 'Fraunces', Georgia, serif; font-feature-settings: "ss01" 1, "ss02" 1; }
+    .focus-ring:focus-visible { outline: 2px solid #8C4A2F; outline-offset: 2px; }
+
+    /* ── Steps ── */
+    .step { display: none; }
+    .step.active { display: block; animation: stepIn 260ms cubic-bezier(0.4,0,0.2,1); }
+    .step.active.going-back { animation: stepInBack 260ms cubic-bezier(0.4,0,0.2,1); }
+    @keyframes stepIn     { from { opacity:0; transform:translateX(14px); } to { opacity:1; transform:translateX(0); } }
+    @keyframes stepInBack { from { opacity:0; transform:translateX(-14px); } to { opacity:1; transform:translateX(0); } }
+
+    /* ── Step typography ── */
+    .step-eyebrow { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#8A867D; margin-bottom:10px; }
+    .step-q { font-family:'Fraunces',Georgia,serif; font-feature-settings:"ss01" 1,"ss02" 1; font-weight:380; font-size:26px; line-height:1.2; letter-spacing:-.03em; color:#15140F; margin-bottom:8px; }
+    .step-hint { font-size:14px; color:#8A867D; line-height:1.65; margin-bottom:28px; }
+    .step-note { font-size:13px; color:#8A867D; line-height:1.6; margin-top:16px; }
+    .q-label { display:block; font-size:13px; font-weight:500; color:#3B3933; margin-bottom:6px; }
+
+    /* ── Condition select cards ── */
+    .condition-card {
+      display:flex; flex-direction:column; padding:28px 28px 24px;
+      border:1.5px solid #E5DCCC; border-radius:12px; cursor:pointer; background:#FFFFFF;
+      transition:border-color 200ms, box-shadow 200ms, transform 240ms cubic-bezier(0.34,1.2,0.64,1);
+    }
+    .condition-card:hover { border-color:#8C4A2F; box-shadow:0 8px 32px -8px rgba(140,74,47,.18); transform:translateY(-2px); }
+
+    /* ── Radio cards ── */
+    .radio-card {
+      display:flex; align-items:center; gap:14px; padding:15px 18px;
+      border:1.5px solid #E5DCCC; border-radius:8px; cursor:pointer;
+      transition:border-color 150ms, background 150ms; margin-bottom:9px; user-select:none;
+    }
+    .radio-card:hover { border-color:#8C4A2F; background:rgba(140,74,47,.04); }
+    .radio-card.selected { border-color:#8C4A2F; background:rgba(140,74,47,.07); }
+    .radio-dot { width:18px; height:18px; border:1.5px solid #D9CFBF; border-radius:50%; flex-shrink:0; transition:all 150ms; }
+    .radio-card.selected .radio-dot { border-color:#8C4A2F; background:#8C4A2F; box-shadow:inset 0 0 0 3.5px #F6F1E8; }
+    .radio-label { font-size:15px; line-height:1.45; color:#3B3933; }
+    .radio-card.selected .radio-label { color:#15140F; font-weight:500; }
+
+    /* ── Checkbox cards ── */
+    .check-card {
+      display:flex; align-items:flex-start; gap:14px; padding:13px 18px;
+      border:1.5px solid #E5DCCC; border-radius:8px; cursor:pointer;
+      transition:border-color 150ms, background 150ms; margin-bottom:8px; user-select:none;
+    }
+    .check-card:hover { border-color:#8C4A2F; }
+    .check-card.selected { border-color:#8C4A2F; background:rgba(140,74,47,.07); }
+    .check-box { width:18px; height:18px; border:1.5px solid #D9CFBF; border-radius:4px; flex-shrink:0; margin-top:1px; display:flex; align-items:center; justify-content:center; transition:all 150ms; }
+    .check-card.selected .check-box { border-color:#8C4A2F; background:#8C4A2F; }
+    .check-label { font-size:14px; line-height:1.5; color:#3B3933; flex:1; }
+    .check-sublabel { font-size:12px; color:#8A867D; display:block; margin-top:2px; }
+
+    /* ── Scale buttons (SHIM) ── */
+    .scale-group { display:flex; gap:6px; }
+    @media(max-width:480px) { .scale-group { flex-wrap:wrap; } .scale-btn { min-width:calc(33% - 4px); } }
+    .scale-btn {
+      flex:1; display:flex; flex-direction:column; align-items:center; gap:5px;
+      padding:14px 6px; border:1.5px solid #E5DCCC; border-radius:8px; cursor:pointer;
+      background:none; transition:border-color 150ms, background 150ms;
+    }
+    .scale-btn:hover { border-color:#8C4A2F; background:rgba(140,74,47,.04); }
+    .scale-btn.selected { border-color:#8C4A2F; background:rgba(140,74,47,.09); }
+    .scale-num { font-family:'Fraunces',Georgia,serif; font-size:20px; font-weight:380; color:#15140F; line-height:1; letter-spacing:-.02em; }
+    .scale-btn.selected .scale-num { color:#8C4A2F; }
+    .scale-label { font-size:11px; text-align:center; color:#8A867D; line-height:1.3; }
+    .scale-btn.selected .scale-label { color:#8C4A2F; }
+
+    /* ── Inputs ── */
+    .q-input {
+      width:100%; height:52px; padding:0 20px;
+      border:1.5px solid #E5DCCC; border-radius:999px; background:#FFFFFF;
+      font-size:15px; font-family:'Inter Tight',system-ui,sans-serif; color:#15140F;
+      transition:border-color 150ms; outline:none;
+    }
+    .q-input:focus { border-color:#8C4A2F; }
+    .q-input::placeholder { color:#8A867D; }
+    .q-textarea {
+      width:100%; min-height:120px; padding:16px 20px;
+      border:1.5px solid #E5DCCC; border-radius:12px; background:#FFFFFF;
+      font-size:15px; font-family:'Inter Tight',system-ui,sans-serif; color:#15140F;
+      line-height:1.65; transition:border-color 150ms; outline:none; resize:vertical;
+    }
+    .q-textarea:focus { border-color:#8C4A2F; }
+    .q-textarea::placeholder { color:#8A867D; }
+
+    /* ── Norwood grid ── */
+    .norwood-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+    @media(max-width:520px) { .norwood-grid { grid-template-columns:repeat(2,1fr); } }
+    .norwood-card { border:1.5px solid #E5DCCC; border-radius:8px; overflow:hidden; cursor:pointer; transition:border-color 150ms; }
+    .norwood-card:hover { border-color:#8C4A2F; }
+    .norwood-card.selected { border-color:#8C4A2F; background:rgba(140,74,47,.05); }
+    .norwood-img { width:100%; aspect-ratio:1; background:#EDE5D8; display:flex; align-items:center; justify-content:center; }
+    .norwood-stage { font-family:'Fraunces',Georgia,serif; font-size:28px; font-weight:380; color:#8A867D; }
+    .norwood-label { padding:8px; text-align:center; font-size:11px; color:#8A867D; font-family:'JetBrains Mono',monospace; }
+    .norwood-card.selected .norwood-stage { color:#8C4A2F; }
+    .norwood-card.selected .norwood-label { color:#8C4A2F; font-weight:500; }
+
+    /* ── Flag note ── */
+    .flag-note { display:none; background:rgba(140,74,47,.08); border:1px solid rgba(140,74,47,.2); border-radius:8px; padding:12px 16px; margin-top:16px; font-size:13px; color:#5C2E1A; line-height:1.6; }
+    .flag-note.visible { display:block; }
+
+    /* ── Section divider ── */
+    .q-section { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#8A867D; margin:24px 0 12px; padding-bottom:8px; border-bottom:1px solid #E5DCCC; }
+
+    /* ── Hard stop ── */
+    #hard-stop { display:none; }
+    #hard-stop.visible { display:flex; }
+  </style>
+</head>
+<body class="bg-page text-ink font-body antialiased">
+
+<!-- ══ NAV ══ -->
+<nav class="sticky top-0 z-50 bg-page/90 backdrop-blur-xl border-b border-hairline-soft">
+  <div class="max-w-[1280px] mx-auto px-8 h-[64px] flex items-center justify-between">
+    <a href="../" class="dp font-[380] text-[52px] leading-none tracking-[-0.035em] text-ink focus-ring rounded-sm">arua</a>
+    <p class="font-mono text-[11px] tracking-[.18em] uppercase text-muted">Assessment</p>
+  </div>
+</nav>
+
+<!-- ══ PROGRESS ══ -->
+<div class="sticky top-[64px] z-40 bg-page border-b border-hairline-soft">
+  <div class="h-[3px] bg-hairline-soft">
+    <div id="progress-bar" class="h-full bg-accent transition-[width] duration-500 ease-out" style="width:0%"></div>
+  </div>
+  <div class="max-w-[620px] mx-auto px-8 py-2.5 flex justify-between items-center">
+    <span id="progress-label" class="font-mono text-[11px] tracking-[.14em] uppercase text-muted">Choose your pathway</span>
+    <span id="progress-fraction" class="font-mono text-[11px] text-muted"></span>
+  </div>
+</div>
+
+<!-- ══ HARD STOP ══ -->
+<div id="hard-stop" class="fixed inset-0 bg-page z-50 flex items-center justify-center px-8" style="top:0;">
+  <div class="max-w-[480px] w-full text-center">
+    <div class="w-14 h-14 rounded-full bg-page-alt border border-hairline flex items-center justify-center mx-auto mb-8">
+      <svg width="20" height="20" fill="none" viewBox="0 0 20 20"><path d="M10 6v5M10 14h.01" stroke="#8C4A2F" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="10" r="9" stroke="#8C4A2F" stroke-width="1.5"/></svg>
+    </div>
+    <h2 id="hs-title" class="dp font-[380] tracking-[-0.03em] text-[28px] leading-[1.15] mb-4"></h2>
+    <p id="hs-body" class="text-[15px] leading-[1.7] text-ink-soft mb-10 max-w-[380px] mx-auto"></p>
+    <a href="../" class="inline-flex h-[48px] px-8 rounded-pill bg-ink text-page text-sm font-medium items-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Return to Arua</a>
+  </div>
+</div>
+
+<!-- ══ QUESTIONNAIRE ══ -->
+<main id="questionnaire" class="min-h-[calc(100vh-64px-44px)] pb-28">
+<div class="max-w-[620px] mx-auto px-8 pt-12 pb-4">
+
+<!-- ─────────────────────────────────────────
+     SELECT PATHWAY
+───────────────────────────────────────── -->
+<div class="step" id="step-select">
+  <div class="mb-10">
+    <h1 class="dp font-[380] tracking-[-0.035em] text-[36px] md:text-[44px] leading-[1.1] mb-4">What would you like help with today?</h1>
+    <p class="text-[16px] text-ink-soft leading-[1.65]">Both pathways start with a clinical questionnaire reviewed by a NZ-registered GP. It takes around 10 minutes.</p>
+  </div>
+  <div class="flex flex-col gap-4">
+    <div class="condition-card" onclick="selectPathway('ed')">
+      <span class="inline-block font-mono text-[10px] tracking-[.14em] uppercase bg-accent text-white px-3 py-[4px] rounded-pill mb-5 self-start">Coming soon</span>
+      <h3 class="dp font-[380] tracking-[-0.025em] text-[22px] leading-[1.2] mb-2">Erectile dysfunction</h3>
+      <p class="text-[14px] text-ink-soft leading-[1.6] mb-6">Private clinical assessment and treatment for ED. Handled online, delivered to your door in 48 hours.</p>
+      <span class="text-[13px] font-medium text-accent">Begin assessment →</span>
+    </div>
+    <div class="condition-card" onclick="selectPathway('hair-loss')">
+      <span class="inline-block font-mono text-[10px] tracking-[.14em] uppercase bg-accent text-white px-3 py-[4px] rounded-pill mb-5 self-start">Coming soon</span>
+      <h3 class="dp font-[380] tracking-[-0.025em] text-[22px] leading-[1.2] mb-2">Hair loss</h3>
+      <p class="text-[14px] text-ink-soft leading-[1.6] mb-6">Evidence-based treatment for male pattern hair loss. Assessed by a NZ clinician, delivered discreetly.</p>
+      <span class="text-[13px] font-medium text-accent">Begin assessment →</span>
+    </div>
+  </div>
+  <p class="text-[12px] text-muted mt-8 leading-[1.6]">Your answers are private and only shared with the clinician reviewing your case.</p>
+</div>
+
+<!-- ─────────────────────────────────────────
+     NAME + DOB
+───────────────────────────────────────── -->
+<div class="step" id="step-name">
+  <p class="step-eyebrow">About you</p>
+  <h2 class="step-q">What's your name, and when were you born?</h2>
+  <p class="step-hint">Required to confirm eligibility and verify your identity with our clinical team.</p>
+  <div class="grid grid-cols-2 gap-3 mb-3">
+    <div>
+      <label class="q-label">First name</label>
+      <input type="text" id="first-name" class="q-input" placeholder="First name" autocomplete="given-name" />
+    </div>
+    <div>
+      <label class="q-label">Last name</label>
+      <input type="text" id="last-name" class="q-input" placeholder="Last name" autocomplete="family-name" />
+    </div>
+  </div>
+  <div>
+    <label class="q-label">Date of birth</label>
+    <input type="date" id="dob" class="q-input" />
+  </div>
+  <p class="step-note">You must be 18 or over to use Arua.</p>
+</div>
+
+<!-- ─────────────────────────────────────────
+     NZ RESIDENCY
+───────────────────────────────────────── -->
+<div class="step" id="step-residency">
+  <p class="step-eyebrow">Eligibility</p>
+  <h2 class="step-q">Are you currently in New Zealand, and is NZ your usual country of residence?</h2>
+  <p class="step-hint">Our clinicians are registered to prescribe in New Zealand only.</p>
+  <div class="radio-card" data-name="q-nz" data-value="yes" data-auto="1">
+    <div class="radio-dot"></div>
+    <span class="radio-label">Yes — I'm in New Zealand and it's where I live</span>
+  </div>
+  <div class="radio-card" data-name="q-nz" data-value="no" data-auto="1">
+    <div class="radio-dot"></div>
+    <span class="radio-label">No</span>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     ADDRESS + PHONE
+───────────────────────────────────────── -->
+<div class="step" id="step-address">
+  <p class="step-eyebrow">Your details</p>
+  <h2 class="step-q">Where would you like your medication delivered?</h2>
+  <p class="step-hint">We can deliver to your home, work, or a PO box — whatever suits you.</p>
+  <div class="flex flex-col gap-3 mb-3">
+    <div>
+      <label class="q-label">Street address</label>
+      <input type="text" class="q-input" placeholder="Street address" autocomplete="address-line1" />
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <label class="q-label">Suburb</label>
+        <input type="text" class="q-input" placeholder="Suburb" autocomplete="address-level3" />
+      </div>
+      <div>
+        <label class="q-label">City</label>
+        <input type="text" class="q-input" placeholder="City" autocomplete="address-level2" />
+      </div>
+    </div>
+    <div>
+      <label class="q-label">Phone number</label>
+      <input type="tel" class="q-input" placeholder="e.g. 021 123 4567" autocomplete="tel" />
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     SEX + GENDER
+───────────────────────────────────────── -->
+<div class="step" id="step-identity">
+  <p class="step-eyebrow">About you</p>
+  <h2 class="step-q">What sex were you assigned at birth?</h2>
+  <p class="step-hint">This affects how some medications work and ensures the right clinical assessment.</p>
+  <div class="radio-card" data-name="q-sex" data-value="male"><div class="radio-dot"></div><span class="radio-label">Male</span></div>
+  <div class="radio-card" data-name="q-sex" data-value="female"><div class="radio-dot"></div><span class="radio-label">Female</span></div>
+  <div class="radio-card" data-name="q-sex" data-value="intersex"><div class="radio-dot"></div><span class="radio-label">Intersex</span></div>
+  <div class="radio-card" data-name="q-sex" data-value="prefer-not"><div class="radio-dot"></div><span class="radio-label">Prefer not to say</span></div>
+  <div class="mt-6">
+    <label class="q-label">Current gender identity <span class="font-normal text-muted">(optional)</span></label>
+    <input type="text" class="q-input" placeholder="e.g. transgender male, non-binary, prefer not to say…" />
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     GP
+───────────────────────────────────────── -->
+<div class="step" id="step-gp">
+  <p class="step-eyebrow">Your health team</p>
+  <h2 class="step-q">Do you have a regular GP?</h2>
+  <p class="step-hint">Arua isn't a replacement for your GP. We'll ask if you'd like us to keep them in the loop.</p>
+  <div class="radio-card" data-name="q-gp" data-value="yes" data-shows="gp-share"><div class="radio-dot"></div><span class="radio-label">Yes</span></div>
+  <div class="radio-card" data-name="q-gp" data-value="no"><div class="radio-dot"></div><span class="radio-label">No</span></div>
+  <div class="radio-card" data-name="q-gp" data-value="prefer-not"><div class="radio-dot"></div><span class="radio-label">Prefer not to say</span></div>
+  <div id="gp-share" class="hidden mt-4 p-5 bg-page-alt rounded-[10px] border border-hairline-soft">
+    <p class="text-[14px] font-medium text-ink mb-3">Would you like us to share a summary of today's consult with your GP?</p>
+    <div class="radio-card" data-name="q-gp-share" data-value="yes"><div class="radio-dot"></div><span class="radio-label">Yes — my GP is <input type="text" class="q-input inline" style="height:32px;width:200px;padding:0 12px;font-size:13px;" placeholder="GP name, clinic" /></span></div>
+    <div class="radio-card" data-name="q-gp-share" data-value="no"><div class="radio-dot"></div><span class="radio-label">No, keep this separate</span></div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     PHYSICAL + LIFESTYLE
+───────────────────────────────────────── -->
+<div class="step" id="step-physical">
+  <p class="step-eyebrow">Your health</p>
+  <h2 class="step-q">A few quick questions about your health and lifestyle.</h2>
+  <p class="step-hint">Used to assess cardiovascular risk and medication suitability.</p>
+  <div class="grid grid-cols-2 gap-3 mb-6">
+    <div>
+      <label class="q-label">Height (cm)</label>
+      <input type="number" class="q-input" placeholder="e.g. 178" min="100" max="230" />
+    </div>
+    <div>
+      <label class="q-label">Weight (kg)</label>
+      <input type="number" class="q-input" placeholder="e.g. 82" min="40" max="300" />
+    </div>
+  </div>
+  <p class="q-section">Smoking</p>
+  <div class="radio-card" data-name="q-smoke" data-value="never"><div class="radio-dot"></div><span class="radio-label">Never smoked</span></div>
+  <div class="radio-card" data-name="q-smoke" data-value="former"><div class="radio-dot"></div><span class="radio-label">Former smoker</span></div>
+  <div class="radio-card" data-name="q-smoke" data-value="current" data-shows="smoke-amount"><div class="radio-dot"></div><span class="radio-label">Current smoker</span></div>
+  <div id="smoke-amount" class="hidden mt-2 mb-1">
+    <label class="q-label">How many cigarettes per day?</label>
+    <input type="number" class="q-input" placeholder="Number per day" min="1" max="100" style="max-width:220px;" />
+  </div>
+  <p class="q-section">Alcohol</p>
+  <div class="radio-card" data-name="q-alcohol" data-value="0"><div class="radio-dot"></div><span class="radio-label">0 — I don't drink</span></div>
+  <div class="radio-card" data-name="q-alcohol" data-value="1-5"><div class="radio-dot"></div><span class="radio-label">1–5 standard drinks per week</span></div>
+  <div class="radio-card" data-name="q-alcohol" data-value="6-14"><div class="radio-dot"></div><span class="radio-label">6–14 standard drinks per week</span></div>
+  <div class="radio-card" data-name="q-alcohol" data-value="15+"><div class="radio-dot"></div><span class="radio-label">15 or more per week</span></div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     RECREATIONAL DRUGS
+───────────────────────────────────────── -->
+<div class="step" id="step-drugs">
+  <p class="step-eyebrow">Your health</p>
+  <h2 class="step-q">Do you use recreational drugs?</h2>
+  <p class="step-hint">Some substances interact with medications we may prescribe. Your answers are private. Select all that apply.</p>
+  <div class="check-card" data-value="nitrates"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-label">Nitrates ("poppers")<span class="check-sublabel">Amyl nitrate, butyl nitrate</span></div></div>
+  <div class="check-card" data-value="cocaine"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Cocaine</span></div>
+  <div class="check-card" data-value="meth"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Methamphetamine</span></div>
+  <div class="check-card" data-value="mdma"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">MDMA / ecstasy</span></div>
+  <div class="check-card" data-value="ghb"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">GHB</span></div>
+  <div class="check-card" data-value="cannabis"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Cannabis</span></div>
+  <div class="check-card" data-value="other-drugs"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Other</span></div>
+  <div class="check-card" data-value="none-drugs"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">None of the above</span></div>
+  <div id="nitrate-flag" class="flag-note">Nitrates are an absolute contraindication with the medications commonly used for ED. Your clinician will review this with you.</div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     MEDICAL HISTORY
+───────────────────────────────────────── -->
+<div class="step" id="step-medical">
+  <p class="step-eyebrow">Health history</p>
+  <h2 class="step-q">Have you ever been diagnosed with any of the following?</h2>
+  <p class="step-hint">Select all that apply. This helps your clinician assess medication safety.</p>
+  <div class="check-card" data-value="heart-attack"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Heart attack or heart failure</span></div>
+  <div class="check-card" data-value="stroke"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Stroke or TIA</span></div>
+  <div class="check-card" data-value="angina"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Angina or chest pain on exertion</span></div>
+  <div class="check-card" data-value="arrhythmia"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Irregular heart rhythm (arrhythmia)</span></div>
+  <div class="check-card" data-value="high-bp"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">High blood pressure</span></div>
+  <div class="check-card" data-value="low-bp"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Low blood pressure or fainting episodes</span></div>
+  <div class="check-card" data-value="cholesterol"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">High cholesterol</span></div>
+  <div class="check-card" data-value="diabetes"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Diabetes (type 1 or type 2)</span></div>
+  <div class="check-card" data-value="kidney"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Kidney disease</span></div>
+  <div class="check-card" data-value="liver"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Liver disease</span></div>
+  <div class="check-card" data-value="cancer"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Cancer (any type, current or previous)</span></div>
+  <div class="check-card" data-value="none-medical"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">None of the above</span></div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     CARDIOVASCULAR
+───────────────────────────────────────── -->
+<div class="step" id="step-cardio">
+  <p class="step-eyebrow">Heart health</p>
+  <h2 class="step-q">A few more questions about your cardiovascular health.</h2>
+  <p class="step-hint">These help your clinician assess whether treatment is appropriate.</p>
+
+  <p class="q-section">Heart surgery or procedures</p>
+  <div class="radio-card" data-name="q-heart-surgery" data-value="no"><div class="radio-dot"></div><span class="radio-label">No</span></div>
+  <div class="radio-card" data-name="q-heart-surgery" data-value="yes" data-shows="heart-surgery-detail"><div class="radio-dot"></div><span class="radio-label">Yes</span></div>
+  <div id="heart-surgery-detail" class="hidden mt-2 mb-3">
+    <label class="q-label">When and what procedure?</label>
+    <input type="text" class="q-input" placeholder="e.g. stent, bypass — 2021" />
+  </div>
+
+  <p class="q-section">Symptoms during activity</p>
+  <p class="text-[14px] text-ink-soft mb-3">Do you experience chest pain, breathlessness, or dizziness during physical activity or sex?</p>
+  <div class="radio-card" data-name="q-chest" data-value="no"><div class="radio-dot"></div><span class="radio-label">No</span></div>
+  <div class="radio-card" data-name="q-chest" data-value="sometimes"><div class="radio-dot"></div><span class="radio-label">Sometimes</span></div>
+  <div class="radio-card" data-name="q-chest" data-value="yes"><div class="radio-dot"></div><span class="radio-label">Yes, regularly</span></div>
+
+  <p class="q-section">Blood pressure</p>
+  <label class="q-label">Most recent reading, if you know it <span class="font-normal text-muted">(optional)</span></label>
+  <input type="text" class="q-input" placeholder="e.g. 128/82" style="max-width:200px;" />
+</div>
+
+<!-- ─────────────────────────────────────────
+     MEDICATIONS + ALLERGIES
+───────────────────────────────────────── -->
+<div class="step" id="step-medications">
+  <p class="step-eyebrow">Medications</p>
+  <h2 class="step-q">What medications are you currently taking?</h2>
+  <p class="step-hint">Include dose if known. This is essential for checking drug interactions.</p>
+  <div class="mb-4">
+    <label class="q-label">Prescription medications</label>
+    <textarea class="q-textarea" placeholder="List any prescription medications and dose, e.g. metformin 500mg, lisinopril 10mg…&#10;Or write 'none'"></textarea>
+  </div>
+  <div class="mb-4">
+    <label class="q-label">Over-the-counter medicines, supplements, or herbal products <span class="font-normal text-muted">(optional)</span></label>
+    <textarea class="q-textarea" style="min-height:90px;" placeholder="e.g. ibuprofen, St John's Wort, fish oil…"></textarea>
+  </div>
+  <div class="mb-4">
+    <label class="q-label">Known medication allergies</label>
+    <input type="text" class="q-input" placeholder="e.g. penicillin, sulfa drugs — or 'none'" />
+  </div>
+  <div>
+    <label class="q-label">Previous adverse reactions to medication <span class="font-normal text-muted">(optional)</span></label>
+    <input type="text" class="q-input" placeholder="Describe any past reactions…" />
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     MENTAL HEALTH (PHQ-2)
+───────────────────────────────────────── -->
+<div class="step" id="step-mental">
+  <p class="step-eyebrow">Wellbeing</p>
+  <h2 class="step-q">How have you been feeling over the last two weeks?</h2>
+  <p class="step-hint">These are standard questions used by clinicians to understand your overall health picture.</p>
+
+  <p class="text-[15px] font-medium text-ink mb-3">How often have you been bothered by feeling down, depressed, or hopeless?</p>
+  <div class="radio-card" data-name="q-phq1" data-value="0"><div class="radio-dot"></div><span class="radio-label">Not at all</span></div>
+  <div class="radio-card" data-name="q-phq1" data-value="1"><div class="radio-dot"></div><span class="radio-label">Several days</span></div>
+  <div class="radio-card" data-name="q-phq1" data-value="2"><div class="radio-dot"></div><span class="radio-label">More than half the days</span></div>
+  <div class="radio-card" data-name="q-phq1" data-value="3"><div class="radio-dot"></div><span class="radio-label">Nearly every day</span></div>
+
+  <p class="text-[15px] font-medium text-ink mt-6 mb-3">How often have you been bothered by little interest or pleasure in doing things?</p>
+  <div class="radio-card" data-name="q-phq2" data-value="0"><div class="radio-dot"></div><span class="radio-label">Not at all</span></div>
+  <div class="radio-card" data-name="q-phq2" data-value="1"><div class="radio-dot"></div><span class="radio-label">Several days</span></div>
+  <div class="radio-card" data-name="q-phq2" data-value="2"><div class="radio-dot"></div><span class="radio-label">More than half the days</span></div>
+  <div class="radio-card" data-name="q-phq2" data-value="3"><div class="radio-dot"></div><span class="radio-label">Nearly every day</span></div>
+
+  <p class="q-section">Mental health support</p>
+  <p class="text-[14px] text-ink-soft mb-3">In the last month, have you had thoughts of harming yourself?</p>
+  <div class="radio-card" data-name="q-selfharm" data-value="no"><div class="radio-dot"></div><span class="radio-label">No</span></div>
+  <div class="radio-card" data-name="q-selfharm" data-value="yes"><div class="radio-dot"></div><span class="radio-label">Yes</span></div>
+
+  <div class="mt-4">
+    <label class="q-label">Are you currently being treated for a mental health condition? <span class="font-normal text-muted">(optional)</span></label>
+    <input type="text" class="q-input" placeholder="e.g. depression, anxiety — or 'no'" />
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PATHWAY A — ERECTILE DYSFUNCTION
+══════════════════════════════════════════ -->
+
+<!-- ─────────────────────────────────────────
+     ED: SHIM INTRO
+───────────────────────────────────────── -->
+<div class="step" id="step-ed-shim-intro">
+  <p class="step-eyebrow">Sexual health</p>
+  <h2 class="step-q">The next five questions are part of a standard clinical assessment for ED.</h2>
+  <p class="step-hint">This is the Sexual Health Inventory for Men (SHIM), used by clinicians worldwide. Answer for your experience <strong>over the past 6 months</strong>. Be as honest as you can — there are no wrong answers.</p>
+  <div class="bg-page-alt border border-hairline-soft rounded-[10px] p-5 mt-2">
+    <p class="text-[13px] text-ink-soft leading-[1.65]">Your answers are private and only shared with the clinician reviewing your case. The score helps them understand the nature and severity of your symptoms.</p>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     ED: SHIM Q1
+───────────────────────────────────────── -->
+<div class="step" id="step-ed-shim-1">
+  <p class="step-eyebrow">Sexual health · Question 1 of 5</p>
+  <h2 class="step-q">How do you rate your confidence that you could get and keep an erection?</h2>
+  <p class="step-hint">Over the past 6 months.</p>
+  <div class="scale-group">
+    <button class="scale-btn" data-name="q-shim1" data-value="1"><span class="scale-num">1</span><span class="scale-label">Very low</span></button>
+    <button class="scale-btn" data-name="q-shim1" data-value="2"><span class="scale-num">2</span><span class="scale-label">Low</span></button>
+    <button class="scale-btn" data-name="q-shim1" data-value="3"><span class="scale-num">3</span><span class="scale-label">Moderate</span></button>
+    <button class="scale-btn" data-name="q-shim1" data-value="4"><span class="scale-num">4</span><span class="scale-label">High</span></button>
+    <button class="scale-btn" data-name="q-shim1" data-value="5"><span class="scale-num">5</span><span class="scale-label">Very high</span></button>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     ED: SHIM Q2
+───────────────────────────────────────── -->
+<div class="step" id="step-ed-shim-2">
+  <p class="step-eyebrow">Sexual health · Question 2 of 5</p>
+  <h2 class="step-q">When you had erections with sexual stimulation, how often were your erections hard enough for penetration?</h2>
+  <p class="step-hint">Over the past 6 months.</p>
+  <div class="radio-card" data-name="q-shim2" data-value="0"><div class="radio-dot"></div><span class="radio-label">No sexual activity</span></div>
+  <div class="radio-card" data-name="q-shim2" data-value="1"><div class="radio-dot"></div><span class="radio-label">Almost never or never</span></div>
+  <div class="radio-card" data-name="q-shim2" data-value="2"><div class="radio-dot"></div><span class="radio-label">A few times (much less than half the time)</span></div>
+  <div class="radio-card" data-name="q-shim2" data-value="3"><div class="radio-dot"></div><span class="radio-label">Sometimes (about half the time)</span></div>
+  <div class="radio-card" data-name="q-shim2" data-value="4"><div class="radio-dot"></div><span class="radio-label">Most times (much more than half the time)</span></div>
+  <div class="radio-card" data-name="q-shim2" data-value="5"><div class="radio-dot"></div><span class="radio-label">Almost always or always</span></div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     ED: SHIM Q3
+───────────────────────────────────────── -->
+<div class="step" id="step-ed-shim-3">
+  <p class="step-eyebrow">Sexual health · Question 3 of 5</p>
+  <h2 class="step-q">During sexual intercourse, how often were you able to maintain your erection after you had penetrated your partner?</h2>
+  <p class="step-hint">Over the past 6 months.</p>
+  <div class="radio-card" data-name="q-shim3" data-value="0"><div class="radio-dot"></div><span class="radio-label">Did not attempt intercourse</span></div>
+  <div class="radio-card" data-name="q-shim3" data-value="1"><div class="radio-dot"></div><span class="radio-label">Almost never or never</span></div>
+  <div class="radio-card" data-name="q-shim3" data-value="2"><div class="radio-dot"></div><span class="radio-label">A few times (much less than half the time)</span></div>
+  <div class="radio-card" data-name="q-shim3" data-value="3"><div class="radio-dot"></div><span class="radio-label">Sometimes (about half the time)</span></div>
+  <div class="radio-card" data-name="q-shim3" data-value="4"><div class="radio-dot"></div><span class="radio-label">Most times (much more than half the time)</span></div>
+  <div class="radio-card" data-name="q-shim3" data-value="5"><div class="radio-dot"></div><span class="radio-label">Almost always or always</span></div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     ED: SHIM Q4
+───────────────────────────────────────── -->
+<div class="step" id="step-ed-shim-4">
+  <p class="step-eyebrow">Sexual health · Question 4 of 5</p>
+  <h2 class="step-q">During sexual intercourse, how difficult was it to maintain your erection to completion of intercourse?</h2>
+  <p class="step-hint">Over the past 6 months.</p>
+  <div class="radio-card" data-name="q-shim4" data-value="0"><div class="radio-dot"></div><span class="radio-label">Did not attempt intercourse</span></div>
+  <div class="radio-card" data-name="q-shim4" data-value="1"><div class="radio-dot"></div><span class="radio-label">Extremely difficult</span></div>
+  <div class="radio-card" data-name="q-shim4" data-value="2"><div class="radio-dot"></div><span class="radio-label">Very difficult</span></div>
+  <div class="radio-card" data-name="q-shim4" data-value="3"><div class="radio-dot"></div><span class="radio-label">Difficult</span></div>
+  <div class="radio-card" data-name="q-shim4" data-value="4"><div class="radio-dot"></div><span class="radio-label">Slightly difficult</span></div>
+  <div class="radio-card" data-name="q-shim4" data-value="5"><div class="radio-dot"></div><span class="radio-label">Not difficult</span></div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     ED: SHIM Q5
+───────────────────────────────────────── -->
+<div class="step" id="step-ed-shim-5">
+  <p class="step-eyebrow">Sexual health · Question 5 of 5</p>
+  <h2 class="step-q">When you attempted sexual intercourse, how often was it satisfactory for you?</h2>
+  <p class="step-hint">Over the past 6 months.</p>
+  <div class="radio-card" data-name="q-shim5" data-value="0"><div class="radio-dot"></div><span class="radio-label">Did not attempt intercourse</span></div>
+  <div class="radio-card" data-name="q-shim5" data-value="1"><div class="radio-dot"></div><span class="radio-label">Almost never or never</span></div>
+  <div class="radio-card" data-name="q-shim5" data-value="2"><div class="radio-dot"></div><span class="radio-label">A few times (much less than half the time)</span></div>
+  <div class="radio-card" data-name="q-shim5" data-value="3"><div class="radio-dot"></div><span class="radio-label">Sometimes (about half the time)</span></div>
+  <div class="radio-card" data-name="q-shim5" data-value="4"><div class="radio-dot"></div><span class="radio-label">Most times (much more than half the time)</span></div>
+  <div class="radio-card" data-name="q-shim5" data-value="5"><div class="radio-dot"></div><span class="radio-label">Almost always or always</span></div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     ED: CONTEXT + HISTORY
+───────────────────────────────────────── -->
+<div class="step" id="step-ed-context">
+  <p class="step-eyebrow">Your experience</p>
+  <h2 class="step-q">Tell us a bit more about your symptoms.</h2>
+  <p class="step-hint">This helps your clinician understand the pattern and likely cause.</p>
+
+  <p class="q-section">When did you first notice difficulty?</p>
+  <div class="radio-card" data-name="q-ed-onset" data-value="3m"><div class="radio-dot"></div><span class="radio-label">Within the last 3 months</span></div>
+  <div class="radio-card" data-name="q-ed-onset" data-value="3-12m"><div class="radio-dot"></div><span class="radio-label">3–12 months ago</span></div>
+  <div class="radio-card" data-name="q-ed-onset" data-value="1-3y"><div class="radio-dot"></div><span class="radio-label">1–3 years ago</span></div>
+  <div class="radio-card" data-name="q-ed-onset" data-value="3y+"><div class="radio-dot"></div><span class="radio-label">More than 3 years ago</span></div>
+
+  <p class="q-section">Did it come on suddenly or gradually?</p>
+  <div class="radio-card" data-name="q-ed-gradual" data-value="sudden"><div class="radio-dot"></div><span class="radio-label">Suddenly</span></div>
+  <div class="radio-card" data-name="q-ed-gradual" data-value="gradual"><div class="radio-dot"></div><span class="radio-label">Gradually, over time</span></div>
+
+  <p class="q-section">Morning or spontaneous erections</p>
+  <div class="radio-card" data-name="q-ed-morning" data-value="yes"><div class="radio-dot"></div><span class="radio-label">Yes, regularly</span></div>
+  <div class="radio-card" data-name="q-ed-morning" data-value="sometimes"><div class="radio-dot"></div><span class="radio-label">Sometimes</span></div>
+  <div class="radio-card" data-name="q-ed-morning" data-value="rarely"><div class="radio-dot"></div><span class="radio-label">Rarely</span></div>
+  <div class="radio-card" data-name="q-ed-morning" data-value="never"><div class="radio-dot"></div><span class="radio-label">Never</span></div>
+
+  <p class="q-section">Is the difficulty specific to one situation, or does it happen generally?</p>
+  <div class="radio-card" data-name="q-ed-situational" data-value="specific"><div class="radio-dot"></div><span class="radio-label">Specific to one partner or situation</span></div>
+  <div class="radio-card" data-name="q-ed-situational" data-value="all"><div class="radio-dot"></div><span class="radio-label">All situations</span></div>
+  <div class="radio-card" data-name="q-ed-situational" data-value="inactive"><div class="radio-dot"></div><span class="radio-label">Not currently sexually active</span></div>
+
+  <div class="mt-5">
+    <label class="q-label">In your view, what do you think is contributing? <span class="font-normal text-muted">(optional)</span></label>
+    <textarea class="q-textarea" style="min-height:90px;" placeholder="Any thoughts on what might be causing this — stress, relationship, physical…"></textarea>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     ED: PREVIOUS TREATMENT
+───────────────────────────────────────── -->
+<div class="step" id="step-ed-treatment">
+  <p class="step-eyebrow">Treatment history</p>
+  <h2 class="step-q">Have you previously tried any treatment for erectile dysfunction?</h2>
+  <p class="step-hint">Select all that apply.</p>
+  <div class="check-card" data-value="sildenafil"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-label">Sildenafil (Viagra)<span class="check-sublabel">Include dose, frequency, and how well it worked</span></div></div>
+  <div class="check-card" data-value="tadalafil"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Tadalafil (Cialis)</span></div>
+  <div class="check-card" data-value="vardenafil"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Vardenafil</span></div>
+  <div class="check-card" data-value="avanafil"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Avanafil</span></div>
+  <div class="check-card" data-value="other-ed-tx"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Other</span></div>
+  <div class="check-card" data-value="none-ed-tx"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">No, I haven't tried anything</span></div>
+  <div class="mt-4">
+    <label class="q-label">Any side effects or issues with previous treatments? <span class="font-normal text-muted">(optional)</span></label>
+    <textarea class="q-textarea" style="min-height:80px;" placeholder="Describe dose, frequency, results, side effects…"></textarea>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     ED: SAFETY SCREEN
+───────────────────────────────────────── -->
+<div class="step" id="step-ed-safety">
+  <p class="step-eyebrow">Clinical safety</p>
+  <h2 class="step-q">A few more questions your clinician needs to see.</h2>
+  <p class="step-hint">These cover rare but important safety considerations for ED medications.</p>
+
+  <p class="q-section">Priapism</p>
+  <p class="text-[14px] text-ink-soft mb-3">Have you ever had an episode of priapism — a painful erection lasting more than 4 hours?</p>
+  <div class="radio-card" data-name="q-priapism" data-value="no"><div class="radio-dot"></div><span class="radio-label">No</span></div>
+  <div class="radio-card" data-name="q-priapism" data-value="yes"><div class="radio-dot"></div><span class="radio-label">Yes</span></div>
+
+  <p class="q-section">Eye conditions</p>
+  <p class="text-[14px] text-ink-soft mb-3">Do you have any of the following?</p>
+  <div class="check-card" data-value="rp"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Retinitis pigmentosa</span></div>
+  <div class="check-card" data-value="naion"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Non-arteritic anterior ischaemic optic neuropathy (NAION)</span></div>
+  <div class="check-card" data-value="sudden-vision"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Sudden loss of vision in one eye</span></div>
+  <div class="check-card" data-value="none-eye"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">None of these</span></div>
+
+  <p class="q-section">Hearing</p>
+  <p class="text-[14px] text-ink-soft mb-3">Have you ever had sudden hearing loss or persistent ringing in the ears?</p>
+  <div class="radio-card" data-name="q-hearing" data-value="no"><div class="radio-dot"></div><span class="radio-label">No</span></div>
+  <div class="radio-card" data-name="q-hearing" data-value="yes"><div class="radio-dot"></div><span class="radio-label">Yes</span></div>
+
+  <p class="q-section">Structural conditions</p>
+  <p class="text-[14px] text-ink-soft mb-3">Do you have any structural condition of the penis — such as Peyronie's disease, severe curvature, or previous penile surgery?</p>
+  <div class="radio-card" data-name="q-structural" data-value="no"><div class="radio-dot"></div><span class="radio-label">No</span></div>
+  <div class="radio-card" data-name="q-structural" data-value="yes"><div class="radio-dot"></div><span class="radio-label">Yes</span></div>
+
+  <p class="q-section">Prostate</p>
+  <p class="text-[14px] text-ink-soft mb-3">Are you currently being treated for prostate problems, or have you been told you have an enlarged prostate (BPH)?</p>
+  <div class="radio-card" data-name="q-prostate" data-value="no"><div class="radio-dot"></div><span class="radio-label">No</span></div>
+  <div class="radio-card" data-name="q-prostate" data-value="yes"><div class="radio-dot"></div><span class="radio-label">Yes</span></div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     ED: LIFESTYLE + NOTES
+───────────────────────────────────────── -->
+<div class="step" id="step-ed-lifestyle">
+  <p class="step-eyebrow">Day to day</p>
+  <h2 class="step-q">A few last questions before you're done.</h2>
+  <p class="step-hint">Useful context for your clinician during the consult.</p>
+
+  <p class="q-section">Physical activity</p>
+  <div class="radio-card" data-name="q-activity" data-value="sedentary"><div class="radio-dot"></div><span class="radio-label">Sedentary — mostly sitting, little exercise</span></div>
+  <div class="radio-card" data-name="q-activity" data-value="light"><div class="radio-dot"></div><span class="radio-label">Light — some walking or occasional exercise</span></div>
+  <div class="radio-card" data-name="q-activity" data-value="moderate"><div class="radio-dot"></div><span class="radio-label">Moderate — exercise a few times a week</span></div>
+  <div class="radio-card" data-name="q-activity" data-value="active"><div class="radio-dot"></div><span class="radio-label">Active — exercise most days</span></div>
+
+  <p class="q-section">Stress levels</p>
+  <div class="radio-card" data-name="q-stress" data-value="low"><div class="radio-dot"></div><span class="radio-label">Low</span></div>
+  <div class="radio-card" data-name="q-stress" data-value="moderate"><div class="radio-dot"></div><span class="radio-label">Moderate</span></div>
+  <div class="radio-card" data-name="q-stress" data-value="high"><div class="radio-dot"></div><span class="radio-label">High</span></div>
+  <div class="radio-card" data-name="q-stress" data-value="very-high"><div class="radio-dot"></div><span class="radio-label">Very high</span></div>
+
+  <p class="q-section">Sleep</p>
+  <div class="radio-card" data-name="q-sleep" data-value="fine"><div class="radio-dot"></div><span class="radio-label">Generally fine</span></div>
+  <div class="radio-card" data-name="q-sleep" data-value="disrupted"><div class="radio-dot"></div><span class="radio-label">Often disrupted</span></div>
+  <div class="radio-card" data-name="q-sleep" data-value="poor"><div class="radio-dot"></div><span class="radio-label">Poor most nights</span></div>
+
+  <div class="mt-5">
+    <label class="q-label">Is there anything else you'd like the clinician to know? <span class="font-normal text-muted">(optional)</span></label>
+    <textarea class="q-textarea" placeholder="Anything else that might be relevant to your assessment…"></textarea>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PATHWAY B — HAIR LOSS
+══════════════════════════════════════════ -->
+
+<!-- ─────────────────────────────────────────
+     HL: TIMING
+───────────────────────────────────────── -->
+<div class="step" id="step-hl-timing">
+  <p class="step-eyebrow">Hair loss</p>
+  <h2 class="step-q">When did you first notice your hair loss?</h2>
+  <div class="radio-card" data-name="q-hl-onset" data-value="6m"><div class="radio-dot"></div><span class="radio-label">Within the last 6 months</span></div>
+  <div class="radio-card" data-name="q-hl-onset" data-value="6-12m"><div class="radio-dot"></div><span class="radio-label">6–12 months ago</span></div>
+  <div class="radio-card" data-name="q-hl-onset" data-value="1-3y"><div class="radio-dot"></div><span class="radio-label">1–3 years ago</span></div>
+  <div class="radio-card" data-name="q-hl-onset" data-value="3-10y"><div class="radio-dot"></div><span class="radio-label">3–10 years ago</span></div>
+  <div class="radio-card" data-name="q-hl-onset" data-value="10y+"><div class="radio-dot"></div><span class="radio-label">More than 10 years ago</span></div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     HL: PATTERN
+───────────────────────────────────────── -->
+<div class="step" id="step-hl-pattern">
+  <p class="step-eyebrow">Hair loss</p>
+  <h2 class="step-q">How would you describe the pattern of your hair loss?</h2>
+  <p class="step-hint">Select the option that most closely matches what you're experiencing.</p>
+  <div class="radio-card" data-name="q-hl-pattern" data-value="hairline"><div class="radio-dot"></div><span class="radio-label">Receding hairline (frontal / temples)</span></div>
+  <div class="radio-card" data-name="q-hl-pattern" data-value="crown"><div class="radio-dot"></div><span class="radio-label">Thinning at the crown</span></div>
+  <div class="radio-card" data-name="q-hl-pattern" data-value="both"><div class="radio-dot"></div><span class="radio-label">Both — receding hairline and crown thinning</span></div>
+  <div class="radio-card" data-name="q-hl-pattern" data-value="diffuse"><div class="radio-dot"></div><span class="radio-label">General thinning across the whole scalp</span></div>
+  <div class="radio-card" data-name="q-hl-pattern" data-value="patches"><div class="radio-dot"></div><span class="radio-label">Sudden patches of complete hair loss</span></div>
+  <div class="radio-card" data-name="q-hl-pattern" data-value="shedding"><div class="radio-dot"></div><span class="radio-label">Hair shedding evenly across the head</span></div>
+  <div class="radio-card" data-name="q-hl-pattern" data-value="unsure"><div class="radio-dot"></div><span class="radio-label">Not sure</span></div>
+  <div id="hl-pattern-flag" class="flag-note">Patchy or diffuse hair loss often has a different underlying cause to male pattern baldness, and may not be treatable with finasteride or minoxidil. Your clinician will advise.</div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     HL: NORWOOD-HAMILTON
+───────────────────────────────────────── -->
+<div class="step" id="step-hl-norwood">
+  <p class="step-eyebrow">Hair loss</p>
+  <h2 class="step-q">Which stage most closely matches your current hair loss pattern?</h2>
+  <p class="step-hint">The Norwood-Hamilton scale is the standard clinical reference for male pattern baldness. Select the stage that best matches what you see when you look in the mirror.</p>
+  <div class="norwood-grid mb-3">
+    <div class="norwood-card" data-name="q-norwood" data-value="1" onclick="selectNorwood(this)">
+      <div class="norwood-img"><span class="norwood-stage">I</span></div>
+      <div class="norwood-label">Stage I<br>No recession</div>
+    </div>
+    <div class="norwood-card" data-name="q-norwood" data-value="2" onclick="selectNorwood(this)">
+      <div class="norwood-img"><span class="norwood-stage">II</span></div>
+      <div class="norwood-label">Stage II<br>Slight temples</div>
+    </div>
+    <div class="norwood-card" data-name="q-norwood" data-value="3" onclick="selectNorwood(this)">
+      <div class="norwood-img"><span class="norwood-stage">III</span></div>
+      <div class="norwood-label">Stage III<br>Deep temples</div>
+    </div>
+    <div class="norwood-card" data-name="q-norwood" data-value="4" onclick="selectNorwood(this)">
+      <div class="norwood-img"><span class="norwood-stage">IV</span></div>
+      <div class="norwood-label">Stage IV<br>Crown thinning</div>
+    </div>
+    <div class="norwood-card" data-name="q-norwood" data-value="5" onclick="selectNorwood(this)">
+      <div class="norwood-img"><span class="norwood-stage">V</span></div>
+      <div class="norwood-label">Stage V<br>Merging areas</div>
+    </div>
+    <div class="norwood-card" data-name="q-norwood" data-value="6" onclick="selectNorwood(this)">
+      <div class="norwood-img"><span class="norwood-stage">VI</span></div>
+      <div class="norwood-label">Stage VI<br>Large bald area</div>
+    </div>
+    <div class="norwood-card" data-name="q-norwood" data-value="7" onclick="selectNorwood(this)">
+      <div class="norwood-img"><span class="norwood-stage">VII</span></div>
+      <div class="norwood-label">Stage VII<br>Severe loss</div>
+    </div>
+  </div>
+  <p class="step-note">Images are illustrative placeholders — final version will use Norwood-Hamilton reference diagrams.</p>
+</div>
+
+<!-- ─────────────────────────────────────────
+     HL: PROGRESSION + SCALP
+───────────────────────────────────────── -->
+<div class="step" id="step-hl-progression">
+  <p class="step-eyebrow">Hair loss</p>
+  <h2 class="step-q">How would you describe the progression of your hair loss?</h2>
+
+  <p class="q-section">Speed of progression</p>
+  <div class="radio-card" data-name="q-hl-speed" data-value="slow"><div class="radio-dot"></div><span class="radio-label">Slowly — over months and years</span></div>
+  <div class="radio-card" data-name="q-hl-speed" data-value="quick"><div class="radio-dot"></div><span class="radio-label">Quickly — noticeable change over weeks</span></div>
+
+  <p class="q-section">Other areas</p>
+  <p class="text-[14px] text-ink-soft mb-3">Is the hair loss only on your scalp, or are you noticing it elsewhere?</p>
+  <div class="radio-card" data-name="q-hl-areas" data-value="scalp"><div class="radio-dot"></div><span class="radio-label">Scalp only</span></div>
+  <div class="radio-card" data-name="q-hl-areas" data-value="other"><div class="radio-dot"></div><span class="radio-label">Other areas too (eyebrows, beard, body)</span></div>
+
+  <p class="q-section">Scalp symptoms</p>
+  <p class="text-[14px] text-ink-soft mb-3">Have you noticed any of the following on your scalp? Select all that apply.</p>
+  <div class="check-card" data-value="itching"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Itching</span></div>
+  <div class="check-card" data-value="redness"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Redness</span></div>
+  <div class="check-card" data-value="flaking"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Flaking or dandruff</span></div>
+  <div class="check-card" data-value="scarring"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Sores or scarring on the scalp</span></div>
+  <div class="check-card" data-value="pain"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Pain or tenderness</span></div>
+  <div class="check-card" data-value="none-scalp"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">None of these</span></div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     HL: FAMILY HISTORY
+───────────────────────────────────────── -->
+<div class="step" id="step-hl-family">
+  <p class="step-eyebrow">Family history</p>
+  <h2 class="step-q">Do any of the following have noticeable hair loss, to your knowledge?</h2>
+  <p class="step-hint">Genetics is a strong predictor of male pattern baldness. Select all that apply.</p>
+  <div class="check-card" data-value="father"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Father</span></div>
+  <div class="check-card" data-value="maternal-gf"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Maternal grandfather</span></div>
+  <div class="check-card" data-value="brothers"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Brothers</span></div>
+  <div class="check-card" data-value="other-relatives"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Other male relatives</span></div>
+  <div class="check-card" data-value="no-family-hl"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">No known family history</span></div>
+  <div class="check-card" data-value="dk-family-hl"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Don't know</span></div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     HL: PREVIOUS TREATMENT + SAFETY
+───────────────────────────────────────── -->
+<div class="step" id="step-hl-treatment">
+  <p class="step-eyebrow">Treatment history</p>
+  <h2 class="step-q">Have you tried any treatments for hair loss?</h2>
+  <p class="step-hint">Select all that apply.</p>
+  <div class="check-card" data-value="minoxidil" data-shows="hl-tx-notes"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-label">Minoxidil (Rogaine / topical)<span class="check-sublabel">How long, results, any side effects</span></div></div>
+  <div class="check-card" data-value="finasteride" data-shows="hl-fin-se"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-label">Finasteride (Propecia / oral)<span class="check-sublabel">How long, results, any side effects</span></div></div>
+  <div class="check-card" data-value="dutasteride"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Dutasteride</span></div>
+  <div class="check-card" data-value="supplements-hl"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Supplements (biotin, saw palmetto, etc.)</span></div>
+  <div class="check-card" data-value="laser-hl"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Low-level laser therapy</span></div>
+  <div class="check-card" data-value="transplant"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Hair transplant</span></div>
+  <div class="check-card" data-value="none-hl-tx"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">None — I haven't tried anything</span></div>
+
+  <div id="hl-tx-notes" class="hidden mt-3">
+    <label class="q-label">Treatment details <span class="font-normal text-muted">(optional)</span></label>
+    <textarea class="q-textarea" style="min-height:80px;" placeholder="How long did you use it, what were the results, any side effects…"></textarea>
+  </div>
+
+  <div id="hl-fin-se" class="hidden mt-4 p-5 bg-page-alt rounded-[10px] border border-hairline-soft">
+    <p class="text-[14px] font-medium text-ink mb-3">Did you experience any of the following while taking finasteride or dutasteride?</p>
+    <div class="check-card" data-value="fin-libido"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Reduced libido</span></div>
+    <div class="check-card" data-value="fin-ed"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Erectile difficulties</span></div>
+    <div class="check-card" data-value="fin-mood"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Mood changes or depression</span></div>
+    <div class="check-card" data-value="fin-breast"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Breast tenderness or enlargement</span></div>
+    <div class="check-card" data-value="fin-persistent"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Symptoms that persisted after stopping</span></div>
+    <div class="check-card" data-value="fin-none"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">None of these</span></div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     HL: SAFETY
+───────────────────────────────────────── -->
+<div class="step" id="step-hl-safety">
+  <p class="step-eyebrow">Clinical safety</p>
+  <h2 class="step-q">A few more questions your clinician needs to see.</h2>
+
+  <p class="q-section">Fertility and household contacts</p>
+  <p class="text-[14px] text-ink-soft mb-3">Are you currently trying to conceive, or planning to in the next 12 months?</p>
+  <div class="radio-card" data-name="q-conceive" data-value="no"><div class="radio-dot"></div><span class="radio-label">No</span></div>
+  <div class="radio-card" data-name="q-conceive" data-value="yes"><div class="radio-dot"></div><span class="radio-label">Yes</span></div>
+
+  <p class="text-[14px] text-ink-soft mt-4 mb-3">Does anyone in your household or regular contact fall into any of these categories?</p>
+  <div class="check-card" data-value="pregnant-contact"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Pregnant women</span></div>
+  <div class="check-card" data-value="fertile-contact"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Women who could become pregnant</span></div>
+  <div class="check-card" data-value="children-contact"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Children under 12</span></div>
+  <div class="check-card" data-value="none-contact"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">None of these</span></div>
+
+  <p class="q-section">Medical conditions</p>
+  <p class="text-[14px] text-ink-soft mb-3">Have you been diagnosed with any of the following? Select all that apply.</p>
+  <div class="check-card" data-value="prostate-cancer"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Prostate cancer</span></div>
+  <div class="check-card" data-value="liver-hl"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Liver disease</span></div>
+  <div class="check-card" data-value="thyroid"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Thyroid disease</span></div>
+  <div class="check-card" data-value="iron-deficiency"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Iron deficiency anaemia</span></div>
+  <div class="check-card" data-value="other-hormonal"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Other hormonal condition</span></div>
+  <div class="check-card" data-value="none-hl-medical"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">None of the above</span></div>
+
+  <p class="q-section">Recent health changes</p>
+  <p class="text-[14px] text-ink-soft mb-3">Have you had any recent illness, surgery, significant weight loss, or major stress in the last 6 months?</p>
+  <div class="radio-card" data-name="q-hl-recent" data-value="no"><div class="radio-dot"></div><span class="radio-label">No</span></div>
+  <div class="radio-card" data-name="q-hl-recent" data-value="yes" data-shows="hl-recent-detail"><div class="radio-dot"></div><span class="radio-label">Yes</span></div>
+  <div id="hl-recent-detail" class="hidden mt-2">
+    <label class="q-label">Brief description</label>
+    <input type="text" class="q-input" placeholder="e.g. surgery in March, high stress period…" />
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     HL: BLOOD TESTS + GOALS
+───────────────────────────────────────── -->
+<div class="step" id="step-hl-goals">
+  <p class="step-eyebrow">Final questions</p>
+  <h2 class="step-q">Almost done — a couple of last things.</h2>
+
+  <p class="q-section">Recent blood tests</p>
+  <p class="text-[14px] text-ink-soft mb-3">Have you had any blood tests in the last 12 months — particularly for iron (ferritin), thyroid, or hormone levels?</p>
+  <div class="radio-card" data-name="q-hl-bloods" data-value="no"><div class="radio-dot"></div><span class="radio-label">No</span></div>
+  <div class="radio-card" data-name="q-hl-bloods" data-value="yes" data-shows="hl-bloods-detail"><div class="radio-dot"></div><span class="radio-label">Yes</span></div>
+  <div id="hl-bloods-detail" class="hidden mt-2 mb-3">
+    <label class="q-label">Results, if you have them <span class="font-normal text-muted">(optional)</span></label>
+    <input type="text" class="q-input" placeholder="e.g. ferritin 28, TSH normal" />
+  </div>
+
+  <p class="q-section">Your goals</p>
+  <p class="text-[14px] text-ink-soft mb-3">What are you hoping to achieve with treatment?</p>
+  <div class="radio-card" data-name="q-hl-goal" data-value="stop"><div class="radio-dot"></div><span class="radio-label">Stop further loss</span></div>
+  <div class="radio-card" data-name="q-hl-goal" data-value="regrow"><div class="radio-dot"></div><span class="radio-label">Regrow lost hair</span></div>
+  <div class="radio-card" data-name="q-hl-goal" data-value="both"><div class="radio-dot"></div><span class="radio-label">Both</span></div>
+  <div class="radio-card" data-name="q-hl-goal" data-value="unsure"><div class="radio-dot"></div><span class="radio-label">Not sure</span></div>
+
+  <p class="q-section">Importance</p>
+  <p class="text-[14px] text-ink-soft mb-3">How important is treating this to you, on a scale of 1 to 10?</p>
+  <div class="scale-group">
+    <button class="scale-btn" data-name="q-hl-importance" data-value="1"><span class="scale-num">1</span></button>
+    <button class="scale-btn" data-name="q-hl-importance" data-value="2"><span class="scale-num">2</span></button>
+    <button class="scale-btn" data-name="q-hl-importance" data-value="3"><span class="scale-num">3</span></button>
+    <button class="scale-btn" data-name="q-hl-importance" data-value="4"><span class="scale-num">4</span></button>
+    <button class="scale-btn" data-name="q-hl-importance" data-value="5"><span class="scale-num">5</span></button>
+    <button class="scale-btn" data-name="q-hl-importance" data-value="6"><span class="scale-num">6</span></button>
+    <button class="scale-btn" data-name="q-hl-importance" data-value="7"><span class="scale-num">7</span></button>
+    <button class="scale-btn" data-name="q-hl-importance" data-value="8"><span class="scale-num">8</span></button>
+    <button class="scale-btn" data-name="q-hl-importance" data-value="9"><span class="scale-num">9</span></button>
+    <button class="scale-btn" data-name="q-hl-importance" data-value="10"><span class="scale-num">10</span></button>
+  </div>
+  <div class="flex justify-between mt-1 px-1">
+    <span class="font-mono text-[11px] text-muted">Not very</span>
+    <span class="font-mono text-[11px] text-muted">Extremely</span>
+  </div>
+
+  <div class="mt-6">
+    <label class="q-label">Is there anything else you'd like the clinician to know? <span class="font-normal text-muted">(optional)</span></label>
+    <textarea class="q-textarea" placeholder="Anything else that might be relevant to your assessment…"></textarea>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     COMPLETE
+══════════════════════════════════════════ -->
+<div class="step" id="step-complete">
+  <div class="text-center py-8">
+    <div class="w-16 h-16 rounded-full bg-sage border border-sage flex items-center justify-center mx-auto mb-8">
+      <svg width="24" height="20" fill="none" viewBox="0 0 24 20"><path d="M2 10l7 8L22 2" stroke="#5E6B4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h2 class="dp font-[380] tracking-[-0.03em] text-[34px] leading-[1.15] mb-4">That's everything.</h2>
+    <p class="text-[16px] leading-[1.7] text-ink-soft mb-3 max-w-[420px] mx-auto">A NZ-registered clinician will review your answers. We'll be in touch within one to two business days to schedule your consult.</p>
+    <p class="text-[14px] text-muted mb-10">Discreet packaging &ensp;·&ensp; No referral needed &ensp;·&ensp; 100% private</p>
+    <a href="../" class="inline-flex h-[48px] px-8 rounded-pill bg-ink text-page text-sm font-medium items-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Back to Arua</a>
+  </div>
+</div>
+
+</div><!-- /max-w wrapper -->
+</main>
+
+<!-- ══ FIXED FOOTER NAV ══ -->
+<div id="step-nav" class="fixed bottom-0 left-0 right-0 bg-page/95 backdrop-blur-md border-t border-hairline-soft z-40" style="display:none;">
+  <div class="max-w-[620px] mx-auto px-8 h-[68px] flex items-center justify-between">
+    <button id="btn-back" onclick="prevStep()" class="h-[42px] px-6 rounded-pill border border-hairline text-sm font-medium text-muted hover:text-ink hover:border-ink transition-colors duration-150 focus-ring">
+      Back
+    </button>
+    <button id="btn-next" onclick="nextStep()" class="h-[42px] px-8 rounded-pill bg-ink text-page text-sm font-medium hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring">
+      Continue
+    </button>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+const state = { pathway: null, stepIndex: 0 }
+
+const COMMON  = ['select','name','residency','address','identity','gp','physical','drugs','medical','cardio','medications','mental']
+const ED_PATH = ['ed-shim-intro','ed-shim-1','ed-shim-2','ed-shim-3','ed-shim-4','ed-shim-5','ed-context','ed-treatment','ed-safety','ed-lifestyle']
+const HL_PATH = ['hl-timing','hl-pattern','hl-norwood','hl-progression','hl-family','hl-treatment','hl-safety','hl-goals']
+
+function steps() {
+  const p = state.pathway === 'ed' ? ED_PATH : state.pathway === 'hair-loss' ? HL_PATH : []
+  return [...COMMON, ...p, 'complete']
+}
+
+function currentId() { return steps()[state.stepIndex] }
+
+/* ══════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════ */
+function showStep(id, dir) {
+  document.querySelectorAll('.step').forEach(s => { s.classList.remove('active','going-back'); s.style.display = 'none' })
+  const el = document.getElementById('step-' + id)
+  if (!el) return
+  el.style.display = 'block'
+  el.classList.add('active')
+  if (dir === 'back') el.classList.add('going-back')
+  updateProgress()
+  updateNav()
+  window.scrollTo({ top: 0, behavior: 'instant' })
+}
+
+function nextStep() {
+  const id = currentId()
+
+  // Hard stops
+  if (id === 'name') {
+    const dob = document.getElementById('dob').value
+    if (dob && getAge(dob) < 18) {
+      showHardStop('We\'re not able to proceed.', 'Arua is for men over 18 living in New Zealand. If you\'re under 18 and have a health concern, please speak with your GP or call Healthline on 0800 611 116.')
+      return
+    }
+  }
+  if (id === 'residency') {
+    const val = getRadio('q-nz')
+    if (val === 'no') {
+      showHardStop('Arua is for New Zealand residents.', 'Our clinicians are registered to prescribe in New Zealand only. If you\'re based overseas, we\'re not the right fit right now.')
+      return
+    }
+  }
+
+  // Nitrate flag on drugs step
+  if (id === 'drugs' && state.pathway === 'ed') {
+    const nitrateChecked = document.querySelector('.check-card[data-value="nitrates"].selected')
+    const flag = document.getElementById('nitrate-flag')
+    if (nitrateChecked) { flag.classList.add('visible'); return } // stay on step, show flag
+  }
+
+  if (state.stepIndex < steps().length - 1) {
+    state.stepIndex++
+    showStep(currentId(), 'forward')
+  }
+}
+
+function prevStep() {
+  if (state.stepIndex > 1) { state.stepIndex--; showStep(currentId(), 'back') }
+}
+
+function selectPathway(pathway) {
+  state.pathway = pathway
+  state.stepIndex = 1
+  showStep(currentId(), 'forward')
+}
+
+/* ══════════════════════════════════════
+   PROGRESS + NAV BUTTONS
+══════════════════════════════════════ */
+function updateProgress() {
+  const all = steps()
+  const id  = currentId()
+  const total = all.length - 1
+  const pct = id === 'select' ? 0 : id === 'complete' ? 100 : Math.round((state.stepIndex / total) * 100)
+  document.getElementById('progress-bar').style.width = pct + '%'
+
+  const labels = {
+    select: 'Choose your pathway', name: 'About you', residency: 'Eligibility',
+    address: 'Your details', identity: 'About you', gp: 'Your health team',
+    physical: 'Your health', drugs: 'Your health', medical: 'Health history',
+    cardio: 'Heart health', medications: 'Medications', mental: 'Wellbeing',
+    'ed-shim-intro': 'Sexual health', 'ed-shim-1': 'Sexual health',
+    'ed-shim-2': 'Sexual health', 'ed-shim-3': 'Sexual health',
+    'ed-shim-4': 'Sexual health', 'ed-shim-5': 'Sexual health',
+    'ed-context': 'Your experience', 'ed-treatment': 'Treatment history',
+    'ed-safety': 'Clinical safety', 'ed-lifestyle': 'Day to day',
+    'hl-timing': 'Hair loss', 'hl-pattern': 'Hair loss', 'hl-norwood': 'Hair loss',
+    'hl-progression': 'Hair loss', 'hl-family': 'Family history',
+    'hl-treatment': 'Treatment history', 'hl-safety': 'Clinical safety',
+    'hl-goals': 'Final questions', complete: 'Complete'
+  }
+  document.getElementById('progress-label').textContent = labels[id] || ''
+  document.getElementById('progress-fraction').textContent = (id !== 'select' && id !== 'complete') ? `${state.stepIndex} of ${total}` : ''
+}
+
+function updateNav() {
+  const id  = currentId()
+  const nav = document.getElementById('step-nav')
+  const back = document.getElementById('btn-back')
+  const next = document.getElementById('btn-next')
+  nav.style.display = (id === 'select' || id === 'complete') ? 'none' : 'block'
+  back.style.visibility = state.stepIndex <= 1 ? 'hidden' : 'visible'
+  next.textContent = state.stepIndex === steps().length - 2 ? 'Submit' : 'Continue'
+}
+
+/* ══════════════════════════════════════
+   HARD STOP
+══════════════════════════════════════ */
+function showHardStop(title, body) {
+  document.getElementById('hs-title').textContent = title
+  document.getElementById('hs-body').textContent  = body
+  document.getElementById('hard-stop').classList.add('visible')
+  document.getElementById('step-nav').style.display = 'none'
+}
+
+/* ══════════════════════════════════════
+   HELPERS
+══════════════════════════════════════ */
+function getAge(dob) {
+  const today = new Date(), birth = new Date(dob)
+  let age = today.getFullYear() - birth.getFullYear()
+  const m = today.getMonth() - birth.getMonth()
+  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--
+  return age
+}
+function getRadio(name) {
+  const el = document.querySelector(`.radio-card[data-name="${name}"].selected`)
+  return el ? el.dataset.value : null
+}
+
+/* ══════════════════════════════════════
+   INTERACTIVE COMPONENTS
+══════════════════════════════════════ */
+function initRadioCards() {
+  document.querySelectorAll('.radio-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const name = card.dataset.name
+      if (!name) return
+      document.querySelectorAll(`.radio-card[data-name="${name}"]`).forEach(c => c.classList.remove('selected'))
+      card.classList.add('selected')
+      // Show conditional panels
+      const shows = card.dataset.shows
+      if (shows) { document.getElementById(shows).classList.remove('hidden') }
+      // Hide panels for other options in group
+      document.querySelectorAll(`.radio-card[data-name="${name}"][data-shows]`).forEach(c => {
+        if (c !== card) { const t = c.dataset.shows; if (t) document.getElementById(t).classList.add('hidden') }
+      })
+      // Auto-advance
+      if (card.dataset.auto) setTimeout(() => nextStep(), 380)
+    })
+  })
+}
+
+function initCheckCards() {
+  document.querySelectorAll('.check-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const val = card.dataset.value
+      // "None" toggles off all others; others toggle off "none"
+      const isNone = val && val.startsWith('none-')
+      const step   = card.closest('.step')
+      if (isNone) {
+        step.querySelectorAll('.check-card:not([data-value^="none-"])').forEach(c => c.classList.remove('selected'))
+      } else {
+        step.querySelectorAll('.check-card[data-value^="none-"]').forEach(c => c.classList.remove('selected'))
+      }
+      card.classList.toggle('selected')
+      // Conditional panels
+      const shows = card.dataset.shows
+      if (shows) {
+        const panel = document.getElementById(shows)
+        if (panel) card.classList.contains('selected') ? panel.classList.remove('hidden') : panel.classList.add('hidden')
+      }
+      // Nitrate flag toggle (real-time)
+      if (val === 'nitrates') {
+        const flag = document.getElementById('nitrate-flag')
+        if (flag) card.classList.contains('selected') ? flag.classList.add('visible') : flag.classList.remove('visible')
+      }
+      // HL pattern flag
+      if (val === 'patches' || val === 'diffuse' || val === 'shedding') {
+        const flag = document.getElementById('hl-pattern-flag')
+        if (flag) flag.classList.add('visible')
+      }
+    })
+  })
+}
+
+function initScaleBtns() {
+  document.querySelectorAll('.scale-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const name = btn.dataset.name
+      document.querySelectorAll(`.scale-btn[data-name="${name}"]`).forEach(b => b.classList.remove('selected'))
+      btn.classList.add('selected')
+    })
+  })
+}
+
+function selectNorwood(card) {
+  document.querySelectorAll('.norwood-card').forEach(c => c.classList.remove('selected'))
+  card.classList.add('selected')
+}
+
+// HL pattern flag on radio (not checkbox)
+function initHLPatternFlag() {
+  document.querySelectorAll('.radio-card[data-name="q-hl-pattern"]').forEach(card => {
+    card.addEventListener('click', () => {
+      const flag = document.getElementById('hl-pattern-flag')
+      if (!flag) return
+      const flagVals = ['patches', 'diffuse', 'shedding']
+      flag.classList.toggle('visible', flagVals.includes(card.dataset.value))
+    })
+  })
+}
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  initRadioCards()
+  initCheckCards()
+  initScaleBtns()
+  initHLPatternFlag()
+  showStep('select')
+})
+</script>
+</body>
+</html>
