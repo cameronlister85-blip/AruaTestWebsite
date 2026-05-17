@@ -101,6 +101,10 @@
       .article-scroll-card { width: 340px; }
     }
 
+    /* Hero image — show surfer on mobile portrait by panning right */
+    .hero-img { object-position: center 30%; }
+    @media (max-width: 767px) { .hero-img { object-position: 68% 25%; } }
+
   </style>
 </head>
 <body class="bg-page text-ink font-body antialiased overflow-x-hidden">
@@ -120,17 +124,25 @@
       </a>
     </div>
 
-    <button class="md:hidden flex flex-col gap-[5px] p-1 focus-ring rounded-sm" aria-label="Menu">
-      <span class="block w-5 h-px bg-ink"></span>
-      <span class="block w-5 h-px bg-ink"></span>
-      <span class="block w-5 h-px bg-ink"></span>
+    <button id="mob-menu-btn" class="md:hidden flex flex-col gap-[5px] p-2 -mr-2 focus-ring rounded-sm" aria-label="Menu" aria-expanded="false">
+      <span id="mbar1" class="block w-5 h-px bg-ink transition-transform duration-200 origin-center"></span>
+      <span id="mbar2" class="block w-5 h-px bg-ink transition-opacity duration-200"></span>
+      <span id="mbar3" class="block w-5 h-px bg-ink transition-transform duration-200 origin-center"></span>
     </button>
   </div>
 </nav>
 
+<!-- Mobile menu -->
+<div id="mob-menu" class="md:hidden fixed left-0 right-0 bg-page border-b border-hairline-soft z-40 px-8 py-6 flex-col gap-4" style="top:68px; display:none;">
+  <a href="#conditions" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">Conditions</a>
+  <a href="Articles/index.html" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">Good reads</a>
+  <a href="#about" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">About</a>
+  <a href="#early-access" class="mt-2 h-[48px] rounded-pill bg-ink text-page text-[15px] font-medium flex items-center justify-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Sign up for early access</a>
+</div>
+
 <!-- ══════════════════════════════════════════════════════════ HERO -->
 <section class="min-h-[calc(100vh-68px)] flex items-center justify-center relative overflow-hidden">
-  <img src="Images/Photo Image Library/Piha 3.jpg" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 30%;" />
+  <img src="Images/Photo Image Library/Piha 3.jpg" class="hero-img absolute inset-0 w-full h-full object-cover" />
   <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(246,241,232,0.88) 0%, rgba(246,241,232,0.76) 40%, rgba(230,218,200,0.48) 100%);"></div>
   <div class="relative z-10 flex flex-col justify-center px-8 md:px-16 py-36 lg:py-48 max-w-[780px] mx-auto w-full">
     <div class="flex items-center gap-3 mb-6">
@@ -527,6 +539,26 @@
     nav.style.boxShadow   = s ? '0 2px 24px -8px rgba(21,20,15,.10)' : 'none'
   }, { passive: true })
 
+  // Mobile menu toggle
+  const mobBtn  = document.getElementById('mob-menu-btn')
+  const mobMenu = document.getElementById('mob-menu')
+  const mbar1   = document.getElementById('mbar1')
+  const mbar2   = document.getElementById('mbar2')
+  const mbar3   = document.getElementById('mbar3')
+  let menuOpen  = false
+
+  function toggleMenu(force) {
+    menuOpen = force !== undefined ? force : !menuOpen
+    mobMenu.style.display = menuOpen ? 'flex' : 'none'
+    mobMenu.style.flexDirection = 'column'
+    mobBtn.setAttribute('aria-expanded', menuOpen)
+    mbar1.style.transform = menuOpen ? 'translateY(6px) rotate(45deg)' : ''
+    mbar2.style.opacity   = menuOpen ? '0' : ''
+    mbar3.style.transform = menuOpen ? 'translateY(-6px) rotate(-45deg)' : ''
+  }
+
+  mobBtn.addEventListener('click', () => toggleMenu())
+  mobMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)))
 </script>
 
 
