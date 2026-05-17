@@ -43,7 +43,7 @@
       <a href="./"               class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Good reads</a>
       <a href="../#about"        class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About</a>
     </div>
-    <a href="../#early-access" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">Sign up for early access</a>
+    <a href="#" data-modal="signup" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">Sign up for early access</a>
   </div>
 </nav>
 
@@ -219,7 +219,7 @@
   <div class="max-w-[1280px] mx-auto px-8 lg:px-16 text-center">
     <h2 class="dp font-[380] tracking-display leading-[1.1] text-[38px] mb-4">Ready to start?</h2>
     <p class="text-base leading-[1.6] mb-8 max-w-[440px] mx-auto" style="color:rgba(246,241,232,.7)">Private. Structured. NZ-registered clinicians. Delivered to your door in 48 hours.</p>
-    <a href="../#early-access" class="h-12 px-8 rounded-pill bg-page text-ink text-[15px] font-medium hover:bg-page-alt active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">Sign up for early access&thinsp;→</a>
+    <a href="#" data-modal="signup" class="h-12 px-8 rounded-pill bg-page text-ink text-[15px] font-medium hover:bg-page-alt active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">Sign up for early access&thinsp;→</a>
   </div>
 </section>
 
@@ -241,7 +241,7 @@
       <div>
         <p class="font-mono text-[11px] tracking-eyebrow uppercase mb-5" style="color:rgba(246,241,232,.38)">Company</p>
         <nav class="flex flex-col gap-3">
-          <a href="../#about" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">About Arua</a>
+          <a href="../#about" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Why Arua</a>
           <a href="./" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Good reads</a>
           <a href="../#early-access" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">Early access</a>
           <a href="/faqs.html" class="text-sm focus-ring rounded-sm" style="color:rgba(246,241,232,.68)" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.68)'">FAQs</a>
@@ -268,6 +268,54 @@
   window.addEventListener('scroll', () => {
     nav.style.borderColor = window.scrollY > 10 ? '#E5DCCC' : 'transparent';
   }, { passive: true });
+</script>
+
+<!-- SIGNUP MODAL -->
+<div id="signup-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4" style="display:none;">
+  <div id="modal-bd" class="absolute inset-0 backdrop-blur-sm" style="background:rgba(21,20,15,0.55);"></div>
+  <div class="relative bg-page rounded-card border border-hairline-soft max-w-[480px] w-full p-8 sm:p-10" style="box-shadow:0 4px 12px rgba(21,20,15,0.08), 0 24px 64px rgba(21,20,15,0.22);">
+    <button id="modal-x" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-muted hover:text-ink transition-colors duration-150 focus-ring rounded-sm" aria-label="Close">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 3L3 13M3 3l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-4">Early access</p>
+    <h2 class="dp font-[380] tracking-display text-[26px] leading-[1.2] mb-2">Be first through the door.</h2>
+    <p class="text-[15px] text-ink-soft leading-[1.65] mb-7">Arua is launching soon for NZ men &#8212; private, structured treatment for ED and hair loss. No waiting rooms.</p>
+    <form id="modal-form" action="https://formspree.io/f/mykovjpr" method="POST">
+      <div class="flex flex-col sm:flex-row gap-3 mb-3">
+        <input type="email" name="email" required placeholder="your@email.com"
+          class="flex-1 h-[52px] px-4 rounded-card border border-hairline bg-surface text-ink text-[15px] placeholder:text-muted focus:outline-none focus:border-accent transition-colors duration-150" />
+        <button type="submit"
+          class="h-[52px] px-6 rounded-pill bg-ink text-page text-[15px] font-medium hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring whitespace-nowrap">
+          Sign up&#x202F;&#x2192;
+        </button>
+      </div>
+      <p class="text-[12px] text-muted">No spam. Unsubscribe anytime. <a href="../privacy.html" class="underline hover:text-ink transition-colors duration-150">Privacy policy</a>.</p>
+    </form>
+    <div id="modal-ok" style="display:none;" class="text-center py-6">
+      <p class="dp font-[380] tracking-display text-[22px] mb-2">You&#8217;re on the list.</p>
+      <p class="text-[14px] text-ink-soft">We&#8217;ll be in touch when Arua launches.</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var modal=document.getElementById('signup-modal');
+  var form=document.getElementById('modal-form');
+  var ok=document.getElementById('modal-ok');
+  function openModal(){modal.style.display='flex';document.body.style.overflow='hidden';}
+  function closeModal(){modal.style.display='none';document.body.style.overflow='';}
+  document.getElementById('modal-x').addEventListener('click',closeModal);
+  document.getElementById('modal-bd').addEventListener('click',closeModal);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+  document.querySelectorAll('[data-modal="signup"]').forEach(function(el){
+    el.addEventListener('click',function(e){e.preventDefault();openModal();});
+  });
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}})
+      .then(function(r){if(r.ok){form.style.display='none';ok.style.display='block';}});
+  });
+})();
 </script>
 </body>
 </html>
