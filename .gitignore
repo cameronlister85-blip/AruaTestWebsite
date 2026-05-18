@@ -12,3 +12,10 @@ brand_assets/
 CLAUDE.md
 Clinical Processes/
 portal/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
