@@ -980,6 +980,25 @@
   </div>
 </div>
 
+<!-- ─────────────────────────────────────────
+     HL: CONSENT
+───────────────────────────────────────── -->
+<div class="step" id="step-hl-consent">
+  <p class="step-eyebrow">Before you submit</p>
+  <h2 class="step-q">Just a few things to confirm.</h2>
+  <p class="step-hint">Please read each statement carefully and tick all that apply before we review your answers.</p>
+
+  <div class="check-card" data-value="hl-consent-telehealth"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-label">I understand this is a telehealth service<span class="check-sublabel">My assessment and any prescription will be issued remotely by a NZ-registered clinician, without an in-person consultation.</span></div></div>
+
+  <div class="check-card" data-value="hl-consent-data"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-label">I consent to my health information being stored and used<span class="check-sublabel">My answers will be stored securely and shared only with the clinician reviewing my case, in accordance with the NZ Privacy Act 2020.</span></div></div>
+
+  <div class="check-card" data-value="hl-consent-no-guarantee"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-label">I understand a prescription is not guaranteed<span class="check-sublabel">The clinician may request further information, recommend a follow-up, or advise that treatment is not appropriate based on my answers.</span></div></div>
+
+  <div class="check-card" data-value="hl-consent-accurate"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-label">The information I've provided is accurate and complete<span class="check-sublabel">I have answered all questions honestly and to the best of my knowledge. I understand that inaccurate information may affect the safety of my treatment.</span></div></div>
+
+  <div class="check-card" data-value="hl-consent-age"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-label">I am 18 years of age or older and a resident of New Zealand<span class="check-sublabel">Arua is only able to provide services to adult men who are ordinarily resident in New Zealand.</span></div></div>
+</div>
+
 
 <!-- ─────────────────────────────────────────
      REVIEW
@@ -1040,7 +1059,7 @@ const STEP_WEIGHTS = {
   'ed-context': 45, 'ed-treatment': 15, 'ed-safety': 30, 'ed-lifestyle': 20, 'ed-consent': 20,
   'hl-timing': 10, 'hl-pattern': 10, 'hl-norwood': 15,
   'hl-progression': 20, 'hl-family': 10, 'hl-treatment': 15,
-  'hl-safety': 25, 'hl-goals': 20,
+  'hl-safety': 25, 'hl-goals': 20, 'hl-consent': 20,
   review: 45, complete: 0
 }
 
@@ -1051,7 +1070,7 @@ const state = { pathway: null, stepIndex: 0, riskLane: null }
 
 const COMMON  = ['select','name','residency','address','identity','gp','physical','drugs','medical','cardio','medications','mental']
 const ED_PATH = ['ed-shim-intro','ed-shim-1','ed-shim-2','ed-shim-3','ed-shim-4','ed-shim-5','ed-context','ed-treatment','ed-safety','ed-lifestyle','ed-consent']
-const HL_PATH = ['hl-timing','hl-pattern','hl-norwood','hl-progression','hl-family','hl-treatment','hl-safety','hl-goals']
+const HL_PATH = ['hl-timing','hl-pattern','hl-norwood','hl-progression','hl-family','hl-treatment','hl-safety','hl-goals','hl-consent']
 
 function steps() {
   const p = state.pathway === 'ed' ? ED_PATH : state.pathway === 'hair-loss' ? HL_PATH : []
@@ -1242,6 +1261,13 @@ function validateStep(id) {
       needsRadio('q-hl-goal', 'Please answer all questions to continue')
       needsScale('q-hl-importance', 'Please rate how important this is to you')
       break
+    case 'hl-consent': {
+      const hlConsentVals = ['hl-consent-telehealth','hl-consent-data','hl-consent-no-guarantee','hl-consent-accurate','hl-consent-age']
+      const hlConsentStep = document.getElementById('step-hl-consent')
+      const allHlChecked = hlConsentVals.every(v => hlConsentStep && hlConsentStep.querySelector(`.check-card[data-value="${v}"].selected`))
+      if (!allHlChecked) errors.push('Please confirm all statements above before continuing')
+      break
+    }
   }
 
   return errors
@@ -1313,8 +1339,8 @@ function nextStep() {
     if (nitrateChecked) { flag.classList.add('visible'); return }
   }
 
-  // Compute risk lane when ED consent is confirmed
-  if (id === 'ed-consent' && state.pathway === 'ed') {
+  // Compute risk lane when consent is confirmed
+  if ((id === 'ed-consent' && state.pathway === 'ed') || (id === 'hl-consent' && state.pathway === 'hair-loss')) {
     state.riskLane = computeRiskLane()
   }
 
@@ -1480,27 +1506,46 @@ function rvSection(title, editId, rows) {
    RISK STRATIFICATION (ED pathway)
 ══════════════════════════════════════ */
 function computeRiskLane() {
-  if (state.pathway !== 'ed') return null
-  const dob = document.getElementById('dob')?.value
-  const age = dob ? getAge(dob) : 0
-  const medStep = document.getElementById('step-medical')
-  const has = v => !!(medStep?.querySelector(`.check-card[data-value="${v}"].selected`))
-  const chestPain = getRadio('q-chest')
-  const phq1 = parseInt(getRadio('q-phq1') || '0')
-  const phq2 = parseInt(getRadio('q-phq2') || '0')
-  const selfHarm = getRadio('q-selfharm')
-  const libido = getRadio('q-ed-libido')
-  const morning = getRadio('q-ed-morning')
-  const gradual = getRadio('q-ed-gradual')
-  // Red: serious safety signals
-  if (chestPain === 'yes') return 'red'
-  if (has('heart-attack') || has('stroke')) return 'red'
-  if ((phq1 + phq2 >= 4) && selfHarm === 'yes') return 'red'
-  if (libido === 'no-interest' && morning === 'never' && gradual === 'gradual') return 'red'
-  // Amber: age or cardiometabolic risk factors warrant video check-in
-  if (age >= 40) return 'amber'
-  if (has('high-bp') || has('diabetes') || has('cholesterol') || has('angina')) return 'amber'
-  return 'green'
+  if (state.pathway === 'ed') {
+    const dob = document.getElementById('dob')?.value
+    const age = dob ? getAge(dob) : 0
+    const medStep = document.getElementById('step-medical')
+    const has = v => !!(medStep?.querySelector(`.check-card[data-value="${v}"].selected`))
+    const chestPain = getRadio('q-chest')
+    const phq1 = parseInt(getRadio('q-phq1') || '0')
+    const phq2 = parseInt(getRadio('q-phq2') || '0')
+    const selfHarm = getRadio('q-selfharm')
+    const libido = getRadio('q-ed-libido')
+    const morning = getRadio('q-ed-morning')
+    const gradual = getRadio('q-ed-gradual')
+    // Red: serious safety signals
+    if (chestPain === 'yes') return 'red'
+    if (has('heart-attack') || has('stroke')) return 'red'
+    if ((phq1 + phq2 >= 4) && selfHarm === 'yes') return 'red'
+    if (libido === 'no-interest' && morning === 'never' && gradual === 'gradual') return 'red'
+    // Amber: age or cardiometabolic risk factors warrant video check-in
+    if (age >= 40) return 'amber'
+    if (has('high-bp') || has('diabetes') || has('cholesterol') || has('angina')) return 'amber'
+    return 'green'
+  }
+
+  if (state.pathway === 'hair-loss') {
+    const hlCond = document.getElementById('hl-safety-conditions')
+    const hasCond = v => !!(hlCond?.querySelector(`.check-card[data-value="${v}"].selected`))
+    // Red: prostate cancer — finasteride absolutely contraindicated, masks PSA
+    if (hasCond('prostate-cancer')) return 'red'
+    // Amber: conditions suggesting underlying cause or prescribing risk
+    if (getRadio('q-conceive') === 'yes') return 'amber'
+    if (hasCond('liver-hl') || hasCond('thyroid') || hasCond('iron-deficiency') || hasCond('other-hormonal')) return 'amber'
+    // Amber: pattern suggesting non-AGA (less likely to respond to standard treatment)
+    const pattern = getRadio('q-hl-pattern')
+    if (pattern === 'patches' || pattern === 'diffuse' || pattern === 'shedding') return 'amber'
+    // Amber: recent significant health change may indicate telogen effluvium
+    if (getRadio('q-hl-recent') === 'yes') return 'amber'
+    return 'green'
+  }
+
+  return null
 }
 
 function getRedFlags() {
@@ -1521,50 +1566,76 @@ function getRedFlags() {
   return flags.length > 0 ? flags : ['Clinical assessment indicated further in-person evaluation']
 }
 
+function getHLFlags() {
+  const flags = []
+  const hlCond = document.getElementById('hl-safety-conditions')
+  const hasCond = v => !!(hlCond?.querySelector(`.check-card[data-value="${v}"].selected`))
+  if (hasCond('prostate-cancer')) flags.push('History of prostate cancer — finasteride is absolutely contraindicated and may suppress PSA, masking disease activity')
+  return flags.length > 0 ? flags : ['Clinical assessment indicated further evaluation before prescribing']
+}
+
 /* ══════════════════════════════════════
    COMPLETION SCREEN
 ══════════════════════════════════════ */
 function buildComplete() {
   const lane = state.riskLane
-  const firstName = inp('first-name') || 'there'
+  const pathway = state.pathway
   const dob = inp('dob')
   const container = document.getElementById('complete-content')
   if (!container) return
 
+  const checkIcon = `<div class="w-16 h-16 rounded-full bg-sage border border-sage flex items-center justify-center mx-auto mb-8"><svg width="24" height="20" fill="none" viewBox="0 0 24 20"><path d="M2 10l7 8L22 2" stroke="#5E6B4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`
+  const warnIcon  = `<div class="w-16 h-16 rounded-full border border-hairline flex items-center justify-center mx-auto mb-8" style="background:rgba(140,74,47,0.08);"><svg width="22" height="22" fill="none" viewBox="0 0 22 22"><circle cx="11" cy="11" r="9" stroke="#8C4A2F" stroke-width="1.5"/><path d="M11 7v5M11 15v.5" stroke="#8C4A2F" stroke-width="1.5" stroke-linecap="round"/></svg></div>`
+  const backLink  = `<a href="../" class="inline-flex h-[48px] px-8 rounded-pill bg-ink text-page text-sm font-medium items-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Back to Arua</a>`
+
   if (lane === 'green') {
+    const body = pathway === 'ed'
+      ? "A NZ-registered clinician will review your answers. We'll be in touch within one to two business days — no consult required."
+      : "A NZ-registered clinician will review your answers and recommend a treatment plan. We'll be in touch within one to two business days."
+    const meta = pathway === 'ed'
+      ? `Discreet packaging &ensp;·&ensp; No referral needed &ensp;·&ensp; 100% private`
+      : `Discreet packaging &ensp;·&ensp; No referral needed &ensp;·&ensp; 100% private`
     container.innerHTML = `
       <div class="text-center py-8">
-        <div class="w-16 h-16 rounded-full bg-sage border border-sage flex items-center justify-center mx-auto mb-8">
-          <svg width="24" height="20" fill="none" viewBox="0 0 24 20"><path d="M2 10l7 8L22 2" stroke="#5E6B4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
+        ${checkIcon}
         <h2 class="dp font-[380] tracking-[-0.03em] text-[34px] leading-[1.15] mb-4">That's everything.</h2>
-        <p class="text-[16px] leading-[1.7] text-ink-soft mb-3 max-w-[420px] mx-auto">A NZ-registered clinician will review your answers. We'll be in touch within one to two business days — no consult required.</p>
-        <p class="text-[14px] text-muted mb-10">Discreet packaging &ensp;·&ensp; No referral needed &ensp;·&ensp; 100% private</p>
-        <a href="../" class="inline-flex h-[48px] px-8 rounded-pill bg-ink text-page text-sm font-medium items-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Back to Arua</a>
+        <p class="text-[16px] leading-[1.7] text-ink-soft mb-3 max-w-[420px] mx-auto">${body}</p>
+        <p class="text-[14px] text-muted mb-10">${meta}</p>
+        ${backLink}
       </div>`
+
   } else if (lane === 'amber') {
+    const body = pathway === 'ed'
+      ? "A clinician has reviewed your answers and would like a brief video check-in before prescribing. You'll receive a booking link by email within one to two business days."
+      : "A clinician would like to discuss a couple of points before recommending treatment. You'll receive a message within one to two business days."
+    const meta = pathway === 'ed'
+      ? `Discreet &ensp;·&ensp; 10–15 minutes &ensp;·&ensp; No referral needed`
+      : `Discreet &ensp;·&ensp; No referral needed &ensp;·&ensp; 100% private`
     container.innerHTML = `
       <div class="text-center py-8">
-        <div class="w-16 h-16 rounded-full bg-sage border border-sage flex items-center justify-center mx-auto mb-8">
-          <svg width="24" height="20" fill="none" viewBox="0 0 24 20"><path d="M2 10l7 8L22 2" stroke="#5E6B4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
+        ${checkIcon}
         <h2 class="dp font-[380] tracking-[-0.03em] text-[34px] leading-[1.15] mb-4">That's everything.</h2>
-        <p class="text-[16px] leading-[1.7] text-ink-soft mb-3 max-w-[420px] mx-auto">A clinician has reviewed your answers and would like a brief video check-in before prescribing. You'll receive a booking link by email within one to two business days.</p>
-        <p class="text-[14px] text-muted mb-10">Discreet &ensp;·&ensp; 10–15 minutes &ensp;·&ensp; No referral needed</p>
-        <a href="../" class="inline-flex h-[48px] px-8 rounded-pill bg-ink text-page text-sm font-medium items-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Back to Arua</a>
+        <p class="text-[16px] leading-[1.7] text-ink-soft mb-3 max-w-[420px] mx-auto">${body}</p>
+        <p class="text-[14px] text-muted mb-10">${meta}</p>
+        ${backLink}
       </div>`
+
   } else if (lane === 'red') {
-    const flags = getRedFlags()
+    const flags = pathway === 'hl' || pathway === 'hair-loss' ? getHLFlags() : getRedFlags()
     const flagsHtml = flags.map(f => `<li class="text-[14px] leading-[1.6] text-ink-soft">${f}</li>`).join('')
     const nameStr = [inp('first-name'), inp('last-name')].filter(Boolean).join(' ') || '—'
     const dobStr = dob ? formatDob(dob) : '—'
+    const title = pathway === 'hair-loss'
+      ? "We're not able to prescribe finasteride at this time."
+      : "We'd like you to see your GP first."
+    const intro = pathway === 'hair-loss'
+      ? "Based on your answers, prescribing finasteride would not be clinically appropriate at this time. We recommend speaking with your GP about the points below."
+      : "Based on your answers, we're not able to prescribe safely via telehealth at this time. We recommend speaking with your GP about the points below."
     container.innerHTML = `
       <div class="py-8">
-        <div class="w-16 h-16 rounded-full border border-hairline flex items-center justify-center mx-auto mb-8" style="background:rgba(140,74,47,0.08);">
-          <svg width="22" height="22" fill="none" viewBox="0 0 22 22"><circle cx="11" cy="11" r="9" stroke="#8C4A2F" stroke-width="1.5"/><path d="M11 7v5M11 15v.5" stroke="#8C4A2F" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-        <h2 class="dp font-[380] tracking-[-0.03em] text-[34px] leading-[1.15] mb-4 text-center">We'd like you to see your GP first.</h2>
-        <p class="text-[16px] leading-[1.7] text-ink-soft mb-6 max-w-[480px] mx-auto text-center">Based on your answers, we're not able to prescribe safely via telehealth at this time. We recommend speaking with your GP about the points below.</p>
+        ${warnIcon}
+        <h2 class="dp font-[380] tracking-[-0.03em] text-[34px] leading-[1.15] mb-4 text-center">${title}</h2>
+        <p class="text-[16px] leading-[1.7] text-ink-soft mb-6 max-w-[480px] mx-auto text-center">${intro}</p>
 
         <div class="p-5 rounded-[10px] border border-hairline-soft bg-page-alt mb-6 max-w-[520px] mx-auto print:border print:shadow-none">
           <p class="text-[11px] font-mono tracking-[.12em] uppercase text-muted mb-3">GP Referral Summary</p>
@@ -1584,17 +1655,15 @@ function buildComplete() {
           <div><a href="../" class="text-[14px] text-muted hover:text-ink transition-colors duration-150 underline underline-offset-4">Back to Arua</a></div>
         </div>
       </div>`
+
   } else {
-    // Fallback — no pathway lane set
     container.innerHTML = `
       <div class="text-center py-8">
-        <div class="w-16 h-16 rounded-full bg-sage border border-sage flex items-center justify-center mx-auto mb-8">
-          <svg width="24" height="20" fill="none" viewBox="0 0 24 20"><path d="M2 10l7 8L22 2" stroke="#5E6B4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
+        ${checkIcon}
         <h2 class="dp font-[380] tracking-[-0.03em] text-[34px] leading-[1.15] mb-4">That's everything.</h2>
         <p class="text-[16px] leading-[1.7] text-ink-soft mb-3 max-w-[420px] mx-auto">A NZ-registered clinician will review your answers and be in touch within one to two business days.</p>
         <p class="text-[14px] text-muted mb-10">Discreet packaging &ensp;·&ensp; No referral needed &ensp;·&ensp; 100% private</p>
-        <a href="../" class="inline-flex h-[48px] px-8 rounded-pill bg-ink text-page text-sm font-medium items-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Back to Arua</a>
+        ${backLink}
       </div>`
   }
 }
