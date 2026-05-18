@@ -143,6 +143,10 @@
     .flag-note { display:none; background:rgba(140,74,47,.08); border:1px solid rgba(140,74,47,.2); border-radius:8px; padding:12px 16px; margin-top:16px; font-size:13px; color:#5C2E1A; line-height:1.6; }
     .flag-note.visible { display:block; }
 
+    /* ── Validation ── */
+    @keyframes errShake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-5px)} 40%,80%{transform:translateX(5px)} }
+    .step.err-shake { animation: errShake 340ms cubic-bezier(0.4,0,0.2,1); }
+
     /* ── Section divider ── */
     .q-section { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#8A867D; margin:24px 0 12px; padding-bottom:8px; border-bottom:1px solid #E5DCCC; }
 
@@ -176,12 +180,14 @@
 
 <!-- ══ PROGRESS ══ -->
 <div class="sticky top-[64px] z-40 bg-page border-b border-hairline-soft">
-  <div class="h-[3px] bg-hairline-soft">
-    <div id="progress-bar" class="h-full bg-accent transition-[width] duration-500 ease-out" style="width:0%"></div>
-  </div>
-  <div class="max-w-[620px] mx-auto px-8 py-2.5 flex justify-between items-center">
-    <span id="progress-label" class="font-mono text-[11px] tracking-[.14em] uppercase text-muted">Choose your pathway</span>
-    <span id="progress-fraction" class="font-mono text-[11px] text-muted"></span>
+  <div class="max-w-[620px] mx-auto px-8 pt-3 pb-2.5">
+    <div style="height:5px; background:#E5DCCC; border-radius:999px; overflow:hidden; margin-bottom:8px;">
+      <div id="progress-bar" style="height:100%; border-radius:999px; background:#4A7C5E; width:0%; transition:width 500ms cubic-bezier(0.4,0,0.2,1);"></div>
+    </div>
+    <div class="flex justify-between items-center">
+      <span id="progress-label" class="font-mono text-[11px] tracking-[.14em] uppercase text-muted">Choose your pathway</span>
+      <span id="progress-fraction" class="font-mono text-[11px] text-muted"></span>
+    </div>
   </div>
 </div>
 
@@ -432,24 +438,38 @@
 ───────────────────────────────────────── -->
 <div class="step" id="step-medications">
   <p class="step-eyebrow">Medications</p>
-  <h2 class="step-q">What medications are you currently taking?</h2>
-  <p class="step-hint">Include dose if known. This is essential for checking drug interactions.</p>
-  <div class="mb-4">
-    <label class="q-label">Prescription medications</label>
-    <textarea id="rx-meds" class="q-textarea" placeholder="List any prescription medications and dose, e.g. metformin 500mg, lisinopril 10mg…&#10;Or write 'none'"></textarea>
+  <h2 class="step-q">A few questions about medications.</h2>
+  <p class="step-hint">This helps your clinician check for interactions and contraindications.</p>
+
+  <p class="q-section">Prescription medications</p>
+  <div class="radio-card" data-name="q-on-rx" data-value="yes" data-shows="rx-meds-detail"><div class="radio-dot"></div><span class="radio-label">Yes — I take prescription medications</span></div>
+  <div class="radio-card" data-name="q-on-rx" data-value="no"><div class="radio-dot"></div><span class="radio-label">No prescription medications</span></div>
+  <div id="rx-meds-detail" class="hidden mt-3 mb-1">
+    <label class="q-label">Please list them, including dose if known</label>
+    <textarea id="rx-meds" class="q-textarea" placeholder="e.g. metformin 500mg, lisinopril 10mg, atorvastatin 20mg…"></textarea>
   </div>
-  <div class="mb-4">
+
+  <div class="mb-4 mt-5">
     <label class="q-label">Over-the-counter medicines, supplements, or herbal products <span class="font-normal text-muted">(optional)</span></label>
     <textarea class="q-textarea" style="min-height:90px;" placeholder="e.g. ibuprofen, St John's Wort, fish oil…"></textarea>
   </div>
   <div class="mb-4">
-    <label class="q-label">Known medication allergies</label>
-    <input type="text" class="q-input" placeholder="e.g. penicillin, sulfa drugs — or 'none'" />
+    <label class="q-label">Known medication allergies <span class="font-normal text-muted">(optional)</span></label>
+    <input type="text" class="q-input" placeholder="e.g. penicillin, sulfa drugs" />
   </div>
   <div>
     <label class="q-label">Previous adverse reactions to medication <span class="font-normal text-muted">(optional)</span></label>
     <input type="text" class="q-input" placeholder="Describe any past reactions…" />
   </div>
+
+  <p class="q-section">Nitrate medications</p>
+  <p class="text-[14px] text-ink-soft mb-3">Are you currently prescribed any of the following? These cannot be safely combined with ED medications.</p>
+  <div class="check-card" data-value="nitrate-gtn"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-label">GTN spray or tablet (glyceryl trinitrate)<span class="check-sublabel">Nitrolingual, Anginine, Lycinate</span></div></div>
+  <div class="check-card" data-value="nitrate-ismn"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-label">Isosorbide mononitrate<span class="check-sublabel">Imdur, Monodur</span></div></div>
+  <div class="check-card" data-value="nitrate-isdn"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-label">Isosorbide dinitrate<span class="check-sublabel">Isordil</span></div></div>
+  <div class="check-card" data-value="nitrate-nicorandil"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Nicorandil (Ikorel)</span></div>
+  <div class="check-card" data-value="none-rx-nitrates"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">None of these</span></div>
+  <div id="rx-nitrate-flag" class="flag-note">Nitrate medications are an absolute contraindication with sildenafil, tadalafil, and vardenafil. Combining them can cause a dangerous drop in blood pressure. We will not be able to prescribe ED medication — your clinician will advise on other options.</div>
 </div>
 
 <!-- ─────────────────────────────────────────
@@ -605,6 +625,13 @@
   <div class="radio-card" data-name="q-ed-situational" data-value="all"><div class="radio-dot"></div><span class="radio-label">All situations</span></div>
   <div class="radio-card" data-name="q-ed-situational" data-value="inactive"><div class="radio-dot"></div><span class="radio-label">Not currently sexually active</span></div>
 
+  <p class="q-section">Sexual interest (libido)</p>
+  <p class="text-[14px] text-ink-soft mb-3">How has your interest in sex (libido) been over the past 6 months?</p>
+  <div class="radio-card" data-name="q-ed-libido" data-value="normal"><div class="radio-dot"></div><span class="radio-label">Normal — I still want sex, but can't always perform</span></div>
+  <div class="radio-card" data-name="q-ed-libido" data-value="somewhat-reduced"><div class="radio-dot"></div><span class="radio-label">Somewhat reduced — less interest than before</span></div>
+  <div class="radio-card" data-name="q-ed-libido" data-value="significantly-reduced"><div class="radio-dot"></div><span class="radio-label">Significantly reduced — very little interest</span></div>
+  <div class="radio-card" data-name="q-ed-libido" data-value="no-interest"><div class="radio-dot"></div><span class="radio-label">No interest at all</span></div>
+
   <div class="mt-5">
     <label class="q-label">In your view, what do you think is contributing? <span class="font-normal text-muted">(optional)</span></label>
     <textarea class="q-textarea" style="min-height:90px;" placeholder="Any thoughts on what might be causing this — stress, relationship, physical…"></textarea>
@@ -695,6 +722,25 @@
     <label class="q-label">Is there anything else you'd like the clinician to know? <span class="font-normal text-muted">(optional)</span></label>
     <textarea class="q-textarea" placeholder="Anything else that might be relevant to your assessment…"></textarea>
   </div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     ED: CONSENT
+───────────────────────────────────────── -->
+<div class="step" id="step-ed-consent">
+  <p class="step-eyebrow">Before you submit</p>
+  <h2 class="step-q">Just a few things to confirm.</h2>
+  <p class="step-hint">Please read each statement carefully and tick all that apply before we review your answers.</p>
+
+  <div class="check-card" data-value="consent-telehealth"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-label">I understand this is a telehealth service<span class="check-sublabel">My assessment and any prescription will be issued remotely by a NZ-registered clinician, without an in-person consultation.</span></div></div>
+
+  <div class="check-card" data-value="consent-data"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-label">I consent to my health information being stored and used<span class="check-sublabel">My answers will be stored securely and shared only with the clinician reviewing my case, in accordance with the NZ Privacy Act 2020.</span></div></div>
+
+  <div class="check-card" data-value="consent-no-guarantee"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-label">I understand a prescription is not guaranteed<span class="check-sublabel">The clinician may recommend a video check-in, request additional information, or decline to prescribe if it is not clinically appropriate.</span></div></div>
+
+  <div class="check-card" data-value="consent-accurate"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-label">The information I've provided is accurate and complete<span class="check-sublabel">I have answered all questions honestly and to the best of my knowledge. I understand that inaccurate information may affect the safety of my treatment.</span></div></div>
+
+  <div class="check-card" data-value="consent-age"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-label">I am 18 years of age or older and a resident of New Zealand<span class="check-sublabel">Arua is only able to provide services to adult men who are ordinarily resident in New Zealand.</span></div></div>
 </div>
 
 
@@ -855,21 +901,26 @@
   <p class="text-[14px] text-ink-soft mb-3">Are you currently trying to conceive, or planning to in the next 12 months?</p>
   <div class="radio-card" data-name="q-conceive" data-value="no"><div class="radio-dot"></div><span class="radio-label">No</span></div>
   <div class="radio-card" data-name="q-conceive" data-value="yes"><div class="radio-dot"></div><span class="radio-label">Yes</span></div>
+  <div id="conceive-flag" class="flag-note">Finasteride can affect sperm parameters and is not recommended when actively trying to conceive. Your clinician will discuss this with you before prescribing.</div>
 
   <p class="text-[14px] text-ink-soft mt-4 mb-3">Does anyone in your household or regular contact fall into any of these categories?</p>
-  <div class="check-card" data-value="pregnant-contact"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Pregnant women</span></div>
-  <div class="check-card" data-value="fertile-contact"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Women who could become pregnant</span></div>
-  <div class="check-card" data-value="children-contact"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Children under 12</span></div>
-  <div class="check-card" data-value="none-contact"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">None of these</span></div>
+  <div id="hl-safety-contacts" data-check-group>
+    <div class="check-card" data-value="pregnant-contact"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Pregnant women</span></div>
+    <div class="check-card" data-value="fertile-contact"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Women who could become pregnant</span></div>
+    <div class="check-card" data-value="children-contact"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Children under 12</span></div>
+    <div class="check-card" data-value="none-contact"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">None of these</span></div>
+  </div>
 
   <p class="q-section">Medical conditions</p>
   <p class="text-[14px] text-ink-soft mb-3">Have you been diagnosed with any of the following? Select all that apply.</p>
-  <div class="check-card" data-value="prostate-cancer"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Prostate cancer</span></div>
-  <div class="check-card" data-value="liver-hl"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Liver disease</span></div>
-  <div class="check-card" data-value="thyroid"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Thyroid disease</span></div>
-  <div class="check-card" data-value="iron-deficiency"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Iron deficiency anaemia</span></div>
-  <div class="check-card" data-value="other-hormonal"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Other hormonal condition</span></div>
-  <div class="check-card" data-value="none-hl-medical"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">None of the above</span></div>
+  <div id="hl-safety-conditions" data-check-group>
+    <div class="check-card" data-value="prostate-cancer"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Prostate cancer</span></div>
+    <div class="check-card" data-value="liver-hl"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Liver disease</span></div>
+    <div class="check-card" data-value="thyroid"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Thyroid disease</span></div>
+    <div class="check-card" data-value="iron-deficiency"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Iron deficiency anaemia</span></div>
+    <div class="check-card" data-value="other-hormonal"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">Other hormonal condition</span></div>
+    <div class="check-card" data-value="none-hl-medical"><div class="check-box"><svg width="10" height="8" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="check-label">None of the above</span></div>
+  </div>
 
   <p class="q-section">Recent health changes</p>
   <p class="text-[14px] text-ink-soft mb-3">Have you had any recent illness, surgery, significant weight loss, or major stress in the last 6 months?</p>
@@ -951,14 +1002,8 @@
      COMPLETE
 ══════════════════════════════════════════ -->
 <div class="step" id="step-complete">
-  <div class="text-center py-8">
-    <div class="w-16 h-16 rounded-full bg-sage border border-sage flex items-center justify-center mx-auto mb-8">
-      <svg width="24" height="20" fill="none" viewBox="0 0 24 20"><path d="M2 10l7 8L22 2" stroke="#5E6B4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
-    <h2 class="dp font-[380] tracking-[-0.03em] text-[34px] leading-[1.15] mb-4">That's everything.</h2>
-    <p class="text-[16px] leading-[1.7] text-ink-soft mb-3 max-w-[420px] mx-auto">A NZ-registered clinician will review your answers. We'll be in touch within one to two business days to schedule your consult.</p>
-    <p class="text-[14px] text-muted mb-10">Discreet packaging &ensp;·&ensp; No referral needed &ensp;·&ensp; 100% private</p>
-    <a href="../" class="inline-flex h-[48px] px-8 rounded-pill bg-ink text-page text-sm font-medium items-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Back to Arua</a>
+  <div id="complete-content" class="py-4">
+    <!-- Populated by buildComplete() when this step is shown -->
   </div>
 </div>
 
@@ -967,6 +1012,9 @@
 
 <!-- ══ FIXED FOOTER NAV ══ -->
 <div id="step-nav" class="fixed bottom-0 left-0 right-0 bg-page/95 backdrop-blur-md border-t border-hairline-soft z-40" style="display:none;">
+  <div id="step-error-bar" style="display:none; background:rgba(140,74,47,0.08); border-bottom:1px solid rgba(140,74,47,0.18);" class="px-8 py-2">
+    <p id="step-error-msg" class="max-w-[620px] mx-auto font-mono text-[11px] tracking-[.12em] uppercase text-accent text-center"></p>
+  </div>
   <div class="max-w-[620px] mx-auto px-8 h-[68px] flex items-center justify-between">
     <button id="btn-back" onclick="prevStep()" class="h-[42px] px-6 rounded-pill border border-hairline text-sm font-medium text-muted hover:text-ink hover:border-ink transition-colors duration-150 focus-ring">
       Back
@@ -979,12 +1027,30 @@
 
 <script>
 /* ══════════════════════════════════════
+   STEP TIME WEIGHTS (seconds per step)
+══════════════════════════════════════ */
+const STEP_WEIGHTS = {
+  select: 5,
+  name: 45, residency: 5, address: 30,
+  identity: 10, gp: 10, physical: 30,
+  drugs: 15, medical: 20, cardio: 20,
+  medications: 75, mental: 30,
+  'ed-shim-intro': 15,
+  'ed-shim-1': 10, 'ed-shim-2': 10, 'ed-shim-3': 10, 'ed-shim-4': 10, 'ed-shim-5': 10,
+  'ed-context': 45, 'ed-treatment': 15, 'ed-safety': 30, 'ed-lifestyle': 20, 'ed-consent': 20,
+  'hl-timing': 10, 'hl-pattern': 10, 'hl-norwood': 15,
+  'hl-progression': 20, 'hl-family': 10, 'hl-treatment': 15,
+  'hl-safety': 25, 'hl-goals': 20,
+  review: 45, complete: 0
+}
+
+/* ══════════════════════════════════════
    STATE
 ══════════════════════════════════════ */
-const state = { pathway: null, stepIndex: 0 }
+const state = { pathway: null, stepIndex: 0, riskLane: null }
 
 const COMMON  = ['select','name','residency','address','identity','gp','physical','drugs','medical','cardio','medications','mental']
-const ED_PATH = ['ed-shim-intro','ed-shim-1','ed-shim-2','ed-shim-3','ed-shim-4','ed-shim-5','ed-context','ed-treatment','ed-safety','ed-lifestyle']
+const ED_PATH = ['ed-shim-intro','ed-shim-1','ed-shim-2','ed-shim-3','ed-shim-4','ed-shim-5','ed-context','ed-treatment','ed-safety','ed-lifestyle','ed-consent']
 const HL_PATH = ['hl-timing','hl-pattern','hl-norwood','hl-progression','hl-family','hl-treatment','hl-safety','hl-goals']
 
 function steps() {
@@ -993,6 +1059,193 @@ function steps() {
 }
 
 function currentId() { return steps()[state.stepIndex] }
+
+/* ══════════════════════════════════════
+   ERROR HANDLING
+══════════════════════════════════════ */
+function showError(msg) {
+  const bar  = document.getElementById('step-error-bar')
+  const msgEl = document.getElementById('step-error-msg')
+  if (bar && msgEl) { msgEl.textContent = msg; bar.style.display = 'block' }
+  const step = document.getElementById('step-' + currentId())
+  if (step) {
+    step.classList.remove('err-shake')
+    void step.offsetWidth
+    step.classList.add('err-shake')
+    step.addEventListener('animationend', () => step.classList.remove('err-shake'), { once: true })
+  }
+}
+
+function clearError() {
+  const bar = document.getElementById('step-error-bar')
+  if (bar) bar.style.display = 'none'
+}
+
+/* ══════════════════════════════════════
+   VALIDATION
+══════════════════════════════════════ */
+function validateStep(id) {
+  const errors = []
+
+  function needsRadio(name, msg) {
+    if (!getRadio(name)) errors.push(msg)
+  }
+  function needsInput(elId, msg) {
+    const el = document.getElementById(elId)
+    if (!el || !el.value.trim()) errors.push(msg)
+  }
+  function needsCheck(stepId, msg) {
+    const step = document.getElementById('step-' + stepId)
+    if (!step || !step.querySelector('.check-card.selected')) errors.push(msg)
+  }
+  function needsCheckIn(containerId, msg) {
+    const container = document.getElementById(containerId)
+    if (!container || !container.querySelector('.check-card.selected')) errors.push(msg)
+  }
+  function needsScale(name, msg) {
+    if (!document.querySelector(`.scale-btn[data-name="${name}"].selected`)) errors.push(msg)
+  }
+
+  switch (id) {
+    case 'name': {
+      needsInput('first-name', 'Please enter your first name')
+      needsInput('last-name', 'Please enter your last name')
+      needsInput('dob', 'Please enter your date of birth')
+      const emailEl = document.getElementById('email')
+      if (!emailEl || !emailEl.value.trim()) errors.push('Please enter your email address')
+      else if (!emailEl.value.includes('@')) errors.push('Please enter a valid email address')
+      break
+    }
+    case 'residency':
+      needsRadio('q-nz', 'Please select an option to continue')
+      break
+    case 'address':
+      needsInput('addr-street', 'Please enter your street address')
+      needsInput('addr-city', 'Please enter your city')
+      needsInput('addr-phone', 'Please enter your phone number')
+      break
+    case 'identity':
+      needsRadio('q-sex', 'Please select an answer to continue')
+      break
+    case 'gp':
+      needsRadio('q-gp', 'Please select an answer to continue')
+      if (getRadio('q-gp') === 'yes') needsRadio('q-gp-share', 'Please indicate whether you\'d like your GP to be kept updated')
+      break
+    case 'physical':
+      needsInput('phys-height', 'Please enter your height')
+      needsInput('phys-weight', 'Please enter your weight')
+      needsRadio('q-smoke', 'Please answer the smoking question')
+      needsRadio('q-alcohol', 'Please answer the alcohol question')
+      break
+    case 'drugs':
+      needsCheck('drugs', 'Please select at least one option, or "None of the above"')
+      break
+    case 'medical':
+      needsCheck('medical', 'Please select at least one option, or "None of the above"')
+      break
+    case 'cardio':
+      needsRadio('q-heart-surgery', 'Please answer all questions to continue')
+      needsRadio('q-chest', 'Please answer the activity symptoms question')
+      break
+    case 'medications': {
+      needsRadio('q-on-rx', 'Please indicate whether you take prescription medications')
+      if (getRadio('q-on-rx') === 'yes') needsInput('rx-meds', 'Please list your prescription medications')
+      const medsStep = document.getElementById('step-medications')
+      const rxNitrateVals = ['nitrate-gtn','nitrate-ismn','nitrate-isdn','nitrate-nicorandil','none-rx-nitrates']
+      const nitrateAnswered = rxNitrateVals.some(v => medsStep && medsStep.querySelector(`.check-card[data-value="${v}"].selected`))
+      if (!nitrateAnswered) errors.push('Please answer the nitrate medication question')
+      break
+    }
+    case 'mental':
+      needsRadio('q-phq1', 'Please answer both wellbeing questions')
+      needsRadio('q-phq2', 'Please answer both wellbeing questions')
+      needsRadio('q-selfharm', 'Please answer the self-harm question')
+      break
+    case 'ed-shim-1':
+      needsScale('q-shim1', 'Please select a rating to continue')
+      break
+    case 'ed-shim-2':
+      needsRadio('q-shim2', 'Please select an answer to continue')
+      break
+    case 'ed-shim-3':
+      needsRadio('q-shim3', 'Please select an answer to continue')
+      break
+    case 'ed-shim-4':
+      needsRadio('q-shim4', 'Please select an answer to continue')
+      break
+    case 'ed-shim-5':
+      needsRadio('q-shim5', 'Please select an answer to continue')
+      break
+    case 'ed-context':
+      needsRadio('q-ed-onset', 'Please answer all questions to continue')
+      needsRadio('q-ed-gradual', 'Please answer all questions to continue')
+      needsRadio('q-ed-morning', 'Please answer all questions to continue')
+      needsRadio('q-ed-situational', 'Please answer all questions to continue')
+      needsRadio('q-ed-libido', 'Please answer all questions to continue')
+      break
+    case 'ed-treatment':
+      needsCheck('ed-treatment', 'Please select at least one option, or "No, I haven\'t tried anything"')
+      break
+    case 'ed-safety': {
+      needsRadio('q-priapism', 'Please answer all questions to continue')
+      const safetyStep = document.getElementById('step-ed-safety')
+      const eyeVals = ['rp','naion','sudden-vision','none-eye']
+      const eyeAnswered = eyeVals.some(v => safetyStep && safetyStep.querySelector(`.check-card[data-value="${v}"].selected`))
+      if (!eyeAnswered) errors.push('Please answer the eye conditions question')
+      needsRadio('q-hearing', 'Please answer all questions to continue')
+      needsRadio('q-structural', 'Please answer all questions to continue')
+      needsRadio('q-prostate', 'Please answer all questions to continue')
+      break
+    }
+    case 'ed-lifestyle':
+      needsRadio('q-activity', 'Please answer all questions to continue')
+      needsRadio('q-stress', 'Please answer all questions to continue')
+      needsRadio('q-sleep', 'Please answer all questions to continue')
+      break
+    case 'ed-consent': {
+      const consentVals = ['consent-telehealth','consent-data','consent-no-guarantee','consent-accurate','consent-age']
+      const consentStep = document.getElementById('step-ed-consent')
+      const allChecked = consentVals.every(v => consentStep && consentStep.querySelector(`.check-card[data-value="${v}"].selected`))
+      if (!allChecked) errors.push('Please confirm all statements above before continuing')
+      break
+    }
+    case 'hl-timing':
+      needsRadio('q-hl-onset', 'Please select an answer to continue')
+      break
+    case 'hl-pattern':
+      needsRadio('q-hl-pattern', 'Please select an answer to continue')
+      break
+    case 'hl-norwood': {
+      const norwood = document.querySelector('.norwood-card.selected')
+      if (!norwood) errors.push('Please select the stage that most closely matches')
+      break
+    }
+    case 'hl-progression':
+      needsRadio('q-hl-speed', 'Please answer all questions to continue')
+      needsRadio('q-hl-areas', 'Please answer all questions to continue')
+      needsCheck('hl-progression', 'Please select at least one scalp option, or "None of these"')
+      break
+    case 'hl-family':
+      needsCheck('hl-family', 'Please select at least one option')
+      break
+    case 'hl-treatment':
+      needsCheck('hl-treatment', 'Please select at least one option, or "None — I haven\'t tried anything"')
+      break
+    case 'hl-safety':
+      needsRadio('q-conceive', 'Please answer all questions to continue')
+      needsCheckIn('hl-safety-contacts', 'Please indicate whether anyone in your household is pregnant, could become pregnant, or is a child under 12')
+      needsCheckIn('hl-safety-conditions', 'Please indicate whether you have any of the listed medical conditions, or select "None of the above"')
+      needsRadio('q-hl-recent', 'Please answer all questions to continue')
+      break
+    case 'hl-goals':
+      needsRadio('q-hl-bloods', 'Please answer all questions to continue')
+      needsRadio('q-hl-goal', 'Please answer all questions to continue')
+      needsScale('q-hl-importance', 'Please rate how important this is to you')
+      break
+  }
+
+  return errors
+}
 
 /* ══════════════════════════════════════
    NAVIGATION
@@ -1005,6 +1258,8 @@ function showStep(id, dir) {
   el.classList.add('active')
   if (dir === 'back') el.classList.add('going-back')
   if (id === 'review') buildReview()
+  if (id === 'complete') buildComplete()
+  clearError()
   updateProgress()
   updateNav()
   window.scrollTo({ top: 0, behavior: 'instant' })
@@ -1012,6 +1267,13 @@ function showStep(id, dir) {
 
 function nextStep() {
   const id = currentId()
+
+  // Validate before hard stops and advancing
+  const errors = validateStep(id)
+  if (errors.length > 0) {
+    showError(errors[0])
+    return
+  }
 
   // Hard stops
   if (id === 'name') {
@@ -1029,11 +1291,31 @@ function nextStep() {
     }
   }
 
-  // Nitrate flag on drugs step
+  // Prescription nitrate hard stop
+  if (id === 'medications' && state.pathway === 'ed') {
+    const medsStep = document.getElementById('step-medications')
+    const rxNitrateChecked = ['nitrate-gtn','nitrate-ismn','nitrate-isdn','nitrate-nicorandil'].some(v =>
+      medsStep && medsStep.querySelector(`.check-card[data-value="${v}"].selected`)
+    )
+    if (rxNitrateChecked) {
+      showHardStop(
+        'We\'re not able to prescribe ED medication safely.',
+        'Nitrate medications and ED medications (sildenafil, tadalafil, vardenafil) cannot be used together — this combination can cause a dangerous drop in blood pressure. Please speak with your GP about other management options.'
+      )
+      return
+    }
+  }
+
+  // Recreational nitrate flag on drugs step (ED pathway)
   if (id === 'drugs' && state.pathway === 'ed') {
     const nitrateChecked = document.querySelector('.check-card[data-value="nitrates"].selected')
     const flag = document.getElementById('nitrate-flag')
-    if (nitrateChecked) { flag.classList.add('visible'); return } // stay on step, show flag
+    if (nitrateChecked) { flag.classList.add('visible'); return }
+  }
+
+  // Compute risk lane when ED consent is confirmed
+  if (id === 'ed-consent' && state.pathway === 'ed') {
+    state.riskLane = computeRiskLane()
   }
 
   if (state.stepIndex < steps().length - 1) {
@@ -1058,10 +1340,15 @@ function selectPathway(pathway) {
 function updateProgress() {
   const all = steps()
   const id  = currentId()
-  const total = all.length - 1
-  const pct = id === 'select' ? 0 : id === 'complete' ? 100 : Math.round((state.stepIndex / total) * 100)
+
+  // Time-weighted bar
+  const weights      = all.map(s => STEP_WEIGHTS[s] ?? 10)
+  const totalWeight  = weights.reduce((a, b) => a + b, 0)
+  const doneWeight   = weights.slice(0, state.stepIndex).reduce((a, b) => a + b, 0)
+  const pct = id === 'select' ? 0 : id === 'complete' ? 100 : Math.round((doneWeight / totalWeight) * 100)
   document.getElementById('progress-bar').style.width = pct + '%'
 
+  // Section label
   const labels = {
     select: '', name: 'About you', residency: 'Eligibility',
     address: 'Your details', identity: 'About you', gp: 'Your health team',
@@ -1078,7 +1365,14 @@ function updateProgress() {
     'hl-goals': 'Final questions', review: 'Review & submit', complete: 'Complete'
   }
   document.getElementById('progress-label').textContent = labels[id] || ''
-  document.getElementById('progress-fraction').textContent = (id !== 'select' && id !== 'complete') ? `${state.stepIndex} of ${total}` : ''
+
+  let milestone = ''
+  if (id !== 'select' && id !== 'complete') {
+    if (pct >= 85)      milestone = 'Last few questions'
+    else if (pct >= 65) milestone = 'Almost done'
+    else if (pct >= 40) milestone = 'Halfway there'
+  }
+  document.getElementById('progress-fraction').textContent = milestone
 }
 
 function updateNav() {
@@ -1134,10 +1428,10 @@ function getRadioLabel(name) {
   return clone.textContent.trim()
 }
 
-function getCheckedLabels(stepId) {
-  const step = document.getElementById('step-' + stepId)
-  if (!step) return []
-  return Array.from(step.querySelectorAll('.check-card.selected')).map(c => {
+function getCheckedLabelsIn(containerId) {
+  const container = document.getElementById(containerId)
+  if (!container) return []
+  return Array.from(container.querySelectorAll('.check-card.selected')).map(c => {
     const labelEl = c.querySelector('.check-label')
     if (!labelEl) return ''
     const clone = labelEl.cloneNode(true)
@@ -1145,6 +1439,10 @@ function getCheckedLabels(stepId) {
     if (sub) sub.remove()
     return clone.textContent.trim()
   }).filter(Boolean)
+}
+
+function getCheckedLabels(stepId) {
+  return getCheckedLabelsIn('step-' + stepId)
 }
 
 function getScaleVal(name) {
@@ -1178,6 +1476,129 @@ function rvSection(title, editId, rows) {
   return `<div class="rv-section"><div class="rv-header"><span class="rv-title">${title}</span><button class="rv-edit" onclick="goToStep('${editId}')">Edit</button></div><div class="rv-body">${body}</div></div>`
 }
 
+/* ══════════════════════════════════════
+   RISK STRATIFICATION (ED pathway)
+══════════════════════════════════════ */
+function computeRiskLane() {
+  if (state.pathway !== 'ed') return null
+  const dob = document.getElementById('dob')?.value
+  const age = dob ? getAge(dob) : 0
+  const medStep = document.getElementById('step-medical')
+  const has = v => !!(medStep?.querySelector(`.check-card[data-value="${v}"].selected`))
+  const chestPain = getRadio('q-chest')
+  const phq1 = parseInt(getRadio('q-phq1') || '0')
+  const phq2 = parseInt(getRadio('q-phq2') || '0')
+  const selfHarm = getRadio('q-selfharm')
+  const libido = getRadio('q-ed-libido')
+  const morning = getRadio('q-ed-morning')
+  const gradual = getRadio('q-ed-gradual')
+  // Red: serious safety signals
+  if (chestPain === 'yes') return 'red'
+  if (has('heart-attack') || has('stroke')) return 'red'
+  if ((phq1 + phq2 >= 4) && selfHarm === 'yes') return 'red'
+  if (libido === 'no-interest' && morning === 'never' && gradual === 'gradual') return 'red'
+  // Amber: age or cardiometabolic risk factors warrant video check-in
+  if (age >= 40) return 'amber'
+  if (has('high-bp') || has('diabetes') || has('cholesterol') || has('angina')) return 'amber'
+  return 'green'
+}
+
+function getRedFlags() {
+  const flags = []
+  const medStep = document.getElementById('step-medical')
+  const has = v => !!(medStep?.querySelector(`.check-card[data-value="${v}"].selected`))
+  if (getRadio('q-chest') === 'yes') flags.push('Regular chest pain or breathlessness during physical activity or exertion')
+  if (has('heart-attack')) flags.push('History of heart attack or heart failure')
+  if (has('stroke')) flags.push('History of stroke or TIA')
+  const phq1 = parseInt(getRadio('q-phq1') || '0')
+  const phq2 = parseInt(getRadio('q-phq2') || '0')
+  if ((phq1 + phq2 >= 4) && getRadio('q-selfharm') === 'yes') {
+    flags.push('Significant psychological distress indicated — recommend mental health support review')
+  }
+  if (getRadio('q-ed-libido') === 'no-interest' && getRadio('q-ed-morning') === 'never' && getRadio('q-ed-gradual') === 'gradual') {
+    flags.push('Clinical profile consistent with possible hypogonadism — hormone panel recommended before prescribing')
+  }
+  return flags.length > 0 ? flags : ['Clinical assessment indicated further in-person evaluation']
+}
+
+/* ══════════════════════════════════════
+   COMPLETION SCREEN
+══════════════════════════════════════ */
+function buildComplete() {
+  const lane = state.riskLane
+  const firstName = inp('first-name') || 'there'
+  const dob = inp('dob')
+  const container = document.getElementById('complete-content')
+  if (!container) return
+
+  if (lane === 'green') {
+    container.innerHTML = `
+      <div class="text-center py-8">
+        <div class="w-16 h-16 rounded-full bg-sage border border-sage flex items-center justify-center mx-auto mb-8">
+          <svg width="24" height="20" fill="none" viewBox="0 0 24 20"><path d="M2 10l7 8L22 2" stroke="#5E6B4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2 class="dp font-[380] tracking-[-0.03em] text-[34px] leading-[1.15] mb-4">That's everything.</h2>
+        <p class="text-[16px] leading-[1.7] text-ink-soft mb-3 max-w-[420px] mx-auto">A NZ-registered clinician will review your answers. We'll be in touch within one to two business days — no consult required.</p>
+        <p class="text-[14px] text-muted mb-10">Discreet packaging &ensp;·&ensp; No referral needed &ensp;·&ensp; 100% private</p>
+        <a href="../" class="inline-flex h-[48px] px-8 rounded-pill bg-ink text-page text-sm font-medium items-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Back to Arua</a>
+      </div>`
+  } else if (lane === 'amber') {
+    container.innerHTML = `
+      <div class="text-center py-8">
+        <div class="w-16 h-16 rounded-full bg-sage border border-sage flex items-center justify-center mx-auto mb-8">
+          <svg width="24" height="20" fill="none" viewBox="0 0 24 20"><path d="M2 10l7 8L22 2" stroke="#5E6B4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2 class="dp font-[380] tracking-[-0.03em] text-[34px] leading-[1.15] mb-4">That's everything.</h2>
+        <p class="text-[16px] leading-[1.7] text-ink-soft mb-3 max-w-[420px] mx-auto">A clinician has reviewed your answers and would like a brief video check-in before prescribing. You'll receive a booking link by email within one to two business days.</p>
+        <p class="text-[14px] text-muted mb-10">Discreet &ensp;·&ensp; 10–15 minutes &ensp;·&ensp; No referral needed</p>
+        <a href="../" class="inline-flex h-[48px] px-8 rounded-pill bg-ink text-page text-sm font-medium items-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Back to Arua</a>
+      </div>`
+  } else if (lane === 'red') {
+    const flags = getRedFlags()
+    const flagsHtml = flags.map(f => `<li class="text-[14px] leading-[1.6] text-ink-soft">${f}</li>`).join('')
+    const nameStr = [inp('first-name'), inp('last-name')].filter(Boolean).join(' ') || '—'
+    const dobStr = dob ? formatDob(dob) : '—'
+    container.innerHTML = `
+      <div class="py-8">
+        <div class="w-16 h-16 rounded-full border border-hairline flex items-center justify-center mx-auto mb-8" style="background:rgba(140,74,47,0.08);">
+          <svg width="22" height="22" fill="none" viewBox="0 0 22 22"><circle cx="11" cy="11" r="9" stroke="#8C4A2F" stroke-width="1.5"/><path d="M11 7v5M11 15v.5" stroke="#8C4A2F" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h2 class="dp font-[380] tracking-[-0.03em] text-[34px] leading-[1.15] mb-4 text-center">We'd like you to see your GP first.</h2>
+        <p class="text-[16px] leading-[1.7] text-ink-soft mb-6 max-w-[480px] mx-auto text-center">Based on your answers, we're not able to prescribe safely via telehealth at this time. We recommend speaking with your GP about the points below.</p>
+
+        <div class="p-5 rounded-[10px] border border-hairline-soft bg-page-alt mb-6 max-w-[520px] mx-auto print:border print:shadow-none">
+          <p class="text-[11px] font-mono tracking-[.12em] uppercase text-muted mb-3">GP Referral Summary</p>
+          <div class="mb-3 text-[13px] text-ink-soft space-y-1">
+            <p><span class="font-medium text-ink">Patient:</span> ${nameStr}</p>
+            <p><span class="font-medium text-ink">Date of birth:</span> ${dobStr}</p>
+            <p><span class="font-medium text-ink">Date:</span> ${new Date().toLocaleDateString('en-NZ', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+          </div>
+          <div class="border-t border-hairline-soft pt-3">
+            <p class="text-[12px] font-medium text-ink mb-2">Clinical considerations identified during Arua telehealth screening:</p>
+            <ul class="list-disc pl-4 space-y-1">${flagsHtml}</ul>
+          </div>
+        </div>
+
+        <div class="max-w-[520px] mx-auto text-center space-y-3">
+          <button onclick="window.print()" class="inline-flex h-[48px] px-8 rounded-pill border border-hairline text-sm font-medium text-ink items-center hover:border-ink transition-colors duration-150 focus-ring">Print this summary</button>
+          <div><a href="../" class="text-[14px] text-muted hover:text-ink transition-colors duration-150 underline underline-offset-4">Back to Arua</a></div>
+        </div>
+      </div>`
+  } else {
+    // Fallback — no pathway lane set
+    container.innerHTML = `
+      <div class="text-center py-8">
+        <div class="w-16 h-16 rounded-full bg-sage border border-sage flex items-center justify-center mx-auto mb-8">
+          <svg width="24" height="20" fill="none" viewBox="0 0 24 20"><path d="M2 10l7 8L22 2" stroke="#5E6B4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2 class="dp font-[380] tracking-[-0.03em] text-[34px] leading-[1.15] mb-4">That's everything.</h2>
+        <p class="text-[16px] leading-[1.7] text-ink-soft mb-3 max-w-[420px] mx-auto">A NZ-registered clinician will review your answers and be in touch within one to two business days.</p>
+        <p class="text-[14px] text-muted mb-10">Discreet packaging &ensp;·&ensp; No referral needed &ensp;·&ensp; 100% private</p>
+        <a href="../" class="inline-flex h-[48px] px-8 rounded-pill bg-ink text-page text-sm font-medium items-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Back to Arua</a>
+      </div>`
+  }
+}
+
 function buildReview() {
   const firstName = inp('first-name'), lastName = inp('last-name')
   const name     = [firstName, lastName].filter(Boolean).join(' ') || null
@@ -1188,11 +1609,9 @@ function buildReview() {
   const address  = [street, suburb, city].filter(Boolean).join(', ') || null
   const height   = inp('phys-height'), weight = inp('phys-weight')
   const hw       = (height || weight) ? `${height ? height+'cm' : '?'} / ${weight ? weight+'kg' : '?'}` : null
-  const meds     = inp('rx-meds')
-
-  const phq1v = getScaleVal('q-phq1'), phq2v = getScaleVal('q-phq2')
-  const phqScore = (phq1v !== null && phq2v !== null) ? phq1v + phq2v : null
-  const phqLabel = phqScore === null ? null : (phqScore >= 3 ? `${phqScore}/6 — may indicate elevated risk` : `${phqScore}/6 — low risk`)
+  const rxAnswer = getRadio('q-on-rx')
+  const rxMeds   = inp('rx-meds')
+  const rxDisplay = rxAnswer === 'no' ? 'None' : rxAnswer === 'yes' ? (rxMeds || 'Listed') : null
 
   const conditions = getCheckedLabels('medical')
   const drugs      = getCheckedLabels('drugs')
@@ -1217,39 +1636,41 @@ function buildReview() {
   html += rvSection('Health history', 'medical', [
     rvRow('Medical conditions', conditions.length ? conditions.join(', ') : 'None reported'),
     rvRow('Recreational substances', drugs.length ? drugs.join(', ') : 'None'),
-    rvRow('Medications', meds ? (meds.length > 80 ? meds.substring(0,80)+'…' : meds) : null),
+    rvRow('Prescription medications', rxDisplay),
   ])
 
-  if (phqLabel) html += rvSection('Wellbeing', 'mental', [ rvRow('PHQ-2 score', phqLabel) ])
-
   if (state.pathway === 'ed') {
-    const shimVals = ['q-shim1','q-shim2','q-shim3','q-shim4','q-shim5'].map(getScaleVal)
-    const shimTotal = shimVals.every(v => v !== null) ? shimVals.reduce((a,b) => a+b, 0) : null
-    const shimLabel = shimTotal === null ? null
-      : shimTotal >= 22 ? `${shimTotal}/25 — No ED`
-      : shimTotal >= 17 ? `${shimTotal}/25 — Mild ED`
-      : shimTotal >= 12 ? `${shimTotal}/25 — Mild to moderate ED`
-      : shimTotal >=  8 ? `${shimTotal}/25 — Moderate ED`
-      : `${shimTotal}/25 — Severe ED`
     const prevTx = getCheckedLabels('ed-treatment')
     html += rvSection('Erectile dysfunction', 'ed-shim-1', [
-      rvRow('SHIM score', shimLabel),
       rvRow('Onset', getRadioLabel('q-ed-onset')),
       rvRow('Progression', getRadioLabel('q-ed-gradual')),
       rvRow('Morning erections', getRadioLabel('q-ed-morning')),
+      rvRow('Libido', getRadioLabel('q-ed-libido')),
       prevTx.length ? rvRow('Previous treatment', prevTx.join(', ')) : null,
     ])
   }
 
   if (state.pathway === 'hair-loss') {
-    const nw     = document.querySelector('.norwood-card.selected')
-    const prevTx = getCheckedLabels('hl-treatment')
+    const nw          = document.querySelector('.norwood-card.selected')
+    const scalpSx     = getCheckedLabels('hl-progression').filter(l => !l.toLowerCase().startsWith('none'))
+    const familyHx    = getCheckedLabels('hl-family').filter(l => !l.toLowerCase().includes('don\'t know'))
+    const contacts    = getCheckedLabelsIn('hl-safety-contacts').filter(l => !l.toLowerCase().startsWith('none'))
+    const hlTxItems   = getCheckedLabelsIn('step-hl-treatment').filter(l => !l.toLowerCase().startsWith('none') && !['Reduced libido','Erectile difficulties','Mood changes or depression','Breast tenderness or enlargement','Symptoms that persisted after stopping'].includes(l))
+    const finSideEffects = getCheckedLabelsIn('hl-fin-se').filter(l => !l.toLowerCase().startsWith('none'))
     html += rvSection('Hair loss', 'hl-timing', [
       rvRow('Duration', getRadioLabel('q-hl-onset')),
       rvRow('Pattern', getRadioLabel('q-hl-pattern')),
       rvRow('Norwood stage', nw ? 'Stage ' + nw.dataset.value : null),
-      prevTx.length ? rvRow('Previous treatment', prevTx.join(', ')) : null,
+      rvRow('Progression', getRadioLabel('q-hl-speed')),
+      scalpSx.length ? rvRow('Scalp symptoms', scalpSx.join(', ')) : null,
+      familyHx.length ? rvRow('Family history', familyHx.join(', ')) : null,
+      hlTxItems.length ? rvRow('Previous treatment', hlTxItems.join(', ')) : null,
+      finSideEffects.length ? rvRow('Finasteride side effects', finSideEffects.join(', ')) : null,
       rvRow('Goal', getRadioLabel('q-hl-goal')),
+    ])
+    html += rvSection('Fertility & safety', 'hl-safety', [
+      rvRow('Trying to conceive', getRadioLabel('q-conceive')),
+      contacts.length ? rvRow('Household contacts', contacts.join(', ')) : null,
     ])
   }
 
@@ -1283,13 +1704,13 @@ function initCheckCards() {
   document.querySelectorAll('.check-card').forEach(card => {
     card.addEventListener('click', () => {
       const val = card.dataset.value
-      // "None" toggles off all others; others toggle off "none"
       const isNone = val && val.startsWith('none-')
-      const step   = card.closest('.step')
+      // Scope exclusivity to [data-check-group] if present, else the whole step
+      const scope = card.closest('[data-check-group]') || card.closest('.step')
       if (isNone) {
-        step.querySelectorAll('.check-card:not([data-value^="none-"])').forEach(c => c.classList.remove('selected'))
+        scope.querySelectorAll('.check-card:not([data-value^="none-"])').forEach(c => c.classList.remove('selected'))
       } else {
-        step.querySelectorAll('.check-card[data-value^="none-"]').forEach(c => c.classList.remove('selected'))
+        scope.querySelectorAll('.check-card[data-value^="none-"]').forEach(c => c.classList.remove('selected'))
       }
       card.classList.toggle('selected')
       // Conditional panels
@@ -1298,15 +1719,19 @@ function initCheckCards() {
         const panel = document.getElementById(shows)
         if (panel) card.classList.contains('selected') ? panel.classList.remove('hidden') : panel.classList.add('hidden')
       }
-      // Nitrate flag toggle (real-time)
+      // Recreational nitrate flag
       if (val === 'nitrates') {
         const flag = document.getElementById('nitrate-flag')
         if (flag) card.classList.contains('selected') ? flag.classList.add('visible') : flag.classList.remove('visible')
       }
-      // HL pattern flag
-      if (val === 'patches' || val === 'diffuse' || val === 'shedding') {
-        const flag = document.getElementById('hl-pattern-flag')
-        if (flag) flag.classList.add('visible')
+      // Prescription nitrate flag (real-time)
+      const rxNitrateVals = ['nitrate-gtn','nitrate-ismn','nitrate-isdn','nitrate-nicorandil']
+      if (rxNitrateVals.includes(val)) {
+        const flag = document.getElementById('rx-nitrate-flag')
+        if (flag) {
+          const anyRxNitrate = rxNitrateVals.some(v => document.querySelector(`.check-card[data-value="${v}"].selected`))
+          anyRxNitrate ? flag.classList.add('visible') : flag.classList.remove('visible')
+        }
       }
     })
   })
@@ -1339,6 +1764,16 @@ function initHLPatternFlag() {
   })
 }
 
+// Conceiving flag (finasteride counselling note)
+function initConceiveFlag() {
+  document.querySelectorAll('.radio-card[data-name="q-conceive"]').forEach(card => {
+    card.addEventListener('click', () => {
+      const flag = document.getElementById('conceive-flag')
+      if (flag) flag.classList.toggle('visible', card.dataset.value === 'yes')
+    })
+  })
+}
+
 /* ══════════════════════════════════════
    INIT
 ══════════════════════════════════════ */
@@ -1347,6 +1782,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCheckCards()
   initScaleBtns()
   initHLPatternFlag()
+  initConceiveFlag()
   showStep('select')
 
   const qnav = document.getElementById('qnav')
