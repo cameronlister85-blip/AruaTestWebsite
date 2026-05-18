@@ -2,8 +2,13 @@ node_modules/
 temporary screenshots/
 .claude/
 *.docx
+*.pdf
 tools/
 package.json
 package-lock.json
 serve.mjs
 screenshot.mjs
+brand_assets/
+CLAUDE.md
+Clinical Processes/
+portal/
