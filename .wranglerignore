@@ -1,0 +1,18 @@
+node_modules/
+.git/
+.claude/
+.wrangler/
+brand_assets/
+Clinical Processes/
+portal/
+questionnaire/
+tools/
+temporary screenshots/
+*.docx
+*.pdf
+*.xlsx
+*.mjs
+package.json
+package-lock.json
+wrangler.toml
+CLAUDE.md
