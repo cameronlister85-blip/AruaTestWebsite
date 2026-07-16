@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Find out if Arua is for you — Arua</title>
+  <meta name="description" content="A quick, anonymous suitability check. Choose what you'd like help with and answer a few questions. It takes about a minute." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,380;0,9..144,500;1,9..144,340;1,9..144,380&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            page:            '#F6F1E8',
+            'page-alt':      '#EDE5D8',
+            surface:         '#FFFFFF',
+            ink:             '#15140F',
+            'ink-soft':      '#3B3933',
+            muted:           '#8A867D',
+            hairline:        '#D9CFBF',
+            'hairline-soft': '#E5DCCC',
+            accent:          '#8C4A2F',
+            'accent-ink':    '#FFFFFF',
+            'accent-deep':   '#5C2E1A',
+            sage:            '#DCE3D2',
+            'sage-deep':     '#5E6B4F',
+          },
+          fontFamily: {
+            display: ['"Fraunces"', 'Georgia', 'serif'],
+            body:    ['"Inter Tight"', '-apple-system', 'system-ui', 'sans-serif'],
+            mono:    ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+          },
+          borderRadius: { pill: '999px', card: '6px' },
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    ::selection { background: #8C4A2F; color: #F6F1E8; }
+    .dp { font-family: 'Fraunces', Georgia, serif; font-feature-settings: "ss01" 1, "ss02" 1; }
+    .focus-ring:focus-visible { outline: 2px solid #8C4A2F; outline-offset: 2px; }
+
+    .choice-card {
+      display:block; padding:26px 28px; background:#FFFFFF;
+      border:1.5px solid #E5DCCC; border-radius:14px; text-decoration:none;
+      transition:border-color 160ms ease, background 160ms ease, transform 200ms cubic-bezier(.34,1.2,.64,1), box-shadow 200ms ease;
+    }
+    .choice-card:hover { border-color:#8C4A2F; background:rgba(140,74,47,.03); transform:translateY(-2px); box-shadow:0 3px 6px -2px rgba(140,74,47,.06), 0 14px 32px -12px rgba(21,20,15,.14); }
+    .choice-card:active { transform:translateY(0) scale(.99); }
+
+    .signpost {
+      display:flex; gap:10px; align-items:flex-start;
+      background:rgba(220,227,210,.55); border:1px solid #CBD6BC; border-radius:8px;
+      padding:12px 16px; margin-bottom:32px;
+      font-size:13px; line-height:1.6; color:#3B3933;
+    }
+
+    /* Ambient wash — depth without noise */
+    body::before {
+      content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
+      background:
+        radial-gradient(900px 480px at 88% -10%, rgba(234,217,196,.5), transparent 65%),
+        radial-gradient(760px 420px at -12% 110%, rgba(220,227,210,.45), transparent 62%);
+    }
+
+    /* Side photo (desktop) — stretches to match the content column */
+    .photo-side { position:relative; border-radius:18px; overflow:hidden; height:100%; min-height:560px; }
+    .photo-side img { width:100%; height:100%; object-fit:cover; display:block; }
+    .photo-side::before {
+      content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
+      background:rgba(140,74,47,.12); mix-blend-mode:multiply;
+    }
+    .photo-side::after {
+      content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
+      background:linear-gradient(to top, rgba(21,20,15,.42), transparent 52%);
+    }
+    .photo-side-caption {
+      position:absolute; left:22px; right:22px; bottom:20px; z-index:2;
+      display:flex; gap:9px; align-items:center; flex-wrap:wrap;
+      font-family:'JetBrains Mono',ui-monospace,monospace;
+      font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+      color:rgba(246,241,232,.92);
+    }
+
+    /* ── Governance draft marker (remove at clinical sign-off) ── */
+    .draft-badge {
+      position:fixed; bottom:12px; right:12px; z-index:70;
+      font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+      color:#8A867D; background:rgba(246,241,232,.92); border:1px solid #D9CFBF; border-radius:999px;
+      padding:5px 12px; pointer-events:none;
+    }
+  </style>
+</head>
+<body class="bg-page text-ink font-body antialiased">
+
+<nav class="sticky top-0 z-40 bg-page/[.88] backdrop-blur-xl backdrop-saturate-150 border-b border-hairline-soft">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-[68px] flex items-center justify-between">
+    <a href="../../" class="dp font-[380] text-[52px] leading-none tracking-[-0.035em] text-ink focus-ring rounded-sm">arua</a>
+    <a href="../../" class="text-sm text-muted hover:text-ink transition-colors duration-150 focus-ring rounded-sm">← Back to Arua</a>
+  </div>
+</nav>
+
+<main class="min-h-[calc(100vh-68px)] pb-28">
+<div class="max-w-[1100px] mx-auto px-8 lg:px-16 pt-14 lg:pt-16 lg:grid lg:grid-cols-[minmax(0,560px)_minmax(0,380px)] lg:justify-between lg:gap-x-16">
+
+<div>
+  <p class="font-mono text-[11px] tracking-[.18em] uppercase text-muted mb-3">Suitability check</p>
+  <h1 class="dp font-[380] tracking-[-0.03em] text-[34px] md:text-[38px] leading-[1.12] mb-4">Find out if Arua is for you.</h1>
+  <p class="text-[15px] leading-[1.7] text-ink-soft mb-7">Choose what you'd like help with. A few quick questions check whether an online pathway is a safe, sensible fit, and if it isn't, we'll tell you straight and point you somewhere better.</p>
+
+  <div class="signpost">
+    <svg width="15" height="15" fill="none" viewBox="0 0 15 15" style="flex-shrink:0; margin-top:2px;"><circle cx="7.5" cy="7.5" r="6.75" stroke="#5E6B4F" stroke-width="1.2"/><path d="M5 7.8l1.8 1.8 3.2-3.6" stroke="#5E6B4F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>This quick check is anonymous. No account, no card, and nothing saved to a health record. Just a few questions to see whether this pathway is right for you. It takes about a minute.</span>
+  </div>
+
+  <div class="flex flex-col gap-4">
+    <a href="ed-screening.html" class="choice-card focus-ring">
+      <div class="flex items-center justify-between gap-6">
+        <div>
+          <p class="font-mono text-[10px] tracking-[.14em] uppercase text-sage-deep mb-2">Sexual health</p>
+          <p class="dp font-[380] tracking-[-0.03em] text-[22px] leading-[1.2] text-ink mb-1.5">Erectile dysfunction</p>
+          <p class="text-[13px] leading-[1.6] text-muted">Twelve questions on safety and suitability. Private and confidential.</p>
+        </div>
+        <span class="text-ink text-[20px] shrink-0">→</span>
+      </div>
+    </a>
+
+    <a href="hair-loss-screening.html" class="choice-card focus-ring">
+      <div class="flex items-center justify-between gap-6">
+        <div>
+          <p class="font-mono text-[10px] tracking-[.14em] uppercase text-sage-deep mb-2">Hair loss</p>
+          <p class="dp font-[380] tracking-[-0.03em] text-[22px] leading-[1.2] text-ink mb-1.5">Male pattern hair loss</p>
+          <p class="text-[13px] leading-[1.6] text-muted">Ten questions on pattern, scalp health and suitability. Private and confidential.</p>
+        </div>
+        <span class="text-ink text-[20px] shrink-0">→</span>
+      </div>
+    </a>
+  </div>
+
+</div>
+
+<aside class="hidden lg:block">
+  <div class="photo-side">
+    <img src="../../Images/web/raglan-2.jpg" alt="" loading="lazy" decoding="async" />
+    <div class="photo-side-caption">
+      <span>Anonymous</span><span aria-hidden="true">&#183;</span><span>No account</span><span aria-hidden="true">&#183;</span><span>About a minute</span>
+    </div>
+  </div>
+</aside>
+
+  <p class="text-[13px] leading-[1.6] text-muted mt-10">Not ready yet? <a href="../../index.html#early-access" class="underline underline-offset-2 hover:text-ink-soft transition-colors duration-150 focus-ring rounded-sm">Sign up for updates</a> and we'll let you know when Arua opens.</p>
+
+</div>
+</main>
+
+<!-- Governance status marker — remove at clinical sign-off -->
+<div class="draft-badge">Draft · question bank v0.2 · not clinically signed off</div>
+
+</body>
+</html>

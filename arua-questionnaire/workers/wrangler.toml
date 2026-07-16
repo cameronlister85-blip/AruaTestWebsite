@@ -1,0 +1,11 @@
+name = "arua-form-submit"
+main = "form-submit.js"
+compatibility_date = "2025-01-01"
+
+# Secrets are set separately via the CLI — never put real values here:
+#   wrangler secret put AIRTABLE_TOKEN
+#   wrangler secret put AIRTABLE_BASE_ID
+#
+# After deploying, the Worker URL will look like:
+#   https://arua-form-submit.<your-subdomain>.workers.dev
+# Paste that URL into ed-screening.html where marked WORKER_URL.

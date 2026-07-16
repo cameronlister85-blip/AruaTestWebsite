@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /questionnaire/
+
+Sitemap: https://www.arua.co.nz/sitemap.xml

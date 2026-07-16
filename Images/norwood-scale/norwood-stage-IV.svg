@@ -1,0 +1,8 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title">
+  <title>Norwood Stage IV</title>
+  <rect width="320" height="320" rx="32" fill="#F6F1E8"/>
+  <path d="M80 110 C80 80 115 55 160 55 C205 55 240 80 240 110 C260 140 260 210 240 240 C220 270 100 270 80 240 C60 210 60 140 80 110 Z" fill="#F6F1E8" stroke="#15140F" stroke-width="10"/>
+  <path d="M84 120 C100 90 130 74 160 74 C190 74 220 90 236 120 C236 145 220 160 208 165 C190 170 170 170 160 170 C150 170 130 170 112 165 C100 160 84 145 84 120 Z" fill="#15140F"/>
+  <path d="M124 100 C132 86 145 78 160 78 C175 78 188 86 196 100" fill="none" stroke="#F6F1E8" stroke-width="24" stroke-linecap="round"/>
+  <ellipse cx="160" cy="140" rx="26" ry="18" fill="#F6F1E8"/>
+</svg>

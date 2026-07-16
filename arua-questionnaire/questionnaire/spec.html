@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Arua — Questionnaire Spec</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter Tight', 'Inter', system-ui, sans-serif; font-size: 14px; line-height: 1.6; color: #15140F; background: #F6F1E8; padding: 48px 24px 80px; }
+  .page { max-width: 860px; margin: 0 auto; }
+
+  /* Typography */
+  h1 { font-family: Georgia, 'Times New Roman', serif; font-size: 36px; font-weight: 400; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 8px; }
+  h2 { font-family: Georgia, 'Times New Roman', serif; font-size: 22px; font-weight: 400; letter-spacing: -0.02em; margin: 48px 0 16px; padding-bottom: 8px; border-bottom: 2px solid #15140F; }
+  h3 { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8C4A2F; margin: 28px 0 10px; }
+  h4 { font-size: 14px; font-weight: 600; color: #15140F; margin: 18px 0 6px; }
+  p { color: #5A5750; margin-bottom: 6px; }
+
+  /* Meta */
+  .meta { font-size: 12px; color: #8A867D; font-family: 'JetBrains Mono', 'Courier New', monospace; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+  .doc-meta { border-top: 1px solid #D9CFBF; border-bottom: 1px solid #D9CFBF; padding: 12px 0; margin: 20px 0 0; display: flex; gap: 32px; }
+
+  /* TOC */
+  .toc { background: #fff; border: 1px solid #D9CFBF; border-radius: 8px; padding: 20px 24px; margin: 32px 0; }
+  .toc-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8A867D; margin-bottom: 12px; }
+  .toc a { color: #15140F; text-decoration: none; display: block; padding: 2px 0; font-size: 13px; }
+  .toc a:hover { color: #8C4A2F; }
+  .toc-section { margin-top: 8px; padding-top: 8px; border-top: 1px solid #EDE8DE; }
+  .toc-sub { padding-left: 14px; color: #8A867D; font-size: 12px; }
+
+  /* Steps */
+  .step-block { background: #fff; border: 1px solid #D9CFBF; border-radius: 8px; margin-bottom: 12px; overflow: hidden; }
+  .step-header { padding: 14px 18px; border-bottom: 1px solid #EDE8DE; display: flex; align-items: baseline; gap: 12px; }
+  .step-id { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 11px; color: #8A867D; letter-spacing: 0.08em; white-space: nowrap; }
+  .step-title { font-size: 15px; font-weight: 500; color: #15140F; }
+  .step-eyebrow { font-size: 11px; color: #8A867D; letter-spacing: 0.06em; text-transform: uppercase; margin-left: auto; white-space: nowrap; }
+  .step-body { padding: 14px 18px; }
+  .step-hint { font-size: 12px; color: #8A867D; margin-bottom: 10px; font-style: italic; }
+
+  /* Questions */
+  .q-block { margin-bottom: 14px; }
+  .q-label { font-size: 12px; font-weight: 600; color: #5A5750; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 5px; }
+  .options { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+  .opt { background: #F6F1E8; border: 1px solid #D9CFBF; border-radius: 20px; padding: 3px 11px; font-size: 12px; color: #15140F; white-space: nowrap; }
+  .opt-check { border-radius: 5px; }
+  .opt-text { border-radius: 5px; background: #EDE8DE; font-style: italic; color: #8A867D; }
+
+  /* Flags / stops */
+  .flag { background: rgba(140,74,47,0.07); border: 1px solid rgba(140,74,47,0.2); border-radius: 6px; padding: 8px 12px; font-size: 12px; color: #8C4A2F; margin-top: 8px; }
+  .flag strong { font-weight: 600; }
+  .hardstop { background: rgba(140,74,47,0.12); border: 1px solid rgba(140,74,47,0.3); border-radius: 6px; padding: 8px 12px; font-size: 12px; color: #8C4A2F; margin-top: 8px; }
+  .hardstop::before { content: "⛔ HARD STOP — "; font-weight: 700; }
+  .note { background: #F0EDE6; border-left: 3px solid #D9CFBF; padding: 6px 10px; font-size: 12px; color: #8A867D; margin-top: 6px; border-radius: 0 4px 4px 0; }
+
+  /* Validation */
+  .validation { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #D9CFBF; }
+  .val-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #B0A99E; margin-bottom: 4px; }
+  .val-item { font-size: 12px; color: #8A867D; padding-left: 10px; }
+  .val-item::before { content: "· "; }
+
+  /* Risk table */
+  .risk-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+  .risk-table th { text-align: left; padding: 8px 12px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A867D; border-bottom: 2px solid #D9CFBF; }
+  .risk-table td { padding: 9px 12px; border-bottom: 1px solid #EDE8DE; vertical-align: top; }
+  .risk-table tr:last-child td { border-bottom: none; }
+  .lane-green { color: #4A7C5E; font-weight: 600; }
+  .lane-amber { color: #B07B2A; font-weight: 600; }
+  .lane-red   { color: #8C4A2F; font-weight: 600; }
+
+  /* Completion */
+  .complete-card { border: 1px solid #D9CFBF; border-radius: 8px; padding: 16px 20px; margin-bottom: 10px; background: #fff; }
+  .complete-lane { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+  .complete-title { font-size: 16px; font-weight: 500; color: #15140F; margin-bottom: 6px; }
+  .complete-body { font-size: 13px; color: #5A5750; }
+
+  /* Print */
+  @media print {
+    body { background: #fff; padding: 24px; }
+    .step-block, .toc, .complete-card { break-inside: avoid; }
+    h2 { break-before: page; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <p class="meta">Arua · Internal document</p>
+  <h1>Questionnaire Spec</h1>
+  <div class="doc-meta">
+    <span class="meta">Version &nbsp;0.1-dev</span>
+    <span class="meta">Generated &nbsp;19 May 2026</span>
+    <span class="meta">Branch &nbsp;feature/questionnaire</span>
+    <span class="meta">Status &nbsp;Draft — not for clinical use</span>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <a href="#common">Common pathway (all users)</a>
+    <div class="toc-section">
+      <a href="#ed">Erectile dysfunction pathway</a>
+      <div class="toc-sub"><a href="#ed-shim" class="toc-sub">SHIM assessment (Q1–5)</a></div>
+      <div class="toc-sub"><a href="#ed-clinical" class="toc-sub">Clinical questions</a></div>
+      <div class="toc-sub"><a href="#ed-consent" class="toc-sub">Consent</a></div>
+    </div>
+    <div class="toc-section">
+      <a href="#hl">Hair loss pathway</a>
+    </div>
+    <div class="toc-section">
+      <a href="#risk">Risk stratification</a>
+      <a href="#completion">Completion screens</a>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════ -->
+  <h2 id="common">Common pathway — all users</h2>
+  <p style="margin-bottom:16px;">All 12 steps below are shown to every user regardless of pathway, in the order listed.</p>
+
+  <!-- SELECT -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">select</span>
+      <span class="step-title">Pathway selection</span>
+    </div>
+    <div class="step-body">
+      <div class="q-block">
+        <div class="q-label">Question</div>
+        <p>What would you like help with today?</p>
+        <div class="options">
+          <span class="opt">Erectile dysfunction → ED pathway</span>
+          <span class="opt">Hair loss → HL pathway</span>
+        </div>
+      </div>
+      <div class="note">Selection auto-advances. No back navigation from step 1.</div>
+    </div>
+  </div>
+
+  <!-- NAME -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">name</span>
+      <span class="step-title">What's your name, and when were you born?</span>
+      <span class="step-eyebrow">About you</span>
+    </div>
+    <div class="step-body">
+      <div class="step-hint">Required to confirm eligibility and verify your identity with our clinical team.</div>
+      <div class="q-block">
+        <div class="q-label">Fields</div>
+        <div class="options">
+          <span class="opt opt-text">First name</span>
+          <span class="opt opt-text">Last name</span>
+          <span class="opt opt-text">Date of birth</span>
+          <span class="opt opt-text">Email address</span>
+        </div>
+      </div>
+      <div class="hardstop">Age &lt; 18 on DOB → "Arua is for men over 18 living in New Zealand. If you're under 18 and have a health concern, please speak with your GP or call Healthline on 0800 611 116."</div>
+      <div class="validation">
+        <div class="val-label">Required</div>
+        <div class="val-item">All four fields must be completed</div>
+        <div class="val-item">Email must contain @</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESIDENCY -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">residency</span>
+      <span class="step-title">Are you currently in New Zealand, and is NZ your usual country of residence?</span>
+      <span class="step-eyebrow">Eligibility</span>
+    </div>
+    <div class="step-body">
+      <div class="step-hint">Our clinicians are registered to prescribe in New Zealand only.</div>
+      <div class="options">
+        <span class="opt">Yes — I'm in NZ and it's where I live</span>
+        <span class="opt">No</span>
+      </div>
+      <div class="hardstop">No → "Arua is for New Zealand residents. Our clinicians are registered to prescribe in New Zealand only."</div>
+      <div class="note">Both options auto-advance.</div>
+    </div>
+  </div>
+
+  <!-- ADDRESS -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">address</span>
+      <span class="step-title">Where would you like your medication delivered?</span>
+      <span class="step-eyebrow">Your details</span>
+    </div>
+    <div class="step-body">
+      <div class="step-hint">Home, work, or PO box.</div>
+      <div class="options">
+        <span class="opt opt-text">Street address</span>
+        <span class="opt opt-text">Suburb (optional)</span>
+        <span class="opt opt-text">City</span>
+        <span class="opt opt-text">Phone number</span>
+      </div>
+      <div class="validation">
+        <div class="val-label">Required</div>
+        <div class="val-item">Street address, city, phone number</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IDENTITY -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">identity</span>
+      <span class="step-title">What sex were you assigned at birth?</span>
+      <span class="step-eyebrow">About you</span>
+    </div>
+    <div class="step-body">
+      <div class="step-hint">Affects how some medications work and ensures the right clinical assessment.</div>
+      <div class="q-block">
+        <div class="q-label">Biological sex</div>
+        <div class="options">
+          <span class="opt">Male</span>
+          <span class="opt">Female</span>
+          <span class="opt">Intersex</span>
+          <span class="opt">Prefer not to say</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Gender identity (optional)</div>
+        <div class="options"><span class="opt opt-text">Free text</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GP -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">gp</span>
+      <span class="step-title">Do you have a regular GP?</span>
+      <span class="step-eyebrow">Your health team</span>
+    </div>
+    <div class="step-body">
+      <div class="step-hint">Arua isn't a replacement for your GP. We'll ask if you'd like us to keep them in the loop.</div>
+      <div class="options">
+        <span class="opt">Yes → reveals GP sharing question</span>
+        <span class="opt">No</span>
+        <span class="opt">Prefer not to say</span>
+      </div>
+      <div class="q-block" style="margin-top:10px;">
+        <div class="q-label">If Yes — GP sharing (conditional)</div>
+        <div class="options">
+          <span class="opt">Yes — my GP is [free text: name/clinic]</span>
+          <span class="opt">No, keep this separate</span>
+        </div>
+      </div>
+      <div class="validation">
+        <div class="val-label">Required</div>
+        <div class="val-item">GP question must be answered</div>
+        <div class="val-item">If Yes, GP sharing question must also be answered</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHYSICAL -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">physical</span>
+      <span class="step-title">A few quick questions about your health and lifestyle.</span>
+      <span class="step-eyebrow">Your health</span>
+    </div>
+    <div class="step-body">
+      <div class="step-hint">Used to assess cardiovascular risk and medication suitability.</div>
+      <div class="q-block">
+        <div class="q-label">Measurements</div>
+        <div class="options">
+          <span class="opt opt-text">Height (cm)</span>
+          <span class="opt opt-text">Weight (kg)</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Smoking</div>
+        <div class="options">
+          <span class="opt">Never smoked</span>
+          <span class="opt">Former smoker</span>
+          <span class="opt">Current smoker → reveals cigarettes/day field</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Alcohol (standard drinks/week)</div>
+        <div class="options">
+          <span class="opt">0 — I don't drink</span>
+          <span class="opt">1–5</span>
+          <span class="opt">6–14</span>
+          <span class="opt">15 or more</span>
+        </div>
+      </div>
+      <div class="validation">
+        <div class="val-label">Required</div>
+        <div class="val-item">Height, weight, smoking, alcohol</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRUGS -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">drugs</span>
+      <span class="step-title">Do you use recreational drugs?</span>
+      <span class="step-eyebrow">Your health</span>
+    </div>
+    <div class="step-body">
+      <div class="step-hint">Some substances interact with medications we may prescribe. Private. Select all that apply.</div>
+      <div class="options">
+        <span class="opt opt-check">Nitrates ("poppers") — amyl/butyl nitrate</span>
+        <span class="opt opt-check">Cocaine</span>
+        <span class="opt opt-check">Methamphetamine</span>
+        <span class="opt opt-check">MDMA / ecstasy</span>
+        <span class="opt opt-check">GHB</span>
+        <span class="opt opt-check">Cannabis</span>
+        <span class="opt opt-check">Other</span>
+        <span class="opt opt-check">None of the above</span>
+      </div>
+      <div class="flag"><strong>ED pathway only:</strong> If Nitrates selected — flag shown and progression blocked: "Nitrates are an absolute contraindication with the medications commonly used for ED. Your clinician will review this with you." User must acknowledge before continuing.</div>
+      <div class="validation">
+        <div class="val-label">Required</div>
+        <div class="val-item">At least one option must be selected</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDICAL -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">medical</span>
+      <span class="step-title">Have you ever been diagnosed with any of the following?</span>
+      <span class="step-eyebrow">Health history</span>
+    </div>
+    <div class="step-body">
+      <div class="step-hint">Select all that apply. Helps clinician assess medication safety.</div>
+      <div class="options">
+        <span class="opt opt-check">Heart attack or heart failure</span>
+        <span class="opt opt-check">Stroke or TIA</span>
+        <span class="opt opt-check">Angina or chest pain on exertion</span>
+        <span class="opt opt-check">Irregular heart rhythm (arrhythmia)</span>
+        <span class="opt opt-check">High blood pressure</span>
+        <span class="opt opt-check">Low blood pressure or fainting</span>
+        <span class="opt opt-check">High cholesterol</span>
+        <span class="opt opt-check">Diabetes (type 1 or 2)</span>
+        <span class="opt opt-check">Kidney disease</span>
+        <span class="opt opt-check">Liver disease</span>
+        <span class="opt opt-check">Cancer (any type, current or previous)</span>
+        <span class="opt opt-check">None of the above</span>
+      </div>
+      <div class="note">Selected conditions feed directly into ED risk lane computation (heart attack, stroke, high BP, diabetes, cholesterol, angina).</div>
+    </div>
+  </div>
+
+  <!-- CARDIO -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">cardio</span>
+      <span class="step-title">A few more questions about your cardiovascular health.</span>
+      <span class="step-eyebrow">Heart health</span>
+    </div>
+    <div class="step-body">
+      <div class="step-hint">Help clinician assess whether treatment is appropriate.</div>
+      <div class="q-block">
+        <div class="q-label">Heart surgery or procedures</div>
+        <div class="options">
+          <span class="opt">No</span>
+          <span class="opt">Yes → free text: when + procedure</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Symptoms during activity or sex (chest pain, breathlessness, dizziness)</div>
+        <div class="options">
+          <span class="opt">No</span>
+          <span class="opt">Sometimes</span>
+          <span class="opt">Yes, regularly → ED Red lane trigger</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Most recent BP reading (optional)</div>
+        <div class="options"><span class="opt opt-text">Free text e.g. 128/82</span></div>
+      </div>
+      <div class="validation">
+        <div class="val-label">Required</div>
+        <div class="val-item">Heart surgery and chest pain questions must be answered</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDICATIONS -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">medications</span>
+      <span class="step-title">A few questions about medications.</span>
+      <span class="step-eyebrow">Medications</span>
+    </div>
+    <div class="step-body">
+      <div class="step-hint">Helps clinician check for interactions and contraindications.</div>
+      <div class="q-block">
+        <div class="q-label">Prescription medications</div>
+        <div class="options">
+          <span class="opt">Yes → reveals free-text list (required)</span>
+          <span class="opt">No prescription medications</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">OTC / supplements / herbal (optional)</div>
+        <div class="options"><span class="opt opt-text">Free text</span></div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Medication allergies (optional)</div>
+        <div class="options"><span class="opt opt-text">Free text</span></div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Previous adverse reactions (optional)</div>
+        <div class="options"><span class="opt opt-text">Free text</span></div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Nitrate medications (ED contraindication check)</div>
+        <div class="options">
+          <span class="opt opt-check">GTN spray/tablet (Nitrolingual, Anginine, Lycinate)</span>
+          <span class="opt opt-check">Isosorbide mononitrate (Imdur, Monodur)</span>
+          <span class="opt opt-check">Isosorbide dinitrate (Isordil)</span>
+          <span class="opt opt-check">Nicorandil (Ikorel)</span>
+          <span class="opt opt-check">None of these</span>
+        </div>
+      </div>
+      <div class="hardstop">ED pathway: If any prescription nitrate selected → "We're not able to prescribe ED medication safely. Nitrate medications and ED medications cannot be used together — this combination can cause a dangerous drop in blood pressure. Please speak with your GP about other management options."</div>
+      <div class="validation">
+        <div class="val-label">Required</div>
+        <div class="val-item">Prescription medication yes/no must be answered</div>
+        <div class="val-item">If yes, medication list must be provided</div>
+        <div class="val-item">Nitrate medication question must be answered (any option)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MENTAL -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">mental</span>
+      <span class="step-title">How have you been feeling over the last two weeks?</span>
+      <span class="step-eyebrow">Wellbeing</span>
+    </div>
+    <div class="step-body">
+      <div class="step-hint">Standard PHQ-2 questions used by clinicians to understand overall health picture.</div>
+      <div class="q-block">
+        <div class="q-label">PHQ-2 Q1 — Feeling down, depressed, or hopeless (over 2 weeks)</div>
+        <div class="options">
+          <span class="opt">0 — Not at all</span>
+          <span class="opt">1 — Several days</span>
+          <span class="opt">2 — More than half the days</span>
+          <span class="opt">3 — Nearly every day</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">PHQ-2 Q2 — Little interest or pleasure in doing things (over 2 weeks)</div>
+        <div class="options">
+          <span class="opt">0 — Not at all</span>
+          <span class="opt">1 — Several days</span>
+          <span class="opt">2 — More than half the days</span>
+          <span class="opt">3 — Nearly every day</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Self-harm (past month)</div>
+        <div class="options">
+          <span class="opt">No</span>
+          <span class="opt">Yes → ED Red lane trigger if PHQ-2 ≥ 4</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Mental health treatment (optional)</div>
+        <div class="options"><span class="opt opt-text">Free text</span></div>
+      </div>
+      <div class="note">PHQ-2 scoring: sum of Q1 + Q2. Score ≥ 3 indicates possible depression. Score ≥ 4 combined with self-harm "yes" triggers ED Red lane.</div>
+      <div class="validation">
+        <div class="val-label">Required</div>
+        <div class="val-item">Both PHQ-2 questions and self-harm question must be answered</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════ -->
+  <h2 id="ed">Erectile dysfunction pathway</h2>
+  <p style="margin-bottom:16px;">Shown after the 12 common steps when user selects Erectile dysfunction. Steps in order: SHIM intro → SHIM Q1–5 → Context → Treatment → Safety → Lifestyle → Consent → Review → Complete.</p>
+
+  <h3 id="ed-shim">SHIM assessment (Sexual Health Inventory for Men)</h3>
+
+  <!-- SHIM INTRO -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">ed-shim-intro</span>
+      <span class="step-title">SHIM introduction</span>
+      <span class="step-eyebrow">Sexual health</span>
+    </div>
+    <div class="step-body">
+      <p>"The next five questions are part of a standard clinical assessment for ED." Explains SHIM, timeframe (past 6 months), asks for honesty. Informational only — no answers required, Continue advances.</p>
+    </div>
+  </div>
+
+  <!-- SHIM Q1-5 -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">ed-shim-1</span>
+      <span class="step-title">Q1: How do you rate your confidence that you could get and keep an erection?</span>
+      <span class="step-eyebrow">Q1 of 5</span>
+    </div>
+    <div class="step-body">
+      <div class="options">
+        <span class="opt">1 — Very low</span><span class="opt">2 — Low</span><span class="opt">3 — Moderate</span><span class="opt">4 — High</span><span class="opt">5 — Very high</span>
+      </div>
+      <div class="note">Scale input (1–5). Score contributes to SHIM total (max 25). SHIM 1–7 = severe ED; 8–11 = moderate; 12–16 = mild-moderate; 17–21 = mild; 22–25 = no ED.</div>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">ed-shim-2</span>
+      <span class="step-title">Q2: When you had erections with sexual stimulation, how often were your erections hard enough for penetration?</span>
+      <span class="step-eyebrow">Q2 of 5</span>
+    </div>
+    <div class="step-body">
+      <div class="options">
+        <span class="opt">0 — No sexual activity</span><span class="opt">1 — Almost never/never</span><span class="opt">2 — A few times (&lt;half)</span><span class="opt">3 — Sometimes (~half)</span><span class="opt">4 — Most times (&gt;half)</span><span class="opt">5 — Almost always/always</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">ed-shim-3</span>
+      <span class="step-title">Q3: During intercourse, how often were you able to maintain your erection after penetration?</span>
+      <span class="step-eyebrow">Q3 of 5</span>
+    </div>
+    <div class="step-body">
+      <div class="options">
+        <span class="opt">0 — Did not attempt</span><span class="opt">1 — Almost never</span><span class="opt">2 — A few times</span><span class="opt">3 — Sometimes</span><span class="opt">4 — Most times</span><span class="opt">5 — Almost always</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">ed-shim-4</span>
+      <span class="step-title">Q4: During intercourse, how difficult was it to maintain your erection to completion?</span>
+      <span class="step-eyebrow">Q4 of 5</span>
+    </div>
+    <div class="step-body">
+      <div class="options">
+        <span class="opt">0 — Did not attempt</span><span class="opt">1 — Extremely difficult</span><span class="opt">2 — Very difficult</span><span class="opt">3 — Difficult</span><span class="opt">4 — Slightly difficult</span><span class="opt">5 — Not difficult</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">ed-shim-5</span>
+      <span class="step-title">Q5: When you attempted intercourse, how often was it satisfactory for you?</span>
+      <span class="step-eyebrow">Q5 of 5</span>
+    </div>
+    <div class="step-body">
+      <div class="options">
+        <span class="opt">0 — Did not attempt</span><span class="opt">1 — Almost never</span><span class="opt">2 — A few times</span><span class="opt">3 — Sometimes</span><span class="opt">4 — Most times</span><span class="opt">5 — Almost always</span>
+      </div>
+    </div>
+  </div>
+
+  <h3 id="ed-clinical">Clinical questions</h3>
+
+  <!-- ED CONTEXT -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">ed-context</span>
+      <span class="step-title">Tell us a bit more about your symptoms.</span>
+      <span class="step-eyebrow">Your experience</span>
+    </div>
+    <div class="step-body">
+      <div class="step-hint">Helps clinician understand the pattern and likely cause.</div>
+      <div class="q-block">
+        <div class="q-label">Onset</div>
+        <div class="options">
+          <span class="opt">Within the last 3 months</span><span class="opt">3–12 months ago</span><span class="opt">1–3 years ago</span><span class="opt">More than 3 years ago</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Progression</div>
+        <div class="options">
+          <span class="opt">Suddenly</span><span class="opt">Gradually, over time → Red lane signal (with libido + morning)</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Morning / spontaneous erections</div>
+        <div class="options">
+          <span class="opt">Yes, regularly</span><span class="opt">Sometimes</span><span class="opt">Rarely</span><span class="opt">Never → Red lane signal (with libido + gradual)</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Situational vs general</div>
+        <div class="options">
+          <span class="opt">Specific to one partner/situation</span><span class="opt">All situations</span><span class="opt">Not currently sexually active</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Libido (past 6 months)</div>
+        <div class="options">
+          <span class="opt">Normal — want sex but can't perform</span>
+          <span class="opt">Somewhat reduced</span>
+          <span class="opt">Significantly reduced</span>
+          <span class="opt">No interest at all → Red lane signal (with gradual + never morning)</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Patient view on contributing cause (optional)</div>
+        <div class="options"><span class="opt opt-text">Free text</span></div>
+      </div>
+      <div class="note">Red lane hypogonadism pattern: libido = "no interest" AND morning = "never" AND gradual = "gradual" → clinician review required before prescribing.</div>
+    </div>
+  </div>
+
+  <!-- ED TREATMENT -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">ed-treatment</span>
+      <span class="step-title">Have you previously tried any treatment for ED?</span>
+      <span class="step-eyebrow">Treatment history</span>
+    </div>
+    <div class="step-body">
+      <div class="options">
+        <span class="opt opt-check">Sildenafil (Viagra)</span>
+        <span class="opt opt-check">Tadalafil (Cialis)</span>
+        <span class="opt opt-check">Vardenafil</span>
+        <span class="opt opt-check">Avanafil</span>
+        <span class="opt opt-check">Other</span>
+        <span class="opt opt-check">No, I haven't tried anything</span>
+      </div>
+      <div class="q-block" style="margin-top:8px;">
+        <div class="q-label">Side effects / issues with previous treatment (optional)</div>
+        <div class="options"><span class="opt opt-text">Free text: dose, frequency, results, side effects</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ED SAFETY -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">ed-safety</span>
+      <span class="step-title">A few more questions your clinician needs to see.</span>
+      <span class="step-eyebrow">Clinical safety</span>
+    </div>
+    <div class="step-body">
+      <div class="step-hint">Rare but important safety considerations for ED medications.</div>
+      <div class="q-block">
+        <div class="q-label">Priapism history (painful erection &gt;4 hours)</div>
+        <div class="options"><span class="opt">No</span><span class="opt">Yes</span></div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Eye conditions</div>
+        <div class="options">
+          <span class="opt opt-check">Retinitis pigmentosa</span>
+          <span class="opt opt-check">NAION (non-arteritic anterior ischaemic optic neuropathy)</span>
+          <span class="opt opt-check">Sudden loss of vision in one eye</span>
+          <span class="opt opt-check">None of these</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Hearing (sudden loss or persistent tinnitus)</div>
+        <div class="options"><span class="opt">No</span><span class="opt">Yes</span></div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Structural penile condition (Peyronie's, severe curvature, prior surgery)</div>
+        <div class="options"><span class="opt">No</span><span class="opt">Yes</span></div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Prostate problems or BPH</div>
+        <div class="options"><span class="opt">No</span><span class="opt">Yes</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ED LIFESTYLE -->
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">ed-lifestyle</span>
+      <span class="step-title">A few last questions before you're done.</span>
+      <span class="step-eyebrow">Day to day</span>
+    </div>
+    <div class="step-body">
+      <div class="step-hint">Useful context for your clinician.</div>
+      <div class="q-block">
+        <div class="q-label">Physical activity</div>
+        <div class="options">
+          <span class="opt">Sedentary</span><span class="opt">Light</span><span class="opt">Moderate</span><span class="opt">Active</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Stress levels</div>
+        <div class="options">
+          <span class="opt">Low</span><span class="opt">Moderate</span><span class="opt">High</span><span class="opt">Very high</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Sleep</div>
+        <div class="options">
+          <span class="opt">Generally fine</span><span class="opt">Often disrupted</span><span class="opt">Poor most nights</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Anything else for the clinician (optional)</div>
+        <div class="options"><span class="opt opt-text">Free text</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 id="ed-consent">Consent (ED)</h3>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">ed-consent</span>
+      <span class="step-title">Just a few things to confirm.</span>
+      <span class="step-eyebrow">Before you submit</span>
+    </div>
+    <div class="step-body">
+      <p style="margin-bottom:8px;">All five statements must be checked to proceed. Risk lane is computed when this step is passed.</p>
+      <div class="options" style="flex-direction:column; gap:6px;">
+        <span class="opt opt-check" style="border-radius:6px; white-space:normal;">I understand this is a telehealth service — assessment and prescription issued remotely by a NZ-registered clinician.</span>
+        <span class="opt opt-check" style="border-radius:6px; white-space:normal;">I consent to my health information being stored and used in accordance with the NZ Privacy Act 2020.</span>
+        <span class="opt opt-check" style="border-radius:6px; white-space:normal;">I understand a prescription is not guaranteed — clinician may recommend video check-in or decline to prescribe.</span>
+        <span class="opt opt-check" style="border-radius:6px; white-space:normal;">The information I've provided is accurate and complete.</span>
+        <span class="opt opt-check" style="border-radius:6px; white-space:normal;">I am 18 years of age or older and a resident of New Zealand.</span>
+      </div>
+      <div class="note">Completing this step triggers computeRiskLane() → result stored in state.riskLane → determines completion screen shown after review.</div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════ -->
+  <h2 id="hl">Hair loss pathway</h2>
+  <p style="margin-bottom:16px;">Shown after the 12 common steps when user selects Hair loss. Steps in order: Timing → Pattern → Norwood → Progression → Family history → Treatment → Safety → Goals → Consent → Review → Complete.</p>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">hl-timing</span>
+      <span class="step-title">When did you first notice your hair loss?</span>
+      <span class="step-eyebrow">Hair loss</span>
+    </div>
+    <div class="step-body">
+      <div class="options">
+        <span class="opt">Within the last 6 months</span><span class="opt">6–12 months ago</span><span class="opt">1–3 years ago</span><span class="opt">3–10 years ago</span><span class="opt">More than 10 years ago</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">hl-pattern</span>
+      <span class="step-title">How would you describe the pattern of your hair loss?</span>
+      <span class="step-eyebrow">Hair loss</span>
+    </div>
+    <div class="step-body">
+      <div class="options">
+        <span class="opt">Receding hairline (frontal/temples)</span>
+        <span class="opt">Thinning at the crown</span>
+        <span class="opt">Both — receding hairline and crown thinning</span>
+        <span class="opt">General thinning across whole scalp → Amber lane</span>
+        <span class="opt">Sudden patches of complete hair loss → Amber lane</span>
+        <span class="opt">Hair shedding evenly across the head → Amber lane</span>
+        <span class="opt">Not sure</span>
+      </div>
+      <div class="flag">Diffuse, patches, or shedding selected → flag shown: "Patchy or diffuse hair loss often has a different underlying cause to male pattern baldness, and may not be treatable with finasteride or minoxidil. Your clinician will advise."</div>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">hl-norwood</span>
+      <span class="step-title">Which Norwood-Hamilton stage most closely matches your hair loss?</span>
+      <span class="step-eyebrow">Hair loss</span>
+    </div>
+    <div class="step-body">
+      <div class="step-hint">Norwood-Hamilton scale, the standard clinical reference for male pattern baldness.</div>
+      <div class="options">
+        <span class="opt">Stage I — No recession</span>
+        <span class="opt">Stage II — Slight temples</span>
+        <span class="opt">Stage III — Deep temples</span>
+        <span class="opt">Stage IV — Crown thinning</span>
+        <span class="opt">Stage V — Merging areas</span>
+        <span class="opt">Stage VI — Large bald area</span>
+        <span class="opt">Stage VII — Severe loss</span>
+      </div>
+      <div class="note">Displayed as a visual grid. Final version to use Norwood-Hamilton reference diagrams. Currently uses placeholder roman numeral tiles.</div>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">hl-progression</span>
+      <span class="step-title">How would you describe the progression of your hair loss?</span>
+      <span class="step-eyebrow">Hair loss</span>
+    </div>
+    <div class="step-body">
+      <div class="q-block">
+        <div class="q-label">Speed</div>
+        <div class="options">
+          <span class="opt">Slowly — over months and years</span>
+          <span class="opt">Quickly — noticeable change over weeks</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Other areas</div>
+        <div class="options">
+          <span class="opt">Scalp only</span>
+          <span class="opt">Other areas too (eyebrows, beard, body)</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Scalp symptoms (select all)</div>
+        <div class="options">
+          <span class="opt opt-check">Itching</span>
+          <span class="opt opt-check">Flaking or dandruff</span>
+          <span class="opt opt-check">Redness or inflammation</span>
+          <span class="opt opt-check">Tenderness or pain</span>
+          <span class="opt opt-check">None of these</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">hl-family</span>
+      <span class="step-title">Family history of hair loss</span>
+      <span class="step-eyebrow">Hair loss</span>
+    </div>
+    <div class="step-body">
+      <div class="options">
+        <span class="opt opt-check">Father</span>
+        <span class="opt opt-check">Mother's side (maternal grandfather/uncle)</span>
+        <span class="opt opt-check">Both sides</span>
+        <span class="opt opt-check">No family history</span>
+        <span class="opt opt-check">Don't know</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">hl-treatment</span>
+      <span class="step-title">Previous hair loss treatment</span>
+      <span class="step-eyebrow">Treatment history</span>
+    </div>
+    <div class="step-body">
+      <div class="options">
+        <span class="opt opt-check">Finasteride (Propecia / generic)</span>
+        <span class="opt opt-check">Minoxidil (Rogaine / topical)</span>
+        <span class="opt opt-check">Ketoconazole shampoo</span>
+        <span class="opt opt-check">Hair transplant</span>
+        <span class="opt opt-check">Low-level laser therapy (LLLT)</span>
+        <span class="opt opt-check">Other supplements (biotin, saw palmetto, etc.)</span>
+        <span class="opt opt-check">None — I haven't tried anything</span>
+      </div>
+      <div class="q-block" style="margin-top:8px;">
+        <div class="q-label">If finasteride selected — side effects experienced</div>
+        <div class="options">
+          <span class="opt opt-check">Reduced libido</span>
+          <span class="opt opt-check">Erectile difficulties</span>
+          <span class="opt opt-check">Mood changes or depression</span>
+          <span class="opt opt-check">Breast tenderness or enlargement</span>
+          <span class="opt opt-check">Symptoms that persisted after stopping</span>
+          <span class="opt opt-check">None — no side effects</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">hl-safety</span>
+      <span class="step-title">A few more questions your clinician needs to see.</span>
+      <span class="step-eyebrow">Clinical safety</span>
+    </div>
+    <div class="step-body">
+      <div class="q-block">
+        <div class="q-label">Trying to conceive (or planning to in next 12 months)</div>
+        <div class="options">
+          <span class="opt">No</span>
+          <span class="opt">Yes → Amber lane trigger + flag shown</span>
+        </div>
+        <div class="flag">If Yes: "Finasteride can affect sperm parameters and is not recommended when actively trying to conceive. Your clinician will discuss this with you before prescribing."</div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Household contacts (multi-select, scoped group)</div>
+        <div class="options">
+          <span class="opt opt-check">Pregnant women</span>
+          <span class="opt opt-check">Women who could become pregnant</span>
+          <span class="opt opt-check">Children under 12</span>
+          <span class="opt opt-check">None of these</span>
+        </div>
+        <div class="note">Finasteride tablets must not be handled by pregnant women or children. Clinician will advise on safe handling if contacts are present.</div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Medical conditions (multi-select, scoped group)</div>
+        <div class="options">
+          <span class="opt opt-check">Prostate cancer → Red lane trigger</span>
+          <span class="opt opt-check">Liver disease → Amber lane trigger</span>
+          <span class="opt opt-check">Thyroid disease → Amber lane trigger</span>
+          <span class="opt opt-check">Iron deficiency anaemia → Amber lane trigger</span>
+          <span class="opt opt-check">Other hormonal condition → Amber lane trigger</span>
+          <span class="opt opt-check">None of the above</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Recent health changes (illness, surgery, weight loss, major stress — past 6 months)</div>
+        <div class="options">
+          <span class="opt">No</span>
+          <span class="opt">Yes → Amber lane trigger + free text field</span>
+        </div>
+        <div class="note">Recent significant health changes may indicate telogen effluvium rather than AGA.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">hl-goals</span>
+      <span class="step-title">Almost done — a couple of last things.</span>
+      <span class="step-eyebrow">Final questions</span>
+    </div>
+    <div class="step-body">
+      <div class="q-block">
+        <div class="q-label">Recent blood tests (past 12 months — iron, thyroid, hormone levels)</div>
+        <div class="options">
+          <span class="opt">No</span>
+          <span class="opt">Yes → free text: results if available (optional)</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Treatment goal</div>
+        <div class="options">
+          <span class="opt">Stop further loss</span><span class="opt">Regrow lost hair</span><span class="opt">Both</span><span class="opt">Not sure</span>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Importance to patient (1–10 scale)</div>
+        <div class="options"><span class="opt">1 (Not very) → 10 (Extremely)</span></div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Anything else for the clinician (optional)</div>
+        <div class="options"><span class="opt opt-text">Free text</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-id">hl-consent</span>
+      <span class="step-title">Just a few things to confirm.</span>
+      <span class="step-eyebrow">Before you submit</span>
+    </div>
+    <div class="step-body">
+      <p style="margin-bottom:8px;">All five statements must be checked to proceed. Risk lane is computed when this step is passed.</p>
+      <div class="options" style="flex-direction:column; gap:6px;">
+        <span class="opt opt-check" style="border-radius:6px; white-space:normal;">I understand this is a telehealth service.</span>
+        <span class="opt opt-check" style="border-radius:6px; white-space:normal;">I consent to my health information being stored and used in accordance with the NZ Privacy Act 2020.</span>
+        <span class="opt opt-check" style="border-radius:6px; white-space:normal;">I understand a prescription is not guaranteed — the clinician may request further information or advise that treatment is not appropriate.</span>
+        <span class="opt opt-check" style="border-radius:6px; white-space:normal;">The information I've provided is accurate and complete.</span>
+        <span class="opt opt-check" style="border-radius:6px; white-space:normal;">I am 18 years of age or older and a resident of New Zealand.</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════ -->
+  <h2 id="risk">Risk stratification</h2>
+  <p style="margin-bottom:16px;">Computed client-side when the user passes the consent step. In production, this will be recomputed server-side from submitted answers. The client result determines only which completion screen is shown — the server result is authoritative.</p>
+
+  <h3>Erectile dysfunction</h3>
+  <table class="risk-table">
+    <thead>
+      <tr><th>Lane</th><th>Trigger condition(s)</th><th>Outcome</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="lane-red">Red</span></td>
+        <td>Chest pain/breathlessness during activity ("yes, regularly")<br>Heart attack or stroke history<br>PHQ-2 score ≥ 4 AND self-harm "yes"<br>No libido + no morning erections + gradual onset (hypogonadism profile)</td>
+        <td>GP referral. Printable summary with patient details and specific clinical flags. Cannot prescribe via telehealth.</td>
+      </tr>
+      <tr>
+        <td><span class="lane-amber">Amber</span></td>
+        <td>Age ≥ 40<br>High blood pressure, diabetes, high cholesterol, or angina (from medical history)</td>
+        <td>Video check-in required before prescribing. Booking link sent by email within 1–2 business days.</td>
+      </tr>
+      <tr>
+        <td><span class="lane-green">Green</span></td>
+        <td>None of the above</td>
+        <td>Async clinician review. No consult required. In touch within 1–2 business days.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top:28px;">Hair loss</h3>
+  <table class="risk-table">
+    <thead>
+      <tr><th>Lane</th><th>Trigger condition(s)</th><th>Outcome</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="lane-red">Red</span></td>
+        <td>Prostate cancer history</td>
+        <td>GP referral. Finasteride absolutely contraindicated — suppresses PSA and may mask disease activity. Printable summary provided.</td>
+      </tr>
+      <tr>
+        <td><span class="lane-amber">Amber</span></td>
+        <td>Actively trying to conceive<br>Liver disease (finasteride is hepatically metabolised)<br>Thyroid disease or iron deficiency (possible underlying cause of hair loss)<br>Other hormonal condition<br>Diffuse, patchy, or shedding hair loss pattern (non-AGA presentation)<br>Recent significant illness, surgery, or stress (possible telogen effluvium)</td>
+        <td>Clinician follow-up by message within 1–2 business days to discuss before recommending treatment.</td>
+      </tr>
+      <tr>
+        <td><span class="lane-green">Green</span></td>
+        <td>Standard AGA presentation, no contraindications</td>
+        <td>Async clinician review and treatment plan. In touch within 1–2 business days.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note" style="margin-top:16px;">Red is evaluated before Amber — a user with prostate cancer will always be Red regardless of other factors. Within ED, Red is evaluated before Amber.</div>
+
+
+  <!-- ══════════════════════════════════════ -->
+  <h2 id="completion">Completion screens</h2>
+  <p style="margin-bottom:16px;">Shown after the review step. Content is dynamically generated from the computed risk lane and pathway.</p>
+
+  <h3>Erectile dysfunction</h3>
+
+  <div class="complete-card">
+    <div class="complete-lane lane-green">Green lane</div>
+    <div class="complete-title">That's everything.</div>
+    <div class="complete-body">A NZ-registered clinician will review your answers. We'll be in touch within one to two business days — no consult required.<br><span style="color:#B0A99E; font-size:12px;">Discreet packaging · No referral needed · 100% private</span></div>
+  </div>
+
+  <div class="complete-card">
+    <div class="complete-lane lane-amber">Amber lane</div>
+    <div class="complete-title">That's everything.</div>
+    <div class="complete-body">A clinician has reviewed your answers and would like a brief video check-in before prescribing. You'll receive a booking link by email within one to two business days.<br><span style="color:#B0A99E; font-size:12px;">Discreet · 10–15 minutes · No referral needed</span></div>
+  </div>
+
+  <div class="complete-card">
+    <div class="complete-lane lane-red">Red lane</div>
+    <div class="complete-title">We'd like you to see your GP first.</div>
+    <div class="complete-body">Based on your answers, we're not able to prescribe safely via telehealth at this time. We recommend speaking with your GP about the points below.<br><br>
+    A GP Referral Summary card is shown with: patient name, date of birth, today's date, and the specific clinical flags that triggered the Red lane. A <strong>Print this summary</strong> button is provided. The "Back to Arua" link is shown as secondary.</div>
+  </div>
+
+  <h3 style="margin-top:24px;">Hair loss</h3>
+
+  <div class="complete-card">
+    <div class="complete-lane lane-green">Green lane</div>
+    <div class="complete-title">That's everything.</div>
+    <div class="complete-body">A NZ-registered clinician will review your answers and recommend a treatment plan. We'll be in touch within one to two business days.<br><span style="color:#B0A99E; font-size:12px;">Discreet packaging · No referral needed · 100% private</span></div>
+  </div>
+
+  <div class="complete-card">
+    <div class="complete-lane lane-amber">Amber lane</div>
+    <div class="complete-title">That's everything.</div>
+    <div class="complete-body">A clinician would like to discuss a couple of points before recommending treatment. You'll receive a message within one to two business days.<br><span style="color:#B0A99E; font-size:12px;">Discreet · No referral needed · 100% private</span></div>
+  </div>
+
+  <div class="complete-card">
+    <div class="complete-lane lane-red">Red lane</div>
+    <div class="complete-title">We're not able to prescribe finasteride at this time.</div>
+    <div class="complete-body">Based on your answers, prescribing finasteride would not be clinically appropriate at this time. We recommend speaking with your GP about the points below.<br><br>
+    GP Referral Summary card shown with patient details and specific flag: <em>"History of prostate cancer — finasteride is absolutely contraindicated and may suppress PSA, masking disease activity."</em> Print button provided.</div>
+  </div>
+
+  <div style="margin-top:48px; padding-top:16px; border-top:1px solid #D9CFBF;">
+    <p class="meta" style="text-align:center;">Arua · Internal use only · Not for clinical decision-making · Draft v0.1</p>
+  </div>
+
+</div>
+</body>
+</html>

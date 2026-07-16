@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <title>ED and Mental Health: The Relationship Most Men Never Hear About — Arua</title>
-  <meta name="description" content="The relationship between erectile dysfunction and mental health is bidirectional and self-reinforcing. Getting the full picture changes how the problem is approached — and produces better outcomes." />
+  <meta name="description" content="The relationship between erectile dysfunction and mental health is bidirectional and self-reinforcing. Getting the full picture changes how the problem is approached, and produces better outcomes." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -33,13 +33,39 @@
     .prose h2 { font-family:'Fraunces',Georgia,serif; font-weight:380; font-size:22px; line-height:1.25; letter-spacing:-0.025em; font-feature-settings:"ss01" 1,"ss02" 1; color:#15140F; margin-top:48px; margin-bottom:14px; }
     .prose p  { font-size:17px; line-height:1.78; color:#3B3933; margin-bottom:20px; }
     .pull-quote { border-left:2px solid #8C4A2F; background:#EDE5D8; border-radius:0 6px 6px 0; padding:24px 32px; margin:36px 0; font-family:'Fraunces',Georgia,serif; font-weight:340; font-size:18px; line-height:1.5; font-style:italic; font-feature-settings:"ss01" 1,"ss02" 1; color:#15140F; }
+  
+    /* Nav links — horizon-dot underline (brand device) */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: -8px; height: 9px;
+      background:
+        radial-gradient(circle at 3.5px 3.5px, #8C4A2F 2.6px, transparent 3.2px) no-repeat,
+        linear-gradient(#C9BFA9, #C9BFA9) left bottom / 100% 1px no-repeat;
+      opacity: 0; transform: translateY(4px);
+      transition: opacity 200ms ease, transform 260ms cubic-bezier(.22,1,.36,1);
+      pointer-events: none;
+    }
+    .nav-link:hover::after,
+    .nav-link:focus-visible::after,
+    .nav-link[aria-current="page"]::after { opacity: 1; transform: translateY(0); }
+
+    /* Nav CTA — layered shadow + spring lift */
+    nav a[href$="start.html"] {
+      box-shadow: 0 1px 2px rgba(21,20,15,.16), 0 8px 20px -8px rgba(21,20,15,.35);
+      transition: background 150ms ease, transform 180ms cubic-bezier(.34,1.2,.64,1), box-shadow 180ms ease;
+    }
+    nav a[href$="start.html"]:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 3px rgba(21,20,15,.14), 0 12px 28px -10px rgba(21,20,15,.4);
+    }
+    nav a[href$="start.html"]:active { transform: translateY(0) scale(.97); }
   </style>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "ED and Mental Health: The Relationship Most Men Never Hear About — Arua",
-    "description": "The relationship between erectile dysfunction and mental health is bidirectional and self-reinforcing. Getting the full picture changes how the problem is approached — and produces better outcomes.",
+    "description": "The relationship between erectile dysfunction and mental health is bidirectional and self-reinforcing. Getting the full picture changes how the problem is approached, and produces better outcomes.",
     "url": "https://www.arua.co.nz/Articles/ed-and-mental-health.html",
     "datePublished": "2026-05-13",
     "dateModified": "2026-05-18",
@@ -58,27 +84,45 @@
 </head>
 <body class="bg-page font-body text-ink antialiased">
 
-<nav id="nav" class="sticky top-0 z-50 bg-page border-b border-transparent transition-colors duration-200">
-  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-16 flex items-center justify-between gap-8">
+<nav id="nav" class="sticky top-0 z-50 border-b border-transparent transition-[border-color,box-shadow] duration-300 bg-page/[.88] backdrop-blur-xl backdrop-saturate-150">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-[68px] flex items-center justify-between">
     <a href="../" class="dp font-[380] text-[52px] leading-none tracking-display text-ink focus-ring rounded-sm">arua</a>
-    <div class="hidden md:flex items-center gap-7">
-      <a href="../#conditions"   class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
-      <a href="../#how-it-works" class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">How it works</a>
-      <a href="index.html"      class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Good reads</a>
-      <a href="../#about"        class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About</a>
+
+    <div class="hidden md:flex items-center gap-8">
+      <a href="../#conditions" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
+      <a href="../#how-it-works" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">How it works</a>
+      <a href="index.html" aria-current="page" class="nav-link text-sm text-ink font-medium focus-ring rounded-sm">Good reads</a>
+      <a href="../about.html" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About us</a>
+      <a href="../faqs.html" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">FAQs</a>
+      <a href="../arua-questionnaire/questionnaire/start.html" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium
+                   hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">
+        Get started
+      </a>
     </div>
-    <a href="#" data-modal="signup" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">Sign up for early access</a>
+
+    <button id="mob-menu-btn" class="md:hidden flex flex-col gap-[5px] p-2 -mr-2 focus-ring rounded-sm" aria-label="Menu" aria-expanded="false">
+      <span id="mbar1" class="block w-5 h-px bg-ink transition-transform duration-200 origin-center"></span>
+      <span id="mbar2" class="block w-5 h-px bg-ink transition-opacity duration-200"></span>
+      <span id="mbar3" class="block w-5 h-px bg-ink transition-transform duration-200 origin-center"></span>
+    </button>
   </div>
 </nav>
 
+<!-- Mobile menu -->
+<div id="mob-menu" class="md:hidden fixed left-0 right-0 bg-page border-b border-hairline-soft z-40 px-8 py-6 flex-col gap-4" style="top:68px; display:none;">
+  <a href="../#conditions" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">Conditions</a>
+  <a href="../#how-it-works" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">How it works</a>
+  <a href="index.html" aria-current="page" class="text-base text-ink font-medium py-1">Good reads</a>
+  <a href="../about.html" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">About us</a>
+  <a href="../faqs.html" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">FAQs</a>
+  <a href="../arua-questionnaire/questionnaire/start.html" class="mt-2 h-[48px] rounded-pill bg-ink text-page text-[15px] font-medium flex items-center justify-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Get started</a>
+</div>
+
 <header class="relative overflow-hidden border-b border-hairline" style="min-height:300px;">
-  <img src="../Images/Photo Image Library/Piha 4.jpg" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 60%;" />
+  <img src="../Images/web/piha-4.jpg" alt="Piha coastline" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 60%;" />
   <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(246,241,232,0.92) 0%, rgba(246,241,232,0.82) 45%, rgba(230,218,200,0.60) 100%);"></div>
   <div class="relative z-10 max-w-[760px] mx-auto px-8 py-14">
-    <a href="index.html" class="inline-flex items-center gap-2 text-sm text-muted hover:text-ink transition-colors duration-150 focus-ring rounded-sm mb-8">
-      <span>←</span> <span>Good reads</span>
-    </a>
-    <div class="flex items-center gap-3 mb-6">
+        <div class="flex items-center gap-3 mb-6">
       <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill">Sexual Health</span>
       <span class="font-mono text-[11px] text-muted">7 min read</span>
     </div>
@@ -94,34 +138,34 @@
 <article class="max-w-[760px] mx-auto px-8 py-16">
   <div class="prose">
 
-    <h2>How anxiety and stress impair erections — mechanically</h2>
-    <p>This isn't just psychology. Anxiety and stress produce a specific physiological state that is, quite literally, incompatible with reliable erections. Your nervous system has two branches: the parasympathetic (rest and recovery, which governs erections) and the sympathetic (fight-or-flight, which governs stress responses). They work in opposition. When the sympathetic system is activated — by anxiety, stress, or fear — it suppresses the parasympathetic signal that erections depend on.</p>
-    <p>In practical terms: stress hormones constrict the small blood vessels that supply the penis. Elevated cortisol suppresses testosterone production. The nitric oxide signal that initiates smooth muscle relaxation in the erectile chambers is blunted. You can't will an erection into existence against an activated stress response — the physiology works against you. This is why performance anxiety is so reliably self-defeating, and why 'just relax' is simultaneously correct and completely useless advice.</p>
+    <h2>How anxiety and stress impair erections, mechanically</h2>
+    <p>This isn't just psychology. Anxiety and stress produce a specific physiological state that is, quite literally, incompatible with reliable erections. Your nervous system has two branches: the parasympathetic (rest and recovery, which governs erections) and the sympathetic (fight-or-flight, which governs stress responses). They work in opposition. When the sympathetic system is activated by anxiety, stress, or fear, it suppresses the parasympathetic signal that erections depend on.</p>
+    <p>In practical terms: stress hormones constrict the small blood vessels that supply the penis. Elevated cortisol suppresses testosterone production. The nitric oxide signal that initiates smooth muscle relaxation in the erectile chambers is blunted. You can't will an erection into existence against an activated stress response: the physiology works against you. This is why performance anxiety is so reliably self-defeating, and why 'just relax' is simultaneously correct and completely useless advice.</p>
 
     <h2>The performance anxiety loop</h2>
-    <p>Performance anxiety is the most common purely psychological mechanism in ED, and it operates as a self-reinforcing trap. Here's the pattern: one unreliable erection — caused by anything, stress, alcohol, fatigue, distraction — creates anxiety about whether it will happen again. The next sexual encounter is approached with elevated anxiety rather than relaxation. The sympathetic system fires. The erection is unreliable again. The anxiety deepens.</p>
+    <p>Performance anxiety is the most common purely psychological mechanism in ED, and it operates as a self-reinforcing trap. Here's the pattern: one unreliable erection (caused by anything, stress, alcohol, fatigue, distraction) creates anxiety about whether it will happen again. The next sexual encounter is approached with elevated anxiety rather than relaxation. The sympathetic system fires. The erection is unreliable again. The anxiety deepens.</p>
     <p>Within just a few repetitions of this pattern, the anticipation of failure becomes as powerful as the original cause. The loop is now self-sustaining, independent of whatever triggered the first episode. About 25% of men under 40 who experience ED report performance anxiety as the primary factor. In older men with physical causes, it almost always develops alongside and amplifies the underlying problem.</p>
-    <p>This is treatable. In the short term, medication that makes erections more reliable can break the loop by restoring confidence. Cognitive behavioural approaches address the catastrophising patterns that sustain it. Dealing with only the physical side — or only the psychological side — typically produces partial results.</p>
+    <p>This is treatable. In the short term, medication that makes erections more reliable can break the loop by restoring confidence. Cognitive behavioural approaches address the catastrophising patterns that sustain it. Dealing with only the physical side, or only the psychological side, typically produces partial results.</p>
 
     <div class="pull-quote">
-      Performance anxiety becomes self-sustaining within a few repetitions. The anticipation of failure becomes as powerful as the original cause — independent of whatever triggered it.
+      Performance anxiety becomes self-sustaining within a few repetitions. The anticipation of failure becomes as powerful as the original cause, independent of whatever triggered it.
     </div>
 
     <h2>How ED affects mental health in return</h2>
-    <p>Consistent ED — particularly unexplained ED — produces significant psychological consequences in most men who experience it. The research consistently shows increases in generalised anxiety, withdrawal from sexual situations and relationships, reduced self-esteem, and in a significant number of men, depressive symptoms.</p>
-    <p>The reason the psychological impact is disproportionate to the physical condition is that ED threatens aspects of identity many men hold as central: capability, control, and being undamaged. This isn't vanity. It reflects the genuine psychological weight that sexual function carries — weight that clinical settings often fail to acknowledge when they treat ED as a plumbing problem with a pharmaceutical solution.</p>
+    <p>Consistent ED (particularly unexplained ED) produces significant psychological consequences in most men who experience it. The research consistently shows increases in generalised anxiety, withdrawal from sexual situations and relationships, reduced self-esteem, and in a significant number of men, depressive symptoms.</p>
+    <p>The reason the psychological impact is disproportionate to the physical condition is that ED threatens aspects of identity many men hold as central: capability, control, and being undamaged. This isn't vanity. It reflects the genuine psychological weight that sexual function carries; weight that clinical settings often fail to acknowledge when they treat ED as a plumbing problem with a pharmaceutical solution.</p>
     <p>Men who are experiencing consistent ED alongside low mood, increased irritability, withdrawal, and increased alcohol use may be in a depressive episode that is expressing itself partly through sexual dysfunction. They typically don't connect those dots themselves, and neither do many of the clinical encounters that follow.</p>
 
     <h2>Depression in men: what it actually looks like</h2>
-    <p>The public understanding of depression — tearfulness, low mood, expressed hopelessness — describes the female presentation more accurately than the male one. Men with depression are more likely to present with irritability than sadness, increased alcohol use than expressed hopelessness, withdrawal than tearfulness, and physical complaints than emotional ones. Sexual dysfunction is one of those physical complaints.</p>
-    <p>A man who has lost interest in sex, is experiencing erectile difficulties, is drinking more than usual, is more irritable than his baseline, and has pulled back from activities he previously valued may be experiencing a depressive episode — and is unlikely to describe himself that way. This matters because depression is treatable, and earlier treatment produces substantially better outcomes.</p>
+    <p>The public understanding of depression (tearfulness, low mood, expressed hopelessness) describes the female presentation more accurately than the male one. Men with depression are more likely to present with irritability than sadness, increased alcohol use than expressed hopelessness, withdrawal than tearfulness, and physical complaints than emotional ones. Sexual dysfunction is one of those physical complaints.</p>
+    <p>A man who has lost interest in sex, is experiencing erectile difficulties, is drinking more than usual, is more irritable than his baseline, and has pulled back from activities he previously valued may be experiencing a depressive episode, and is unlikely to describe himself that way. This matters because depression is treatable, and earlier treatment produces substantially better outcomes.</p>
 
     <h2>The antidepressant complication</h2>
-    <p>If antidepressants enter the picture, there's a specific consideration worth knowing: SSRIs — the most commonly prescribed class — produce sexual side effects including reduced libido, delayed orgasm, and erectile difficulty in approximately 30–40% of men who take them. That's not a trivial proportion.</p>
-    <p>This is worth knowing before starting medication, because men who discover these effects after the fact often stop taking their antidepressant without telling their prescriber — which produces its own problems. There are antidepressants with lower rates of sexual side effects, and the choice of medication should include this conversation explicitly rather than treating it as an afterthought.</p>
+    <p>If antidepressants enter the picture, there's a specific consideration worth knowing: SSRIs (the most commonly prescribed class) produce sexual side effects including reduced libido, delayed orgasm, and erectile difficulty in approximately 30–40% of men who take them. That's not a trivial proportion.</p>
+    <p>This is worth knowing before starting medication, because men who discover these effects after the fact often stop taking their antidepressant without telling their prescriber, which produces its own problems. There are antidepressants with lower rates of sexual side effects, and the choice of medication should include this conversation explicitly rather than treating it as an afterthought.</p>
 
     <h2>What a complete approach looks like</h2>
-    <p>For men in whom both ED and mental health factors are present, addressing only one dimension typically produces partial and temporary results. A complete approach identifies which factors are primary, treats both the physical and psychological dimensions in parallel, and monitors for medication effects on sexual function. That requires a clinical conversation that takes the full picture seriously — which, frankly, is not the norm in most brief primary care encounters. But it's what produces durable outcomes.</p>
+    <p>For men in whom both ED and mental health factors are present, addressing only one dimension typically produces partial and temporary results. A complete approach identifies which factors are primary, treats both the physical and psychological dimensions in parallel, and monitors for medication effects on sexual function. That requires a clinical conversation that takes the full picture seriously, which, frankly, is not the norm in most brief primary care encounters. But it's what produces durable outcomes.</p>
 
   </div>
 </article>
@@ -161,7 +205,7 @@
   <div class="bg-page-alt rounded-card border border-hairline-soft p-10">
     <p class="dp font-[380] tracking-display text-[22px] leading-[1.3] mb-2">If ED is happening alongside significant stress, anxiety, or low mood, a clinical consultation that covers both dimensions will produce a more effective outcome.</p>
     <p class="text-base text-ink-soft mb-7">Treating either in isolation typically produces partial results.</p>
-    <a href="#" data-modal="signup" class="h-11 px-6 rounded-pill bg-ink text-page text-[15px] font-medium hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">Sign up for early access&thinsp;→</a>
+    <a href="../arua-questionnaire/questionnaire/start.html" class="h-11 px-6 rounded-pill bg-ink text-page text-[15px] font-medium hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">Find out if Arua is for you&thinsp;→</a>
   </div>
 </section>
 
@@ -181,7 +225,7 @@
 
       <a href="why-men-dont-ask-for-help.html" class="lift focus-ring block border border-hairline-soft rounded-card p-6 bg-surface">
         <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Men's Health</span>
-        <h3 class="dp font-[380] tracking-display text-[18px] leading-[1.25] mb-3">Why men don't ask for help — and what happens when the system makes it easier.</h3>
+        <h3 class="dp font-[380] tracking-display text-[18px] leading-[1.25] mb-3">Why men don't ask for help, and what happens when the system makes it easier.</h3>
         <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
           <span class="font-mono text-[11px] text-muted">7 min read</span>
           <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
@@ -198,6 +242,17 @@
       <div>
         <p class="dp font-[380] tracking-display text-[52px] leading-none mb-5">arua</p>
         <p class="text-[13px] leading-[1.65] max-w-[240px]" style="color:rgba(246,241,232,.5)">Men's health. New Zealand.<br>Private, direct, evidence-based.</p>
+        <div class="flex items-center gap-5 mt-6">
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on Instagram (coming soon)" title="Instagram (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.6" cy="6.4" r="1.15" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on LinkedIn (coming soon)" title="LinkedIn (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+          </a>
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on Facebook (coming soon)" title="Facebook (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94z"/></svg>
+          </a>
+        </div>
       </div>
       <div>
         <p class="font-mono text-[11px] tracking-eyebrow uppercase mb-5" style="color:rgba(246,241,232,.38)">Conditions</p>
@@ -281,9 +336,28 @@
   form.addEventListener('submit',function(e){
     e.preventDefault();
     fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}})
-      .then(function(r){if(r.ok){form.style.display='none';ok.style.display='block';}});
+      .then(function(r){if(r.ok){form.style.display='none';ok.style.display='block';}else{form.submit();}}).catch(function(){form.submit();});
   });
 })();
+</script>
+<script>
+(function () {
+  var btn = document.getElementById('mob-menu-btn'), menu = document.getElementById('mob-menu')
+  if (!btn || !menu) return
+  var b1 = document.getElementById('mbar1'), b2 = document.getElementById('mbar2'), b3 = document.getElementById('mbar3')
+  var open = false
+  function set(o) {
+    open = o
+    menu.style.display = open ? 'flex' : 'none'
+    menu.style.flexDirection = 'column'
+    btn.setAttribute('aria-expanded', String(open))
+    b1.style.transform = open ? 'translateY(6px) rotate(45deg)' : ''
+    b2.style.opacity = open ? '0' : ''
+    b3.style.transform = open ? 'translateY(-6px) rotate(-45deg)' : ''
+  }
+  btn.addEventListener('click', function () { set(!open) })
+  menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { set(false) }) })
+})()
 </script>
 </body>
 </html>

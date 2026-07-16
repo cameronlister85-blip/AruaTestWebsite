@@ -1,0 +1,755 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hair loss suitability check — Arua</title>
+  <meta name="description" content="A short suitability check for hair loss treatment. Private, quick, and clinician-reviewed." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,380;0,9..144,500;1,9..144,340;1,9..144,380&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            page:            '#F6F1E8',
+            'page-alt':      '#EDE5D8',
+            surface:         '#FFFFFF',
+            ink:             '#15140F',
+            'ink-soft':      '#3B3933',
+            muted:           '#8A867D',
+            hairline:        '#D9CFBF',
+            'hairline-soft': '#E5DCCC',
+            accent:          '#8C4A2F',
+            'accent-ink':    '#FFFFFF',
+            'accent-deep':   '#5C2E1A',
+            sage:            '#DCE3D2',
+            'sage-deep':     '#5E6B4F',
+          },
+          fontFamily: {
+            display: ['"Fraunces"', 'Georgia', 'serif'],
+            body:    ['"Inter Tight"', '-apple-system', 'system-ui', 'sans-serif'],
+            mono:    ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+          },
+          borderRadius: { pill: '999px', card: '6px' },
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    ::selection { background: #8C4A2F; color: #F6F1E8; }
+    .dp { font-family: 'Fraunces', Georgia, serif; font-feature-settings: "ss01" 1, "ss02" 1; }
+    .focus-ring:focus-visible { outline: 2px solid #8C4A2F; outline-offset: 2px; }
+
+    /* ── Steps ── */
+    .step {
+      display: none;
+      background: #FFFFFF;
+      border: 1px solid #E5DCCC;
+      border-radius: 18px;
+      padding: 32px 26px;
+      box-shadow: 0 2px 5px -2px rgba(140,74,47,.05), 0 18px 44px -18px rgba(21,20,15,.12);
+    }
+    @media (min-width: 640px) { .step { padding: 40px 44px; } }
+    .step.active { display: block; animation: stepIn 260ms cubic-bezier(0.4,0,0.2,1); }
+    .step.active.going-back { animation: stepInBack 260ms cubic-bezier(0.4,0,0.2,1); }
+    @keyframes stepIn     { from { opacity:0; transform:translateX(14px); } to { opacity:1; transform:translateX(0); } }
+    @keyframes stepInBack { from { opacity:0; transform:translateX(-14px); } to { opacity:1; transform:translateX(0); } }
+
+    /* ── Step typography ── */
+    .step-eyebrow { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#8A867D; margin-bottom:10px; }
+    .step-q { font-family:'Fraunces',Georgia,serif; font-feature-settings:"ss01" 1,"ss02" 1; font-weight:380; font-size:26px; line-height:1.2; letter-spacing:-.03em; color:#15140F; margin-bottom:8px; }
+    .step-hint { font-size:14px; color:#8A867D; line-height:1.65; margin-bottom:28px; }
+    .step-note { font-size:13px; color:#8A867D; line-height:1.6; margin-top:16px; }
+    .q-label { display:block; font-size:13px; font-weight:500; color:#3B3933; margin-bottom:6px; }
+
+    /* ── Radio cards ── */
+    .radio-card {
+      display:flex; align-items:center; gap:14px; padding:15px 18px;
+      border:1.5px solid #E5DCCC; border-radius:8px; cursor:pointer;
+      transition:border-color 150ms, background 150ms; margin-bottom:9px; user-select:none;
+    }
+    .radio-card:hover { border-color:#8C4A2F; background:rgba(140,74,47,.04); }
+    .radio-card.selected { border-color:#8C4A2F; background:rgba(140,74,47,.07); }
+    .radio-dot { width:18px; height:18px; border:1.5px solid #D9CFBF; border-radius:50%; flex-shrink:0; transition:all 150ms; }
+    .radio-card.selected .radio-dot { border-color:#8C4A2F; background:#8C4A2F; box-shadow:inset 0 0 0 3.5px #F6F1E8; }
+    .radio-label { font-size:15px; line-height:1.45; color:#3B3933; }
+    .radio-card.selected .radio-label { color:#15140F; font-weight:500; }
+
+    /* ── Inputs ── */
+    .q-input {
+      width:100%; height:52px; padding:0 20px;
+      border:1.5px solid #E5DCCC; border-radius:999px; background:#FFFFFF;
+      font-size:15px; font-family:'Inter Tight',system-ui,sans-serif; color:#15140F;
+      transition:border-color 150ms; outline:none;
+    }
+    .q-input:focus { border-color:#8C4A2F; }
+    .q-input::placeholder { color:#8A867D; }
+
+    /* ── Stop overlays ── */
+    .stop-overlay { display:none; position:fixed; inset:0; z-index:60; align-items:center; justify-content:center; padding:32px; background:#F6F1E8; overflow-y:auto; }
+    .stop-overlay.visible { display:flex; }
+
+    /* ── Validation shake ── */
+    @keyframes errShake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-5px)} 40%,80%{transform:translateX(5px)} }
+    .err-shake { animation: errShake 340ms cubic-bezier(0.4,0,0.2,1); }
+
+    /* ── Input error state ── */
+    .q-input.input-err { border-color:#C0392B; }
+
+    /* ── Anonymous signpost ── */
+    .signpost {
+      display:flex; gap:10px; align-items:flex-start;
+      background:rgba(220,227,210,.55); border:1px solid #CBD6BC; border-radius:8px;
+      padding:12px 16px; margin-bottom:28px;
+      font-size:13px; line-height:1.6; color:#3B3933;
+    }
+
+    /* ── Ambient wash — depth without noise ── */
+    body::before {
+      content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
+      background:
+        radial-gradient(900px 480px at 88% -10%, rgba(234,217,196,.5), transparent 65%),
+        radial-gradient(760px 420px at -12% 110%, rgba(220,227,210,.45), transparent 62%);
+    }
+
+    /* ── Tell me more ── */
+    .tell-more { margin:-14px 0 26px; }
+    .tell-more-btn {
+      font-size:13px; font-weight:500; color:#8C4A2F; background:none; border:none;
+      padding:0; cursor:pointer; text-decoration:underline; text-underline-offset:3px;
+    }
+    .tell-more-btn:hover { color:#5C2E1A; }
+    .tell-more-btn:focus-visible { outline:2px solid #8C4A2F; outline-offset:2px; border-radius:2px; }
+    .tell-more-panel p {
+      font-size:13px; line-height:1.65; color:#3B3933;
+      background:#FFFFFF; border:1px solid #E5DCCC; border-radius:8px;
+      padding:12px 16px; margin-top:10px;
+    }
+
+    /* ── Governance draft marker (remove at clinical sign-off) ── */
+    .draft-badge {
+      position:fixed; bottom:12px; right:12px; z-index:70;
+      font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+      color:#8A867D; background:rgba(246,241,232,.92); border:1px solid #D9CFBF; border-radius:999px;
+      padding:5px 12px; pointer-events:none;
+    }
+  </style>
+</head>
+<body class="bg-page text-ink font-body antialiased">
+
+<!-- ══════════════════════════════════════════
+     CRISIS SUPPORT — HL_S1_Q08 current severe / suicidal
+     Route U/H per HL workflow v0.3 s6.1; conservative crisis-first
+     presentation pending clinical-lead threshold decision
+     ("Decisions to resolve": mental-health screen thresholds).
+══════════════════════════════════════════ -->
+<div id="stop-s0" class="stop-overlay">
+  <div class="max-w-[480px] w-full text-center">
+    <div class="w-14 h-14 rounded-full bg-sage border border-[#BDC9B0] flex items-center justify-center mx-auto mb-8">
+      <svg width="20" height="20" fill="none" viewBox="0 0 20 20">
+        <path d="M10 17s-6-3.8-6-8.4C4 6 5.8 4.3 8 4.3c1 0 1.7.4 2 .9.3-.5 1-.9 2-.9 2.2 0 4 1.7 4 4.3 0 4.6-6 8.4-6 8.4z" stroke="#5E6B4F" stroke-width="1.4" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <p class="font-mono text-[11px] tracking-[.18em] uppercase text-muted mb-3">Support first</p>
+    <h2 class="dp font-[380] tracking-[-0.03em] text-[28px] leading-[1.15] mb-4 text-ink">It sounds like things are heavy right now</h2>
+    <p class="text-[15px] leading-[1.75] text-ink-soft mb-5 max-w-[400px] mx-auto">Support comes first; hair loss can wait. Free, confidential support is available any time: <strong>call or text 1737</strong> to talk with a trained counsellor. If you're in immediate danger, call 111.</p>
+    <p class="text-[13px] leading-[1.7] text-muted mb-10 max-w-[380px] mx-auto">Nothing you've entered has been saved to any health record. This assessment is not going anywhere; we'll be here whenever you're ready.</p>
+    <div class="flex flex-col items-center gap-3">
+      <a href="tel:1737" class="inline-flex h-[48px] px-8 rounded-pill bg-ink text-page text-sm font-semibold items-center hover:bg-[#2e2d25] active:scale-[0.98] transition-[background,transform] duration-150 focus-ring">Call 1737 now</a>
+      <a href="../../" class="text-sm text-muted hover:text-ink-soft transition-colors duration-150 underline underline-offset-2">Return to Arua</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     HARD STOP (H) — EXIT_HARDSTOP, question bank v0.2
+══════════════════════════════════════════ -->
+<div id="stop-s1" class="stop-overlay">
+  <div class="max-w-[480px] w-full text-center">
+    <div class="w-14 h-14 rounded-full bg-page-alt border border-hairline flex items-center justify-center mx-auto mb-8">
+      <svg width="20" height="20" fill="none" viewBox="0 0 20 20">
+        <circle cx="10" cy="10" r="9" stroke="#8C4A2F" stroke-width="1.5"/>
+        <path d="M10 6v5M10 14h.01" stroke="#8C4A2F" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <p class="font-mono text-[11px] tracking-[.18em] uppercase text-muted mb-3">Not suitable online</p>
+    <h2 class="dp font-[380] tracking-[-0.03em] text-[28px] leading-[1.15] mb-4 text-ink">This online pathway isn't the right fit</h2>
+    <p id="s1-body" class="text-[15px] leading-[1.75] text-ink-soft mb-5 max-w-[380px] mx-auto">Based on your answers, an online pathway is not the safe option for you right now.</p>
+    <p class="text-[13px] leading-[1.7] text-muted mb-10 max-w-[380px] mx-auto">Nothing you've entered has been saved to any health record. If your situation changes, you're welcome back any time.</p>
+    <a href="../../" class="inline-flex h-[48px] px-8 rounded-pill bg-ink text-page text-sm font-medium items-center hover:bg-[#2e2d25] active:scale-[0.98] transition-[background,transform] duration-150 focus-ring">Return to Arua</a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DIAGNOSTIC REVIEW (D) — EXIT_REFER tone, HL workflow v0.3 s6.2:
+     "This may not be typical male pattern hair loss, and it is safer
+     to have an in-person or GP review before treatment."
+══════════════════════════════════════════ -->
+<div id="stop-sd" class="stop-overlay">
+  <div class="max-w-[480px] w-full text-center">
+    <div class="w-14 h-14 rounded-full bg-page-alt border border-hairline flex items-center justify-center mx-auto mb-8">
+      <svg width="20" height="20" fill="none" viewBox="0 0 20 20">
+        <circle cx="9" cy="9" r="6" stroke="#8C4A2F" stroke-width="1.5"/>
+        <path d="M13.5 13.5L17 17" stroke="#8C4A2F" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <p class="font-mono text-[11px] tracking-[.18em] uppercase text-muted mb-3">Worth checking properly</p>
+    <h2 class="dp font-[380] tracking-[-0.03em] text-[28px] leading-[1.15] mb-4 text-ink">This deserves a proper look first</h2>
+    <p id="sd-body" class="text-[15px] leading-[1.75] text-ink-soft mb-5 max-w-[400px] mx-auto">This may not be typical male pattern hair loss, and it's safer to have an in-person or GP review before treatment.</p>
+    <p class="text-[13px] leading-[1.7] text-muted mb-10 max-w-[400px] mx-auto">That's not a brush-off: it'sthe honest call. Nothing you've entered has been saved to any health record, and if a review clears things up, we're here after it.</p>
+    <a href="../../" class="inline-flex h-[48px] px-8 rounded-pill bg-ink text-page text-sm font-medium items-center hover:bg-[#2e2d25] active:scale-[0.98] transition-[background,transform] duration-150 focus-ring">Return to Arua</a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     NAV
+══════════════════════════════════════════ -->
+<nav id="qnav" class="sticky top-0 z-40 border-b border-transparent transition-[border-color,box-shadow] duration-300 bg-page/[.88] backdrop-blur-xl backdrop-saturate-150">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-[68px] flex items-center justify-between">
+    <a href="../../" class="dp font-[380] text-[52px] leading-none tracking-[-0.035em] text-ink focus-ring rounded-sm">arua</a>
+    <a href="../../" class="text-sm text-muted hover:text-ink transition-colors duration-150 focus-ring rounded-sm">← Back to Arua</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     PROGRESS BAR
+══════════════════════════════════════════ -->
+<div class="sticky top-[64px] z-30 bg-page border-b border-hairline-soft">
+  <div class="max-w-[620px] mx-auto px-8 pt-3 pb-2.5">
+    <div style="height:5px; background:#E5DCCC; border-radius:999px; overflow:hidden; margin-bottom:8px;">
+      <div id="progress-bar" style="height:100%; border-radius:999px; background:#4A7C5E; width:0%; transition:width 500ms cubic-bezier(0.4,0,0.2,1);"></div>
+    </div>
+    <div class="flex justify-between items-center">
+      <span id="progress-label" class="font-mono text-[11px] tracking-[.14em] uppercase text-muted">Suitability check</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MAIN
+══════════════════════════════════════════ -->
+<main class="min-h-[calc(100vh-68px-44px)] pb-28">
+<div class="max-w-[620px] mx-auto px-8 pt-12 pb-4">
+
+<!-- Questions injected by JS -->
+<div id="q-container"></div>
+
+<!-- ── Contact capture ── -->
+<div class="step" id="step-contact">
+  <p class="step-eyebrow" id="contact-eyebrow">Almost there</p>
+  <h2 class="step-q" id="contact-heading">Leave your details and we'll be in touch</h2>
+  <p class="step-hint" id="contact-hint">We'll reach out when we're ready to take on new patients.</p>
+
+  <div class="grid grid-cols-2 gap-3 mb-3">
+    <div>
+      <label class="q-label">First name</label>
+      <input type="text" id="contact-first" class="q-input" placeholder="First name" autocomplete="given-name" />
+    </div>
+    <div>
+      <label class="q-label">Last name</label>
+      <input type="text" id="contact-last" class="q-input" placeholder="Last name" autocomplete="family-name" />
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="q-label">Date of birth</label>
+    <input type="date" id="contact-dob" class="q-input" oninput="clearErr('dob-err','contact-dob')" />
+    <p id="dob-err" class="mt-1.5 text-[12px] text-red-600" style="display:none;"></p>
+  </div>
+  <div class="mb-3">
+    <label class="q-label">Email address</label>
+    <input type="email" id="contact-email" class="q-input" placeholder="your@email.com" autocomplete="email" />
+  </div>
+  <div class="mb-8">
+    <label class="q-label">Mobile number</label>
+    <input type="tel" id="contact-mobile" class="q-input" placeholder="021 123 4567" autocomplete="tel" oninput="clearErr('mobile-err','contact-mobile')" />
+    <p id="mobile-hint" class="mt-1.5 text-[12px] text-muted">NZ mobile numbers only (021, 022, 027, 028, 029)</p>
+    <p id="mobile-err" class="mt-1 text-[12px] text-red-600" style="display:none;"></p>
+  </div>
+
+  <div class="flex items-center gap-5 flex-wrap">
+    <button onclick="goBack()" class="text-sm text-muted hover:text-ink-soft transition-colors duration-150 focus-ring rounded-sm">← Back</button>
+    <button onclick="submitContact()" class="h-[52px] px-10 rounded-pill bg-accent text-accent-ink text-[15px] font-medium hover:bg-[#7a3f28] active:scale-[0.98] transition-[background,transform] duration-150 focus-ring">
+      Send my details →
+    </button>
+  </div>
+  <p class="step-note">This is the first point where we ask who you are. Until you press send, nothing you've answered is saved; if you'd rather not leave your details, just close the page and nothing is kept.</p>
+  <p class="step-note">Your information is private and only shared with the clinical team reviewing your case. <a href="../../privacy.html" class="underline hover:text-ink-soft transition-colors duration-150">Privacy policy →</a></p>
+</div>
+
+<!-- ── Thank you ── -->
+<div class="step" id="step-thanks">
+  <div style="padding-top:8px;">
+    <div class="w-12 h-12 rounded-full bg-sage border border-[#BDC9B0] flex items-center justify-center mb-8">
+      <svg width="18" height="18" fill="none" viewBox="0 0 18 18">
+        <path d="M3.5 9.5l4 4 7-8" stroke="#5E6B4F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <p class="step-eyebrow">You're on the list</p>
+    <h2 class="step-q" id="thanks-heading">We've got your details</h2>
+    <p class="text-[15px] leading-[1.75] text-ink-soft mb-10" id="thanks-body">We'll be in touch soon.</p>
+    <a href="../../" class="inline-flex h-[48px] px-8 rounded-pill bg-ink text-page text-sm font-medium items-center hover:bg-[#2e2d25] active:scale-[0.98] transition-[background,transform] duration-150 focus-ring">Return to Arua</a>
+  </div>
+</div>
+
+</div>
+</main>
+
+<!-- Governance status marker — remove at clinical sign-off -->
+<div class="draft-badge">Draft · question bank v0.2 · not clinically signed off</div>
+
+<script>
+// ══════════════════════════════════════════════
+// QUESTION DATA — Arua question bank master v0.2 (Hair loss, Stage 1 suitability)
+// Source: 202607_Arua_question_bank_master_v0.2.xlsx / Hair loss workflow v0.3 s6.1
+// Route values: 'continue' | 'S0' (U crisis) | 'S1' (H hard stop) | 'SD' (D diagnostic review) | 'S2' (C caution flag)
+// hint = "Why we ask" (shown by default); more = "Tell me more" (behind a tap)
+// Pending clinical-lead decisions (HL workflow v0.3, Decisions to resolve):
+//  - q6 scalp symptoms coded "H / D": conservative default = D referral exit until clinical lead allows review
+//  - q8 severe/suicidal coded "U / H": conservative default = crisis-first exit (1737 / 111)
+// ══════════════════════════════════════════════
+const QUESTIONS = [
+  { // HL_S1_Q01
+    id: 'q1',
+    eyebrow: 'Eligibility',
+    q: 'Are you 18 or over?',
+    hint: 'This service is for adults. If you are under 18, hair loss deserves a proper look with your GP first.',
+    more: 'Hair loss in teenagers is less commonly male pattern hair loss and more often needs in-person assessment to find the cause. The treatments we offer are approved and studied in adults.',
+    signpost: true,
+    // Age is binary: "Unsure" removed per product decision 15 Jul 2026.
+    // Bank v0.2 lists Unsure: H — flag for clinical redline (safety unchanged; Unsure routed to a stop anyway).
+    options: [
+      { value: 'yes',    label: 'Yes',      route: 'continue' },
+      { value: 'no',     label: 'No',       route: 'S1', stopMsg: 'This service is for adults. If you are under 18, the right next step is your GP, who can take a proper look at what\'s going on.' },
+    ]
+  },
+  { // HL_S1_Q02
+    id: 'q2',
+    eyebrow: 'Eligibility',
+    q: 'Are you seeking help for yourself?',
+    hint: 'We can only assess and treat the person answering the questions; treatment has to match the individual.',
+    more: 'If you are researching for a partner or family member, the safest path is for them to complete their own quick assessment. Prescription treatments should never be shared.',
+    options: [
+      { value: 'yes',    label: 'Yes, this is for me',                       route: 'continue' },
+      { value: 'no',     label: 'No, I\'m asking on behalf of someone else', route: 'S1', stopMsg: 'We can only assess and treat the person answering the questions. The right next step is for them to complete their own assessment, and it only takes a minute.' },
+      { value: 'unsure', label: 'Not sure',                                  route: 'S1', stopMsg: 'We can only assess and treat the person answering the questions. The right next step is for the person concerned to complete their own assessment.' },
+    ]
+  },
+  { // HL_S1_Q03
+    id: 'q3',
+    eyebrow: 'Eligibility',
+    q: 'Are you currently in New Zealand?',
+    hint: 'We are a New Zealand service with NZ clinicians and pharmacies, and we can only provide care while you are in the country.',
+    more: 'Our prescribers are registered in New Zealand and our medicines are supplied through NZ pharmacies, so we cannot legally assess or supply you while you are overseas.',
+    options: [
+      { value: 'yes',    label: 'Yes, I\'m in New Zealand', route: 'continue' },
+      { value: 'no',     label: 'No',                       route: 'S1', stopMsg: 'We can only provide care while you are in New Zealand. The right next step is a local service where you are, and if you are back in NZ later, you are welcome then.' },
+      { value: 'unsure', label: 'Not sure',                 route: 'S2' },
+    ]
+  },
+  { // HL_S1_Q04 — pattern: hairline/temples/crown/top → P; patches/all over/unsure → D
+    id: 'q4',
+    eyebrow: 'About your hair loss',
+    q: 'Where is your hair loss mainly happening?',
+    hint: 'The pattern of hair loss is the biggest clue to its cause, and to which treatments will actually work.',
+    more: 'Male pattern hair loss usually shows at the temples, hairline, crown or top, and responds to the treatments we offer. Patchy loss, or thinning all over, can have different causes and different fixes, so those patterns get a closer look rather than a standard plan.',
+    options: [
+      { value: 'hairline', label: 'Hairline or temples',            route: 'continue' },
+      { value: 'crown',    label: 'Crown or top of head',           route: 'continue' },
+      { value: 'patches',  label: 'Patches or bare spots',          route: 'SD', stopMsg: 'Patchy hair loss can have a different cause from male pattern hair loss, and a different fix. The safer path is an in-person look with your GP before starting treatment, so you treat the right thing.' },
+      { value: 'allover',  label: 'All over / general thinning',    route: 'SD', stopMsg: 'Thinning all over can have a different cause from male pattern hair loss, sometimes one that\'s treatable at the source. The safer path is an in-person look with your GP before starting treatment.' },
+      { value: 'unsure',   label: 'Not sure',                        route: 'SD', stopMsg: 'When the pattern isn\'t clear, the safer path is an in-person look with your GP before starting treatment, so you can be confident you\'re treating the right thing.' },
+    ]
+  },
+  { // HL_S1_Q05
+    id: 'q5',
+    eyebrow: 'About your hair loss',
+    q: 'Has your hair loss been sudden or rapid?',
+    hint: 'Sudden or rapid shedding usually has a different cause from gradual pattern loss, and often a fixable one.',
+    more: 'Heavy shedding can follow illness, stress, weight loss or a new medicine, or signal conditions like alopecia areata. These usually need different care, and some recover on their own once the trigger passes. Getting the diagnosis right beats starting the wrong treatment.',
+    options: [
+      { value: 'yes',    label: 'Yes',      route: 'SD', stopMsg: 'Sudden or rapid shedding usually has a different cause from gradual pattern loss, often a fixable one, and some recover on their own once the trigger passes. A GP review to find the cause beats starting the wrong treatment.' },
+      { value: 'no',     label: 'No',       route: 'continue' },
+      { value: 'unsure', label: 'Not sure', route: 'S2' },
+    ]
+  },
+  { // HL_S1_Q06 — routing "H / D": conservative default = referral exit pending clinical-lead decision
+    id: 'q6',
+    eyebrow: 'Scalp health',
+    q: 'Do you have scalp pain, redness, sores, scabbing, pustules, or marked scaling?',
+    hint: 'Pain, redness, sores or heavy scaling point to a scalp condition that needs examining in person before any hair loss treatment.',
+    more: 'Inflammatory or infected scalp conditions can cause hair loss themselves, and some scar permanently if not treated early. Photos are not enough for these; a GP or dermatologist review is the safe route, and treating the scalp first protects your hair.',
+    options: [
+      { value: 'yes',    label: 'Yes',      route: 'SD', stopMsg: 'Scalp symptoms like these need examining in person. Photos aren\'t enough, and some scalp conditions can scar if they aren\'t treated early. Please see your GP or a dermatologist promptly; treating the scalp first protects your hair.' },
+      { value: 'no',     label: 'No',       route: 'continue' },
+      { value: 'unsure', label: 'Not sure', route: 'S2' },
+    ]
+  },
+  { // HL_S1_Q07
+    id: 'q7',
+    eyebrow: 'Recent changes',
+    q: 'Have you recently had major illness, surgery, rapid weight loss, major stress, or started a new medicine?',
+    hint: 'Major body stresses commonly cause temporary shedding that recovers on its own, which changes what treatment, if any, you need.',
+    more: 'Illness, surgery, rapid weight loss, major stress and some medicines can push hair into a resting phase, with shedding a few months later. It usually regrows once things settle. A clinician will weigh this before recommending long-term treatment.',
+    options: [
+      { value: 'yes',    label: 'Yes',      route: 'SD', stopMsg: 'Major body stresses commonly cause temporary shedding that recovers on its own once things settle. Before committing to long-term treatment, the safer path is a GP review to check whether this is the cause, and it may fix itself.' },
+      { value: 'no',     label: 'No',       route: 'continue' },
+      { value: 'unsure', label: 'Not sure', route: 'S2' },
+    ]
+  },
+  { // HL_S1_Q08; most sensitive item in either pathway (finasteride psychiatric signal)
+    // "Current severe / suicidal" coded U / H: conservative default = crisis-first exit
+    id: 'q8',
+    eyebrow: 'Looking after you',
+    q: 'Have you had severe depression, suicidal thoughts, or major current mental health concerns?',
+    hint: 'One treatment we offer (finasteride) has a recognised link to mood changes in some men, so your mental health genuinely changes what is safest to recommend. Honest answers here protect you; they are confidential and never judged.',
+    more: 'Medicine regulators in the UK and Europe have flagged that finasteride can be associated with low mood, depression and, rarely, suicidal thoughts. Most men tolerate it well, but if you are going through severe depression or have had suicidal thoughts, a clinician needs to factor that in. That might mean extra check-ins, a different treatment such as minoxidil, or involving your GP. If things are heavy right now, free support is available any time: call or text 1737.',
+    options: [
+      { value: 'severe', label: 'Yes: severe or current, or I\'ve had suicidal thoughts', route: 'S0' },
+      { value: 'past',   label: 'Some history, or mild concerns at the moment',            route: 'S2' },
+      { value: 'no',     label: 'No',                                                      route: 'continue' },
+    ]
+  },
+  { // HL_S1_Q09
+    id: 'q9',
+    eyebrow: 'Looking after you',
+    q: 'Are you trying to conceive, concerned about fertility, or undergoing fertility assessment?',
+    hint: 'Finasteride can affect semen and is not recommended while trying to conceive, so your plans change which options fit.',
+    more: 'Finasteride lowers DHT, and in some men it can reduce semen volume or quality while taking it, generally reversing after stopping. If you are trying for a baby or have fertility concerns, a clinician will talk through options, often minoxidil first, or timing treatment differently.',
+    options: [
+      { value: 'yes',    label: 'Yes',      route: 'S2' },
+      { value: 'no',     label: 'No',       route: 'continue' },
+      { value: 'unsure', label: 'Not sure', route: 'S2' },
+    ]
+  },
+  { // HL_S1_Q10
+    id: 'q10',
+    eyebrow: 'Looking after you',
+    q: 'Have you previously used finasteride and stopped due to side effects?',
+    hint: 'If finasteride caused you problems before, that strongly shapes whether and how it should be tried again.',
+    more: 'Tell us what happened: sexual side effects, mood changes, anything else. A clinician will weigh whether a re-trial is sensible, whether minoxidil is the better path, or whether a conversation first would help.',
+    options: [
+      { value: 'yes',    label: 'Yes',      route: 'S2' },
+      { value: 'no',     label: 'No',       route: 'continue' },
+      { value: 'unsure', label: 'Not sure', route: 'S2' },
+    ]
+  },
+];
+
+// ══════════════════════════════════════════════
+// S2 FLAG LABELS — clinician dashboard labels, question bank v0.2
+// ══════════════════════════════════════════════
+const S2_LABELS = {
+  'q3-unsure':  'Uncertain about NZ location',
+  'q5-unsure':  'Uncertain whether shedding is sudden',
+  'q6-unsure':  'Uncertain about scalp symptoms',
+  'q7-unsure':  'Uncertain about recent systemic triggers',
+  'q8-past':    'Mental health history / mild current concerns (finasteride caution)',
+  'q9-yes':     'Fertility / conception (finasteride caution)',
+  'q9-unsure':  'Uncertain about fertility plans',
+  'q10-yes':    'Prior finasteride side effects',
+  'q10-unsure': 'Uncertain about prior finasteride side effects',
+};
+
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+let currentStep  = null;
+let stepHistory  = [];
+let s2FlagList   = [];
+
+// ══════════════════════════════════════════════
+// BUILD QUESTION STEPS
+// ══════════════════════════════════════════════
+function buildQuestions() {
+  const container = document.getElementById('q-container');
+  QUESTIONS.forEach((q, idx) => {
+    const div = document.createElement('div');
+    div.className = 'step';
+    div.id = `step-${q.id}`;
+    div.innerHTML = `
+      ${q.signpost ? `
+        <div class="signpost">
+          <svg width="15" height="15" fill="none" viewBox="0 0 15 15" style="flex-shrink:0; margin-top:2px;"><circle cx="7.5" cy="7.5" r="6.75" stroke="#5E6B4F" stroke-width="1.2"/><path d="M5 7.8l1.8 1.8 3.2-3.6" stroke="#5E6B4F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>This check is anonymous: no account, no card, nothing saved to a health record. It takes about a minute.</span>
+        </div>` : ''}
+      <p class="step-eyebrow">${q.eyebrow}</p>
+      <h2 class="step-q">${q.q}</h2>
+      <p class="step-hint">${q.hint}</p>
+      ${q.more ? `
+        <div class="tell-more">
+          <button type="button" class="tell-more-btn" aria-expanded="false" onclick="toggleMore(this)">Tell me more</button>
+          <div class="tell-more-panel" hidden><p>${q.more}</p></div>
+        </div>` : ''}
+      ${q.options.map(opt => `
+        <div class="radio-card" data-qid="${q.id}" data-val="${opt.value}" onclick="selectAnswer('${q.id}','${opt.value}')">
+          <div class="radio-dot"></div>
+          <span class="radio-label">${opt.label}</span>
+        </div>
+      `).join('')}
+      ${idx > 0 ? `<button onclick="goBack()" class="mt-6 text-sm text-muted hover:text-ink-soft transition-colors duration-150 focus-ring rounded-sm">← Back</button>` : ''}
+    `;
+    container.appendChild(div);
+  });
+}
+
+// ══════════════════════════════════════════════
+// TELL ME MORE toggle
+// ══════════════════════════════════════════════
+function toggleMore(btn) {
+  const panel = btn.nextElementSibling;
+  const open  = panel.hidden;
+  panel.hidden = !open;
+  btn.setAttribute('aria-expanded', String(open));
+  btn.textContent = open ? 'Show less' : 'Tell me more';
+}
+
+// ══════════════════════════════════════════════
+// SHOW STEP
+// ══════════════════════════════════════════════
+function showStep(id, back = false) {
+  document.querySelectorAll('.step').forEach(el => {
+    el.classList.remove('active', 'going-back');
+  });
+  const target = document.getElementById(`step-${id}`);
+  if (!target) return;
+  target.classList.add('active');
+  if (back) target.classList.add('going-back');
+  currentStep = id;
+  updateProgress(id);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ══════════════════════════════════════════════
+// PROGRESS
+// ══════════════════════════════════════════════
+function updateProgress(id) {
+  const bar   = document.getElementById('progress-bar');
+  const label = document.getElementById('progress-label');
+
+  if (id.startsWith('q')) {
+    const n   = parseInt(id.slice(1));
+    const pct = Math.round(((n - 1) / QUESTIONS.length) * 85);
+    bar.style.width   = pct + '%';
+    label.textContent = n >= 9 ? 'Almost there' : 'Suitability check';
+  } else if (id === 'contact') {
+    bar.style.width   = '90%';
+    label.textContent = 'Your details';
+  } else if (id === 'thanks') {
+    bar.style.width   = '100%';
+    label.textContent = 'Done';
+  }
+}
+
+// ══════════════════════════════════════════════
+// ANSWER SELECTION
+// ══════════════════════════════════════════════
+function selectAnswer(qid, value) {
+  document.querySelectorAll(`[data-qid="${qid}"]`).forEach(c => c.classList.remove('selected'));
+  const chosen = document.querySelector(`[data-qid="${qid}"][data-val="${value}"]`);
+  if (chosen) chosen.classList.add('selected');
+
+  const q   = QUESTIONS.find(x => x.id === qid);
+  const opt = q.options.find(o => o.value === value);
+
+  setTimeout(() => handleRoute(qid, opt), 240);
+}
+
+// ══════════════════════════════════════════════
+// ROUTING — shared Arua triage taxonomy (U > H > D > I > C > P)
+// ══════════════════════════════════════════════
+function handleRoute(qid, opt) {
+  if (opt.route === 'S0') {
+    document.getElementById('stop-s0').classList.add('visible');
+    return;
+  }
+
+  if (opt.route === 'S1') {
+    const base = 'Based on your answers, an online pathway is not the safe option for you right now, and we would rather be straight with you than sell you something unsuitable. ';
+    document.getElementById('s1-body').textContent = base + (opt.stopMsg || 'The right next step is a visit to your GP so this can be looked at properly.');
+    document.getElementById('stop-s1').classList.add('visible');
+    return;
+  }
+
+  if (opt.route === 'SD') {
+    document.getElementById('sd-body').textContent = opt.stopMsg || 'This may not be typical male pattern hair loss, and it\'s safer to have an in-person or GP review before treatment.';
+    document.getElementById('stop-sd').classList.add('visible');
+    return;
+  }
+
+  if (opt.route === 'S2') {
+    const label = S2_LABELS[`${qid}-${opt.value}`];
+    if (label && !s2FlagList.includes(label)) s2FlagList.push(label);
+  }
+
+  stepHistory.push(qid);
+  const qi    = parseInt(qid.slice(1));
+  const nextQ = QUESTIONS[qi];
+
+  if (nextQ) {
+    showStep(nextQ.id);
+  } else {
+    prepareContactStep();
+    showStep('contact');
+  }
+}
+
+// ══════════════════════════════════════════════
+// BACK
+// ══════════════════════════════════════════════
+function goBack() {
+  if (stepHistory.length === 0) return;
+  const prev = stepHistory.pop();
+  showStep(prev, true);
+}
+
+// ══════════════════════════════════════════════
+// CONTACT STEP — dynamic messaging based on outcome
+// ══════════════════════════════════════════════
+function prepareContactStep() {
+  const heading = document.getElementById('contact-heading');
+  const hint    = document.getElementById('contact-hint');
+
+  if (s2FlagList.length > 0) {
+    heading.textContent = 'Leave your details and we\'ll be in touch';
+    hint.textContent    = 'We\'ll reach out when we\'re ready to launch. If there\'s anything to discuss before we get you started, our team will reach out ahead of time.';
+  } else {
+    heading.textContent = 'Looks like you\'re a great fit. Leave your details.';
+    hint.textContent    = 'Based on your answers, Arua is likely right for you. Leave your details and we\'ll be in touch when we\'re ready to launch.';
+  }
+}
+
+// ══════════════════════════════════════════════
+// SUBMIT CONTACT FORM
+// ══════════════════════════════════════════════
+function isValidNZMobile(val) {
+  const d = val.replace(/[\s\-().+]/g, '');
+  return /^(?:64|0)(21\d{6,7}|22\d{7}|27\d{7}|28\d{7}|29\d{7})$/.test(d);
+}
+
+function clearErr(errId, inputId) {
+  document.getElementById(errId).style.display = 'none';
+  document.getElementById(inputId).classList.remove('input-err');
+}
+
+async function submitContact() {
+  const first  = document.getElementById('contact-first').value.trim();
+  const last   = document.getElementById('contact-last').value.trim();
+  const dobVal = document.getElementById('contact-dob').value;
+  const email  = document.getElementById('contact-email').value.trim();
+  const mobile = document.getElementById('contact-mobile').value.trim();
+
+  let valid = true;
+
+  const markErr = (id, bad) => {
+    document.getElementById(id).classList.toggle('input-err', bad);
+    if (bad) valid = false;
+  };
+
+  const showInlineErr = (errId, inputId, msg) => {
+    const errEl   = document.getElementById(errId);
+    const inputEl = document.getElementById(inputId);
+    if (msg) {
+      errEl.textContent = msg;
+      errEl.style.display = 'block';
+      inputEl.classList.add('input-err');
+      valid = false;
+    } else {
+      errEl.style.display = 'none';
+      inputEl.classList.remove('input-err');
+    }
+  };
+
+  markErr('contact-first', !first);
+  markErr('contact-last',  !last);
+  markErr('contact-email', !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+
+  let dobMsg = '';
+  if (!dobVal) {
+    dobMsg = 'Please enter your date of birth.';
+  } else {
+    const ageMs  = Date.now() - new Date(dobVal).getTime();
+    const ageYrs = ageMs / (365.25 * 24 * 60 * 60 * 1000);
+    if (ageYrs < 18) {
+      dobMsg = 'You must be 18 or older to use Arua.';
+    } else if (ageYrs > 100) {
+      dobMsg = 'Please enter a valid date of birth. Something doesn\'t look right.';
+    }
+  }
+  showInlineErr('dob-err', 'contact-dob', dobMsg);
+
+  let mobileMsg = '';
+  if (!mobile) {
+    mobileMsg = 'Please enter your mobile number.';
+  } else if (!isValidNZMobile(mobile)) {
+    mobileMsg = 'Please enter a valid NZ mobile number, e.g. 021 123 4567.';
+  }
+  showInlineErr('mobile-err', 'contact-mobile', mobileMsg);
+
+  if (!valid) {
+    const step = document.getElementById('step-contact');
+    step.classList.add('err-shake');
+    setTimeout(() => step.classList.remove('err-shake'), 400);
+    return;
+  }
+
+  const WORKER_URL = 'https://arua-form-submit.cameron-lister.workers.dev';
+
+  try {
+    await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ first, last, dob: dobVal, email, mobile, pathway: 'hair-loss', outcome: s2FlagList.length > 0 ? 'S2' : 'S3', flags: s2FlagList.join(', ') }),
+    });
+  } catch (err) {
+    console.warn('Submission POST failed:', err);
+  }
+
+  const thanksHeading = document.getElementById('thanks-heading');
+  const thanksBody    = document.getElementById('thanks-body');
+
+  thanksHeading.textContent = `Thanks, ${first}. You're on the list.`;
+  thanksBody.textContent    = 'We\'re not quite open yet, but we\'re close. Based on your answers, Arua looks like a great fit for you. We\'ll reach out personally as soon as we\'re ready to take on new patients. Keep an eye on your inbox.';
+
+  stepHistory.push('contact');
+  showStep('thanks');
+}
+
+// ══════════════════════════════════════════════
+// NAV SCROLL SHADOW
+// ══════════════════════════════════════════════
+const nav = document.getElementById('qnav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 8) {
+    nav.style.borderColor = '#D9CFBF';
+    nav.style.boxShadow   = '0 1px 12px rgba(21,20,15,0.06)';
+  } else {
+    nav.style.borderColor = 'transparent';
+    nav.style.boxShadow   = 'none';
+  }
+}, { passive: true });
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+buildQuestions();
+showStep('q1');
+
+// DOB constraints
+(function() {
+  const dob = document.getElementById('contact-dob');
+  const today = new Date();
+  const pad = (n) => String(n).padStart(2, '0');
+  const fmt = (d) => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  dob.max = fmt(new Date(today.getFullYear() - 18, today.getMonth(), today.getDate()));
+  dob.min = fmt(new Date(today.getFullYear() - 100, today.getMonth(), today.getDate()));
+})();
+</script>
+</body>
+</html>

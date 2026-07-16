@@ -1,0 +1,756 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ED suitability check — Arua</title>
+  <meta name="description" content="A short suitability check for ED treatment. Private, quick, and clinician-reviewed." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,380;0,9..144,500;1,9..144,340;1,9..144,380&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            page:            '#F6F1E8',
+            'page-alt':      '#EDE5D8',
+            surface:         '#FFFFFF',
+            ink:             '#15140F',
+            'ink-soft':      '#3B3933',
+            muted:           '#8A867D',
+            hairline:        '#D9CFBF',
+            'hairline-soft': '#E5DCCC',
+            accent:          '#8C4A2F',
+            'accent-ink':    '#FFFFFF',
+            'accent-deep':   '#5C2E1A',
+            sage:            '#DCE3D2',
+            'sage-deep':     '#5E6B4F',
+          },
+          fontFamily: {
+            display: ['"Fraunces"', 'Georgia', 'serif'],
+            body:    ['"Inter Tight"', '-apple-system', 'system-ui', 'sans-serif'],
+            mono:    ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+          },
+          borderRadius: { pill: '999px', card: '6px' },
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    ::selection { background: #8C4A2F; color: #F6F1E8; }
+    .dp { font-family: 'Fraunces', Georgia, serif; font-feature-settings: "ss01" 1, "ss02" 1; }
+    .focus-ring:focus-visible { outline: 2px solid #8C4A2F; outline-offset: 2px; }
+
+    /* ── Steps ── */
+    .step {
+      display: none;
+      background: #FFFFFF;
+      border: 1px solid #E5DCCC;
+      border-radius: 18px;
+      padding: 32px 26px;
+      box-shadow: 0 2px 5px -2px rgba(140,74,47,.05), 0 18px 44px -18px rgba(21,20,15,.12);
+    }
+    @media (min-width: 640px) { .step { padding: 40px 44px; } }
+    .step.active { display: block; animation: stepIn 260ms cubic-bezier(0.4,0,0.2,1); }
+    .step.active.going-back { animation: stepInBack 260ms cubic-bezier(0.4,0,0.2,1); }
+    @keyframes stepIn     { from { opacity:0; transform:translateX(14px); } to { opacity:1; transform:translateX(0); } }
+    @keyframes stepInBack { from { opacity:0; transform:translateX(-14px); } to { opacity:1; transform:translateX(0); } }
+
+    /* ── Step typography ── */
+    .step-eyebrow { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#8A867D; margin-bottom:10px; }
+    .step-q { font-family:'Fraunces',Georgia,serif; font-feature-settings:"ss01" 1,"ss02" 1; font-weight:380; font-size:26px; line-height:1.2; letter-spacing:-.03em; color:#15140F; margin-bottom:8px; }
+    .step-hint { font-size:14px; color:#8A867D; line-height:1.65; margin-bottom:28px; }
+    .step-note { font-size:13px; color:#8A867D; line-height:1.6; margin-top:16px; }
+    .q-label { display:block; font-size:13px; font-weight:500; color:#3B3933; margin-bottom:6px; }
+
+    /* ── Radio cards ── */
+    .radio-card {
+      display:flex; align-items:center; gap:14px; padding:15px 18px;
+      border:1.5px solid #E5DCCC; border-radius:8px; cursor:pointer;
+      transition:border-color 150ms, background 150ms; margin-bottom:9px; user-select:none;
+    }
+    .radio-card:hover { border-color:#8C4A2F; background:rgba(140,74,47,.04); }
+    .radio-card.selected { border-color:#8C4A2F; background:rgba(140,74,47,.07); }
+    .radio-dot { width:18px; height:18px; border:1.5px solid #D9CFBF; border-radius:50%; flex-shrink:0; transition:all 150ms; }
+    .radio-card.selected .radio-dot { border-color:#8C4A2F; background:#8C4A2F; box-shadow:inset 0 0 0 3.5px #F6F1E8; }
+    .radio-label { font-size:15px; line-height:1.45; color:#3B3933; }
+    .radio-card.selected .radio-label { color:#15140F; font-weight:500; }
+
+    /* ── Inputs ── */
+    .q-input {
+      width:100%; height:52px; padding:0 20px;
+      border:1.5px solid #E5DCCC; border-radius:999px; background:#FFFFFF;
+      font-size:15px; font-family:'Inter Tight',system-ui,sans-serif; color:#15140F;
+      transition:border-color 150ms; outline:none;
+    }
+    .q-input:focus { border-color:#8C4A2F; }
+    .q-input::placeholder { color:#8A867D; }
+
+    /* ── Stop overlays ── */
+    .stop-overlay { display:none; position:fixed; inset:0; z-index:60; align-items:center; justify-content:center; padding:32px; background:#F6F1E8; }
+    .stop-overlay.visible { display:flex; }
+
+    /* ── Validation shake ── */
+    @keyframes errShake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-5px)} 40%,80%{transform:translateX(5px)} }
+    .err-shake { animation: errShake 340ms cubic-bezier(0.4,0,0.2,1); }
+
+    /* ── Input error state ── */
+    .q-input.input-err { border-color:#C0392B; }
+
+    /* ── Anonymous signpost ── */
+    .signpost {
+      display:flex; gap:10px; align-items:flex-start;
+      background:rgba(220,227,210,.55); border:1px solid #CBD6BC; border-radius:8px;
+      padding:12px 16px; margin-bottom:28px;
+      font-size:13px; line-height:1.6; color:#3B3933;
+    }
+
+    /* ── Ambient wash — depth without noise ── */
+    body::before {
+      content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
+      background:
+        radial-gradient(900px 480px at 88% -10%, rgba(234,217,196,.5), transparent 65%),
+        radial-gradient(760px 420px at -12% 110%, rgba(220,227,210,.45), transparent 62%);
+    }
+
+    /* ── Tell me more ── */
+    .tell-more { margin:-14px 0 26px; }
+    .tell-more-btn {
+      font-size:13px; font-weight:500; color:#8C4A2F; background:none; border:none;
+      padding:0; cursor:pointer; text-decoration:underline; text-underline-offset:3px;
+    }
+    .tell-more-btn:hover { color:#5C2E1A; }
+    .tell-more-btn:focus-visible { outline:2px solid #8C4A2F; outline-offset:2px; border-radius:2px; }
+    .tell-more-panel p {
+      font-size:13px; line-height:1.65; color:#3B3933;
+      background:#FFFFFF; border:1px solid #E5DCCC; border-radius:8px;
+      padding:12px 16px; margin-top:10px;
+    }
+
+    /* ── Governance draft marker (remove at clinical sign-off) ── */
+    .draft-badge {
+      position:fixed; bottom:12px; right:12px; z-index:70;
+      font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+      color:#8A867D; background:rgba(246,241,232,.92); border:1px solid #D9CFBF; border-radius:999px;
+      padding:5px 12px; pointer-events:none;
+    }
+  </style>
+</head>
+<body class="bg-page text-ink font-body antialiased">
+
+<!-- ══════════════════════════════════════════
+     S0 — URGENT REDIRECT
+══════════════════════════════════════════ -->
+<div id="stop-s0" class="stop-overlay">
+  <div class="max-w-[480px] w-full text-center">
+    <div class="w-14 h-14 rounded-full bg-red-50 border border-red-200 flex items-center justify-center mx-auto mb-8">
+      <svg width="20" height="20" fill="none" viewBox="0 0 20 20">
+        <circle cx="10" cy="10" r="9" stroke="#DC2626" stroke-width="1.5"/>
+        <path d="M10 6v5M10 14h.01" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <p class="font-mono text-[11px] tracking-[.18em] uppercase text-red-500 mb-3">Urgent</p>
+    <h2 class="dp font-[380] tracking-[-0.03em] text-[28px] leading-[1.15] mb-4 text-ink">It sounds like you may need medical help now</h2>
+    <p class="text-[15px] leading-[1.75] text-ink-soft mb-10 max-w-[380px] mx-auto">That comes first. Please call 111, or Healthline on <a href="tel:0800611116" class="underline underline-offset-2 whitespace-nowrap">0800 611 116</a> if you're not sure how urgent it is. This assessment is not going anywhere; we'll be here once you're safe and well.</p>
+    <div class="flex flex-col items-center gap-3">
+      <a href="tel:111" class="inline-flex h-[48px] px-8 rounded-pill bg-red-600 text-white text-sm font-semibold items-center hover:bg-red-700 active:scale-[0.98] transition-[background,transform] duration-150 focus-ring">Call 111 now</a>
+      <a href="../../" class="text-sm text-muted hover:text-ink-soft transition-colors duration-150 underline underline-offset-2">Return to Arua</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     S1 — HARD STOP
+══════════════════════════════════════════ -->
+<div id="stop-s1" class="stop-overlay">
+  <div class="max-w-[480px] w-full text-center">
+    <div class="w-14 h-14 rounded-full bg-page-alt border border-hairline flex items-center justify-center mx-auto mb-8">
+      <svg width="20" height="20" fill="none" viewBox="0 0 20 20">
+        <circle cx="10" cy="10" r="9" stroke="#8C4A2F" stroke-width="1.5"/>
+        <path d="M10 6v5M10 14h.01" stroke="#8C4A2F" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <p class="font-mono text-[11px] tracking-[.18em] uppercase text-muted mb-3">Not suitable online</p>
+    <h2 class="dp font-[380] tracking-[-0.03em] text-[28px] leading-[1.15] mb-4 text-ink">This online pathway isn't the right fit</h2>
+    <p id="s1-body" class="text-[15px] leading-[1.75] text-ink-soft mb-5 max-w-[380px] mx-auto">Based on your answers, an online pathway is not the safe option for you right now.</p>
+    <p class="text-[13px] leading-[1.7] text-muted mb-10 max-w-[380px] mx-auto">Nothing you've entered has been saved to any health record. If your situation changes, you're welcome back any time.</p>
+    <a href="../../" class="inline-flex h-[48px] px-8 rounded-pill bg-ink text-page text-sm font-medium items-center hover:bg-[#2e2d25] active:scale-[0.98] transition-[background,transform] duration-150 focus-ring">Return to Arua</a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     NAV
+══════════════════════════════════════════ -->
+<nav id="qnav" class="sticky top-0 z-40 border-b border-transparent transition-[border-color,box-shadow] duration-300 bg-page/[.88] backdrop-blur-xl backdrop-saturate-150">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-[68px] flex items-center justify-between">
+    <a href="../../" class="dp font-[380] text-[52px] leading-none tracking-[-0.035em] text-ink focus-ring rounded-sm">arua</a>
+    <a href="../../" class="text-sm text-muted hover:text-ink transition-colors duration-150 focus-ring rounded-sm">← Back to Arua</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     PROGRESS BAR
+══════════════════════════════════════════ -->
+<div class="sticky top-[64px] z-30 bg-page border-b border-hairline-soft">
+  <div class="max-w-[620px] mx-auto px-8 pt-3 pb-2.5">
+    <div style="height:5px; background:#E5DCCC; border-radius:999px; overflow:hidden; margin-bottom:8px;">
+      <div id="progress-bar" style="height:100%; border-radius:999px; background:#4A7C5E; width:0%; transition:width 500ms cubic-bezier(0.4,0,0.2,1);"></div>
+    </div>
+    <div class="flex justify-between items-center">
+      <span id="progress-label" class="font-mono text-[11px] tracking-[.14em] uppercase text-muted">Suitability check</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MAIN
+══════════════════════════════════════════ -->
+<main class="min-h-[calc(100vh-68px-44px)] pb-28">
+<div class="max-w-[620px] mx-auto px-8 pt-12 pb-4">
+
+<!-- Questions injected by JS -->
+<div id="q-container"></div>
+
+<!-- ── Contact capture ── -->
+<div class="step" id="step-contact">
+  <p class="step-eyebrow" id="contact-eyebrow">Almost there</p>
+  <h2 class="step-q" id="contact-heading">Leave your details and we'll be in touch</h2>
+  <p class="step-hint" id="contact-hint">We'll reach out when we're ready to take on new patients.</p>
+
+  <div class="grid grid-cols-2 gap-3 mb-3">
+    <div>
+      <label class="q-label">First name</label>
+      <input type="text" id="contact-first" class="q-input" placeholder="First name" autocomplete="given-name" />
+    </div>
+    <div>
+      <label class="q-label">Last name</label>
+      <input type="text" id="contact-last" class="q-input" placeholder="Last name" autocomplete="family-name" />
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="q-label">Date of birth</label>
+    <input type="date" id="contact-dob" class="q-input" oninput="clearErr('dob-err','contact-dob')" />
+    <p id="dob-err" class="mt-1.5 text-[12px] text-red-600" style="display:none;"></p>
+  </div>
+  <div class="mb-3">
+    <label class="q-label">Email address</label>
+    <input type="email" id="contact-email" class="q-input" placeholder="your@email.com" autocomplete="email" />
+  </div>
+  <div class="mb-8">
+    <label class="q-label">Mobile number</label>
+    <input type="tel" id="contact-mobile" class="q-input" placeholder="021 123 4567" autocomplete="tel" oninput="clearErr('mobile-err','contact-mobile')" />
+    <p id="mobile-hint" class="mt-1.5 text-[12px] text-muted">NZ mobile numbers only (021, 022, 027, 028, 029)</p>
+    <p id="mobile-err" class="mt-1 text-[12px] text-red-600" style="display:none;"></p>
+  </div>
+
+  <div class="flex items-center gap-5 flex-wrap">
+    <button onclick="goBack()" class="text-sm text-muted hover:text-ink-soft transition-colors duration-150 focus-ring rounded-sm">← Back</button>
+    <button onclick="submitContact()" class="h-[52px] px-10 rounded-pill bg-accent text-accent-ink text-[15px] font-medium hover:bg-[#7a3f28] active:scale-[0.98] transition-[background,transform] duration-150 focus-ring">
+      Send my details →
+    </button>
+  </div>
+  <p class="step-note">This is the first point where we ask who you are. Until you press send, nothing you've answered is saved; if you'd rather not leave your details, just close the page and nothing is kept.</p>
+  <p class="step-note">Your information is private and only shared with the clinical team reviewing your case. <a href="../../privacy.html" class="underline hover:text-ink-soft transition-colors duration-150">Privacy policy →</a></p>
+</div>
+
+<!-- ── Thank you ── -->
+<div class="step" id="step-thanks">
+  <div style="padding-top:8px;">
+    <div class="w-12 h-12 rounded-full bg-sage border border-[#BDC9B0] flex items-center justify-center mb-8">
+      <svg width="18" height="18" fill="none" viewBox="0 0 18 18">
+        <path d="M3.5 9.5l4 4 7-8" stroke="#5E6B4F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <p class="step-eyebrow">You're on the list</p>
+    <h2 class="step-q" id="thanks-heading">We've got your details</h2>
+    <p class="text-[15px] leading-[1.75] text-ink-soft mb-10" id="thanks-body">We'll be in touch soon.</p>
+    <a href="../../" class="inline-flex h-[48px] px-8 rounded-pill bg-ink text-page text-sm font-medium items-center hover:bg-[#2e2d25] active:scale-[0.98] transition-[background,transform] duration-150 focus-ring">Return to Arua</a>
+  </div>
+</div>
+
+</div>
+</main>
+
+<!-- Governance status marker — remove at clinical sign-off -->
+<div class="draft-badge">Draft · question bank v0.2 · not clinically signed off</div>
+
+<script>
+// ══════════════════════════════════════════════
+// QUESTION DATA — Arua question bank master v0.2 (ED questions, Stage 1 suitability)
+// Source: 202607_Arua_question_bank_master_v0.2.xlsx / ED workflow v0.5 s2.3
+// Route values: 'continue' | 'S0' (U urgent) | 'S1' (H hard stop) | 'S2' (C caution flag)
+// hint = "Why we ask" (shown by default); more = "Tell me more" (behind a tap)
+// ══════════════════════════════════════════════
+const QUESTIONS = [
+  {
+    id: 'q1',
+    eyebrow: 'Eligibility',
+    q: 'Are you aged 18 or over?',
+    hint: 'This service is for adults. If you are under 18, the right place to start is your GP, who can look at the whole picture with you.',
+    more: 'Erectile problems in younger men are less common and more often need an in-person assessment to find the cause. Our online pathway, and the medicines we prescribe through it, are set up for adults, so we ask everyone to confirm their age before going further.',
+    signpost: true,
+    // Age is binary: "Unsure" removed per product decision 15 Jul 2026.
+    // Bank v0.2 lists Unsure: H — flag for clinical redline (safety unchanged; Unsure routed to a stop anyway).
+    options: [
+      { value: 'yes',    label: 'Yes',      route: 'continue' },
+      { value: 'no',     label: 'No',       route: 'S1', stopMsg: 'This service is for adults. If you are under 18, the right next step is your GP, who can look at the whole picture with you.' },
+    ]
+  },
+  {
+    id: 'q2',
+    eyebrow: 'Eligibility',
+    q: 'Are you seeking treatment for yourself?',
+    hint: 'Treatment has to be matched to the person taking it, so we can only assess and prescribe for the person answering these questions.',
+    more: 'Your answers guide real prescribing decisions, so they need to come from the person who will take the medicine. If you are helping someone else, the safest option is for them to complete their own assessment. Prescription medicines should never be shared; what is safe for one person can be risky for another.',
+    options: [
+      { value: 'yes',    label: 'Yes, this is for me',                       route: 'continue' },
+      { value: 'no',     label: 'No, I\'m asking on behalf of someone else', route: 'S1', stopMsg: 'We can only assess and prescribe for the person answering the questions. The right next step is for the person concerned to complete their own assessment, and it only takes a minute.' },
+      { value: 'unsure', label: 'Not sure',                                  route: 'S1', stopMsg: 'We can only assess and prescribe for the person answering the questions. The right next step is for the person who will take the medicine to complete their own assessment.' },
+    ]
+  },
+  {
+    id: 'q3',
+    eyebrow: 'Eligibility',
+    q: 'Are you currently in New Zealand?',
+    hint: 'We are a New Zealand service with NZ clinicians and pharmacies, and we can only provide care while you are in the country.',
+    more: 'Our prescribers are registered in New Zealand and our medicines are dispensed by NZ pharmacies. Prescribing rules differ between countries, so we cannot legally assess or supply you while you are overseas. If you are travelling soon, it is worth completing your assessment and order before you go.',
+    options: [
+      { value: 'yes',    label: 'Yes, I\'m in New Zealand', route: 'continue' },
+      { value: 'no',     label: 'No',                       route: 'S1', stopMsg: 'We can only provide care while you are in New Zealand. The right next step is a local service where you are, and if you are back in NZ later, you are welcome then.' },
+      { value: 'unsure', label: 'Not sure',                 route: 'S2' },
+    ]
+  },
+  {
+    id: 'q4',
+    eyebrow: 'Safety check',
+    q: 'Do you currently have chest pain, severe shortness of breath, symptoms of stroke, or another emergency symptom?',
+    hint: 'These symptoms can signal a medical emergency that needs help now, not an online assessment. Nothing matters more than getting that right first.',
+    more: 'Chest pain, severe breathlessness and stroke symptoms need urgent, in-person medical care. If any of these are happening, call 111 now. This pathway will still be here once you are safe and well.',
+    options: [
+      { value: 'yes',    label: 'Yes',      route: 'S0' },
+      { value: 'no',     label: 'No',       route: 'continue' },
+      { value: 'unsure', label: 'Not sure', route: 'S0' },
+    ]
+  },
+  {
+    id: 'q5',
+    eyebrow: 'Medicines',
+    q: 'Are you taking nitrates for chest pain or heart disease?',
+    sub: 'Examples: GTN spray, tablets or patches, isosorbide mononitrate or dinitrate.',
+    hint: 'Nitrates and ED medicines both lower blood pressure, and together they can drop it to a dangerous level. This is the single most important safety check we make.',
+    more: 'ED medicines (PDE5 inhibitors) relax blood vessels. Nitrate medicines do the same thing a different way. Taken together the combined effect can cause a sudden, severe drop in blood pressure, which can be life-threatening. This is why we ask for specific medicine names, and why an unsure answer means a clinician will check with you before anything is prescribed.',
+    options: [
+      { value: 'yes',    label: 'Yes',      route: 'S1', stopMsg: 'Nitrates and ED medicines can drop your blood pressure to a dangerous level when combined. The right next step is a conversation with your GP about options that are safe alongside your heart medicine.' },
+      { value: 'no',     label: 'No',       route: 'continue' },
+      { value: 'unsure', label: 'Not sure', route: 'S2' },
+    ]
+  },
+  {
+    id: 'q6',
+    eyebrow: 'Medicines',
+    q: 'Do you use "poppers", amyl nitrite, or alkyl nitrites?',
+    hint: 'Poppers work like nitrate medicines: combined with ED medicines they can cause a dangerous drop in blood pressure. We ask so we can keep you safe, not to judge.',
+    more: 'Amyl nitrite and similar products relax blood vessels the same way heart nitrates do. Taking them with an ED medicine can drop your blood pressure suddenly and severely. Your answer is confidential and is only used to keep your treatment safe.',
+    options: [
+      { value: 'yes',    label: 'Yes',      route: 'S1', stopMsg: 'Poppers and ED medicines can cause a sudden, severe drop in blood pressure when combined, so this online pathway is not the safe option. The right next step is a conversation with your GP.' },
+      { value: 'no',     label: 'No',       route: 'continue' },
+      { value: 'unsure', label: 'Not sure', route: 'S2' },
+    ]
+  },
+  {
+    id: 'q7',
+    eyebrow: 'Medicines',
+    q: 'Are you taking riociguat or medicine for pulmonary hypertension?',
+    hint: 'Riociguat and ED medicines act on the same blood-pressure pathway and must never be combined.',
+    more: 'Riociguat treats pulmonary hypertension (high pressure in the blood vessels of the lungs). It amplifies the same chemical pathway ED medicines use, so together they can cause a severe drop in blood pressure. If you are not sure what a medicine is for, a clinician will check with you before anything is prescribed.',
+    options: [
+      { value: 'yes',    label: 'Yes',      route: 'S1', stopMsg: 'Riociguat and ED medicines must never be combined, so this online pathway is not the safe option. The right next step is a conversation with your GP or specialist.' },
+      { value: 'no',     label: 'No',       route: 'continue' },
+      { value: 'unsure', label: 'Not sure', route: 'S2' },
+    ]
+  },
+  {
+    id: 'q8',
+    eyebrow: 'Health history',
+    q: 'Have you been told by a doctor that sexual activity is unsafe for you?',
+    hint: 'If a doctor has advised that sexual activity itself could be risky for your heart, that needs to be resolved before ED treatment makes sense.',
+    more: 'Sex puts a similar demand on your heart to moderate exercise. If a doctor has told you to avoid it, usually because of a heart condition, treating ED before that is resolved could put you at risk. The right first step is a review with your GP or specialist.',
+    options: [
+      { value: 'yes',    label: 'Yes',      route: 'S1', stopMsg: 'If a doctor has advised that sexual activity could be risky for you, that needs resolving first. The right next step is a review with your GP or specialist.' },
+      { value: 'no',     label: 'No',       route: 'continue' },
+      { value: 'unsure', label: 'Not sure', route: 'S2' },
+    ]
+  },
+  {
+    id: 'q9',
+    eyebrow: 'Health history',
+    q: 'Have you had a recent heart attack, stroke, unstable angina, severe heart failure, or serious heart rhythm problem?',
+    hint: 'After a major heart or stroke event, your body needs time and often specialist input before ED medicines are safe to consider.',
+    more: 'ED medicines affect your blood vessels and blood pressure, so recent events like a heart attack, stroke or unstable angina change what is safe. Depending on timing and severity, a clinician may need more detail, suggest a GP review, or recommend waiting. Telling us now means we can give you a safe, honest answer.',
+    options: [
+      { value: 'yes',    label: 'Yes',      route: 'S1', stopMsg: 'After a major heart or stroke event, ED treatment needs in-person assessment before it is safe to consider. The right next step is a review with your GP or specialist.' },
+      { value: 'no',     label: 'No',       route: 'continue' },
+      { value: 'unsure', label: 'Not sure', route: 'S2' },
+    ]
+  },
+  {
+    id: 'q10',
+    eyebrow: 'Health history',
+    q: 'Have you ever had sudden vision loss, or been told you had NAION?',
+    hint: 'A rare eye condition called NAION can be linked to these medicines, so previous sudden vision loss means they are generally not recommended.',
+    more: 'NAION is a rare cause of sudden vision loss. Medsafe advises that people who have had it should generally not use ED medicines because of a possible link. If this applies to you, an in-person review is the safer path.',
+    options: [
+      { value: 'yes',    label: 'Yes',      route: 'S1', stopMsg: 'ED medicines are generally not recommended after previous sudden vision loss or NAION. The right next step is an in-person review with your GP or eye specialist.' },
+      { value: 'no',     label: 'No',       route: 'continue' },
+      { value: 'unsure', label: 'Not sure', route: 'S2' },
+    ]
+  },
+  {
+    id: 'q11',
+    eyebrow: 'Health history',
+    q: 'Do you have very low blood pressure, very high blood pressure, or uncontrolled blood pressure?',
+    hint: 'ED medicines lower blood pressure a little, so we need to know yours is in a safe range first.',
+    more: 'Very high, very low or uncontrolled blood pressure changes whether these medicines are safe, and at what dose. A recent reading (from your GP, a pharmacy or a home monitor) may be requested before approval. This is one of the most common reasons for a quick follow-up, not a decline.',
+    options: [
+      { value: 'yes',    label: 'Yes',      route: 'S2' },
+      { value: 'no',     label: 'No',       route: 'continue' },
+      { value: 'unsure', label: 'Not sure', route: 'S2' },
+    ]
+  },
+  {
+    id: 'q12',
+    eyebrow: 'One last thing',
+    q: 'Are you looking for immediate medical help rather than ED treatment?',
+    hint: 'A last check that you are in the right place. If you need medical help now, we will point you there instead.',
+    more: 'Some people arrive here worried about a symptom rather than looking for ED treatment. If anything feels urgent, call 111, or Healthline on 0800 611 116 if you are not sure. This assessment will be here when you are ready.',
+    options: [
+      { value: 'yes',    label: 'Yes, I need medical help now',    route: 'S0' },
+      { value: 'no',     label: 'No, I\'m here about ED treatment', route: 'continue' },
+      { value: 'unsure', label: 'Not sure',                         route: 'S2' },
+    ]
+  },
+];
+
+// ══════════════════════════════════════════════
+// S2 FLAG LABELS — human-readable reasons for clinician review
+// ══════════════════════════════════════════════
+const S2_LABELS = {
+  'q3-unsure':  'Uncertain about NZ location',
+  'q5-unsure':  'Uncertain about nitrates',
+  'q6-unsure':  'Uncertain about poppers / amyl nitrite',
+  'q7-unsure':  'Uncertain about pulmonary hypertension medicines',
+  'q8-unsure':  'Uncertain whether sexual activity is safe',
+  'q9-unsure':  'Uncertain about recent cardiac history',
+  'q10-unsure': 'Uncertain about vision / eye history',
+  'q11-yes':    'Blood pressure concerns',
+  'q11-unsure': 'Blood pressure status unknown',
+  'q12-unsure': 'Unclear purpose of visit',
+};
+
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+let currentStep  = null;
+let stepHistory  = [];   // stack of step IDs for back navigation
+let s2FlagList   = [];   // human-readable labels for each S2 caution triggered
+
+// ══════════════════════════════════════════════
+// BUILD QUESTION STEPS
+// ══════════════════════════════════════════════
+function buildQuestions() {
+  const container = document.getElementById('q-container');
+  QUESTIONS.forEach((q, idx) => {
+    const div = document.createElement('div');
+    div.className = 'step';
+    div.id = `step-${q.id}`;
+    div.innerHTML = `
+      ${q.signpost ? `
+        <div class="signpost">
+          <svg width="15" height="15" fill="none" viewBox="0 0 15 15" style="flex-shrink:0; margin-top:2px;"><circle cx="7.5" cy="7.5" r="6.75" stroke="#5E6B4F" stroke-width="1.2"/><path d="M5 7.8l1.8 1.8 3.2-3.6" stroke="#5E6B4F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>This check is anonymous: no account, no card, nothing saved to a health record. It takes about a minute.</span>
+        </div>` : ''}
+      <p class="step-eyebrow">${q.eyebrow}</p>
+      <h2 class="step-q">${q.q}</h2>
+      ${q.sub ? `<p class="step-hint" style="margin-bottom:10px; color:#3B3933;">${q.sub}</p>` : ''}
+      <p class="step-hint">${q.hint}</p>
+      ${q.more ? `
+        <div class="tell-more">
+          <button type="button" class="tell-more-btn" aria-expanded="false" onclick="toggleMore(this)">Tell me more</button>
+          <div class="tell-more-panel" hidden><p>${q.more}</p></div>
+        </div>` : ''}
+      ${q.options.map(opt => `
+        <div class="radio-card" data-qid="${q.id}" data-val="${opt.value}" onclick="selectAnswer('${q.id}','${opt.value}')">
+          <div class="radio-dot"></div>
+          <span class="radio-label">${opt.label}</span>
+        </div>
+      `).join('')}
+      ${idx > 0 ? `<button onclick="goBack()" class="mt-6 text-sm text-muted hover:text-ink-soft transition-colors duration-150 focus-ring rounded-sm">← Back</button>` : ''}
+    `;
+    container.appendChild(div);
+  });
+}
+
+// ══════════════════════════════════════════════
+// TELL ME MORE toggle
+// ══════════════════════════════════════════════
+function toggleMore(btn) {
+  const panel = btn.nextElementSibling;
+  const open  = panel.hidden;
+  panel.hidden = !open;
+  btn.setAttribute('aria-expanded', String(open));
+  btn.textContent = open ? 'Show less' : 'Tell me more';
+}
+
+// ══════════════════════════════════════════════
+// SHOW STEP
+// ══════════════════════════════════════════════
+function showStep(id, back = false) {
+  document.querySelectorAll('.step').forEach(el => {
+    el.classList.remove('active', 'going-back');
+  });
+  const target = document.getElementById(`step-${id}`);
+  if (!target) return;
+  target.classList.add('active');
+  if (back) target.classList.add('going-back');
+  currentStep = id;
+  updateProgress(id);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ══════════════════════════════════════════════
+// PROGRESS
+// ══════════════════════════════════════════════
+function updateProgress(id) {
+  const bar   = document.getElementById('progress-bar');
+  const label = document.getElementById('progress-label');
+
+  if (id.startsWith('q')) {
+    const n   = parseInt(id.slice(1));
+    const pct = Math.round(((n - 1) / QUESTIONS.length) * 85);
+    bar.style.width   = pct + '%';
+    label.textContent = n >= 10 ? 'Almost there' : 'Suitability check';
+  } else if (id === 'contact') {
+    bar.style.width   = '90%';
+    label.textContent = 'Your details';
+  } else if (id === 'thanks') {
+    bar.style.width   = '100%';
+    label.textContent = 'Done';
+  }
+}
+
+// ══════════════════════════════════════════════
+// ANSWER SELECTION
+// ══════════════════════════════════════════════
+function selectAnswer(qid, value) {
+  // Visual feedback
+  document.querySelectorAll(`[data-qid="${qid}"]`).forEach(c => c.classList.remove('selected'));
+  const chosen = document.querySelector(`[data-qid="${qid}"][data-val="${value}"]`);
+  if (chosen) chosen.classList.add('selected');
+
+  const q   = QUESTIONS.find(x => x.id === qid);
+  const opt = q.options.find(o => o.value === value);
+
+  // Slight delay so selection registers visually before transition
+  setTimeout(() => handleRoute(qid, opt), 240);
+}
+
+// ══════════════════════════════════════════════
+// ROUTING
+// ══════════════════════════════════════════════
+function handleRoute(qid, opt) {
+  if (opt.route === 'S0') {
+    document.getElementById('stop-s0').classList.add('visible');
+    return;
+  }
+
+  if (opt.route === 'S1') {
+    const base = 'Based on your answers, an online pathway is not the safe option for you right now, and we would rather be straight with you than sell you something unsuitable. ';
+    document.getElementById('s1-body').textContent = base + (opt.stopMsg || 'The right next step is a visit to your GP so this can be looked at properly.');
+    document.getElementById('stop-s1').classList.add('visible');
+    return;
+  }
+
+  if (opt.route === 'S2') {
+    const label = S2_LABELS[`${qid}-${opt.value}`];
+    if (label && !s2FlagList.includes(label)) s2FlagList.push(label);
+  }
+
+  // Advance
+  stepHistory.push(qid);
+  const qi     = parseInt(qid.slice(1)); // current question number (1-based)
+  const nextQ  = QUESTIONS[qi];          // next question (0-indexed array, so [qi] is the one after)
+
+  if (nextQ) {
+    showStep(nextQ.id);
+  } else {
+    prepareContactStep();
+    showStep('contact');
+  }
+}
+
+// ══════════════════════════════════════════════
+// BACK
+// ══════════════════════════════════════════════
+function goBack() {
+  if (stepHistory.length === 0) return;
+  const prev = stepHistory.pop();
+  showStep(prev, true);
+}
+
+// ══════════════════════════════════════════════
+// CONTACT STEP — dynamic messaging based on outcome
+// ══════════════════════════════════════════════
+function prepareContactStep() {
+  const heading = document.getElementById('contact-heading');
+  const hint    = document.getElementById('contact-hint');
+
+  if (s2FlagList.length > 0) {
+    heading.textContent = 'Leave your details and we\'ll be in touch';
+    hint.textContent    = 'We\'ll reach out when we\'re ready to launch. If there\'s anything to discuss before we get you started, our team will reach out ahead of time.';
+  } else {
+    heading.textContent = 'Looks like you\'re a great fit. Leave your details.';
+    hint.textContent    = 'Based on your answers, Arua is likely right for you. Leave your details and we\'ll be in touch when we\'re ready to launch.';
+  }
+}
+
+// ══════════════════════════════════════════════
+// SUBMIT CONTACT FORM
+// ══════════════════════════════════════════════
+function isValidNZMobile(val) {
+  // Strip all formatting chars, then match NZ mobile digit patterns:
+  // 021 = 9 or 10 digits total; 022/027/028/029 = 10 digits total
+  const d = val.replace(/[\s\-().+]/g, '');
+  return /^(?:64|0)(21\d{6,7}|22\d{7}|27\d{7}|28\d{7}|29\d{7})$/.test(d);
+}
+
+function clearErr(errId, inputId) {
+  document.getElementById(errId).style.display = 'none';
+  document.getElementById(inputId).classList.remove('input-err');
+}
+
+async function submitContact() {
+  const first  = document.getElementById('contact-first').value.trim();
+  const last   = document.getElementById('contact-last').value.trim();
+  const dobVal = document.getElementById('contact-dob').value;
+  const email  = document.getElementById('contact-email').value.trim();
+  const mobile = document.getElementById('contact-mobile').value.trim();
+
+  let valid = true;
+
+  const markErr = (id, bad) => {
+    document.getElementById(id).classList.toggle('input-err', bad);
+    if (bad) valid = false;
+  };
+
+  const showInlineErr = (errId, inputId, msg) => {
+    const errEl   = document.getElementById(errId);
+    const inputEl = document.getElementById(inputId);
+    if (msg) {
+      errEl.textContent = msg;
+      errEl.style.display = 'block';
+      inputEl.classList.add('input-err');
+      valid = false;
+    } else {
+      errEl.style.display = 'none';
+      inputEl.classList.remove('input-err');
+    }
+  };
+
+  markErr('contact-first', !first);
+  markErr('contact-last',  !last);
+  markErr('contact-email', !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+
+  // DOB — check empty, under 18, over 100
+  let dobMsg = '';
+  if (!dobVal) {
+    dobMsg = 'Please enter your date of birth.';
+  } else {
+    const ageMs  = Date.now() - new Date(dobVal).getTime();
+    const ageYrs = ageMs / (365.25 * 24 * 60 * 60 * 1000);
+    if (ageYrs < 18) {
+      dobMsg = 'You must be 18 or older to use Arua.';
+    } else if (ageYrs > 100) {
+      dobMsg = 'Please enter a valid date of birth. Something doesn\'t look right.';
+    }
+  }
+  showInlineErr('dob-err', 'contact-dob', dobMsg);
+
+  // Mobile — check empty, then NZ format
+  let mobileMsg = '';
+  if (!mobile) {
+    mobileMsg = 'Please enter your mobile number.';
+  } else if (!isValidNZMobile(mobile)) {
+    mobileMsg = 'Please enter a valid NZ mobile number, e.g. 021 123 4567.';
+  }
+  showInlineErr('mobile-err', 'contact-mobile', mobileMsg);
+
+  if (!valid) {
+    const step = document.getElementById('step-contact');
+    step.classList.add('err-shake');
+    setTimeout(() => step.classList.remove('err-shake'), 400);
+    return;
+  }
+
+  // POST to Cloudflare Worker → Airtable
+  // Replace WORKER_URL with your deployed Worker URL once set up.
+  const WORKER_URL = 'https://arua-form-submit.cameron-lister.workers.dev';
+
+  try {
+    await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ first, last, dob: dobVal, email, mobile, outcome: s2FlagList.length > 0 ? 'S2' : 'S3', flags: s2FlagList.join(', ') }),
+    });
+  } catch (err) {
+    console.warn('Submission POST failed:', err);
+    // Proceed to thanks screen regardless — don't block the user
+  }
+
+  const thanksHeading = document.getElementById('thanks-heading');
+  const thanksBody    = document.getElementById('thanks-body');
+
+  thanksHeading.textContent = `Thanks, ${first}. You're on the list.`;
+  thanksBody.textContent    = 'We\'re not quite open yet, but we\'re close. Based on your answers, Arua looks like a great fit for you. We\'ll reach out personally as soon as we\'re ready to take on new patients. Keep an eye on your inbox.';
+
+  stepHistory.push('contact');
+  showStep('thanks');
+}
+
+// ══════════════════════════════════════════════
+// NAV SCROLL SHADOW
+// ══════════════════════════════════════════════
+const nav = document.getElementById('qnav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 8) {
+    nav.style.borderColor = '#D9CFBF';
+    nav.style.boxShadow   = '0 1px 12px rgba(21,20,15,0.06)';
+  } else {
+    nav.style.borderColor = 'transparent';
+    nav.style.boxShadow   = 'none';
+  }
+}, { passive: true });
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+buildQuestions();
+showStep('q1');
+
+// DOB constraints: must be 18–80 years old
+(function() {
+  const dob = document.getElementById('contact-dob');
+  const today = new Date();
+  const pad = (n) => String(n).padStart(2, '0');
+  const fmt = (d) => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  dob.max = fmt(new Date(today.getFullYear() - 18, today.getMonth(), today.getDate()));
+  dob.min = fmt(new Date(today.getFullYear() - 100, today.getMonth(), today.getDate()));
+})();
+</script>
+</body>
+</html>

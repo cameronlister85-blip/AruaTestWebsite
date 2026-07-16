@@ -33,6 +33,32 @@
     .prose h2 { font-family:'Fraunces',Georgia,serif; font-weight:380; font-size:22px; line-height:1.25; letter-spacing:-0.025em; font-feature-settings:"ss01" 1,"ss02" 1; color:#15140F; margin-top:48px; margin-bottom:14px; }
     .prose p  { font-size:17px; line-height:1.78; color:#3B3933; margin-bottom:20px; }
     .pull-quote { border-left:2px solid #8C4A2F; background:#EDE5D8; border-radius:0 6px 6px 0; padding:24px 32px; margin:36px 0; font-family:'Fraunces',Georgia,serif; font-weight:340; font-size:18px; line-height:1.5; font-style:italic; font-feature-settings:"ss01" 1,"ss02" 1; color:#15140F; }
+  
+    /* Nav links — horizon-dot underline (brand device) */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: -8px; height: 9px;
+      background:
+        radial-gradient(circle at 3.5px 3.5px, #8C4A2F 2.6px, transparent 3.2px) no-repeat,
+        linear-gradient(#C9BFA9, #C9BFA9) left bottom / 100% 1px no-repeat;
+      opacity: 0; transform: translateY(4px);
+      transition: opacity 200ms ease, transform 260ms cubic-bezier(.22,1,.36,1);
+      pointer-events: none;
+    }
+    .nav-link:hover::after,
+    .nav-link:focus-visible::after,
+    .nav-link[aria-current="page"]::after { opacity: 1; transform: translateY(0); }
+
+    /* Nav CTA — layered shadow + spring lift */
+    nav a[href$="start.html"] {
+      box-shadow: 0 1px 2px rgba(21,20,15,.16), 0 8px 20px -8px rgba(21,20,15,.35);
+      transition: background 150ms ease, transform 180ms cubic-bezier(.34,1.2,.64,1), box-shadow 180ms ease;
+    }
+    nav a[href$="start.html"]:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 3px rgba(21,20,15,.14), 0 12px 28px -10px rgba(21,20,15,.4);
+    }
+    nav a[href$="start.html"]:active { transform: translateY(0) scale(.97); }
   </style>
   <script type="application/ld+json">
   {
@@ -58,32 +84,50 @@
 </head>
 <body class="bg-page font-body text-ink antialiased">
 
-<nav id="nav" class="sticky top-0 z-50 bg-page border-b border-transparent transition-colors duration-200">
-  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-16 flex items-center justify-between gap-8">
+<nav id="nav" class="sticky top-0 z-50 border-b border-transparent transition-[border-color,box-shadow] duration-300 bg-page/[.88] backdrop-blur-xl backdrop-saturate-150">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-[68px] flex items-center justify-between">
     <a href="../" class="dp font-[380] text-[52px] leading-none tracking-display text-ink focus-ring rounded-sm">arua</a>
-    <div class="hidden md:flex items-center gap-7">
-      <a href="../#conditions"   class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
-      <a href="../#how-it-works" class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">How it works</a>
-      <a href="index.html"      class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Good reads</a>
-      <a href="../#about"        class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About</a>
+
+    <div class="hidden md:flex items-center gap-8">
+      <a href="../#conditions" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
+      <a href="../#how-it-works" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">How it works</a>
+      <a href="index.html" aria-current="page" class="nav-link text-sm text-ink font-medium focus-ring rounded-sm">Good reads</a>
+      <a href="../about.html" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About us</a>
+      <a href="../faqs.html" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">FAQs</a>
+      <a href="../arua-questionnaire/questionnaire/start.html" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium
+                   hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">
+        Get started
+      </a>
     </div>
-    <a href="#" data-modal="signup" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">Sign up for early access</a>
+
+    <button id="mob-menu-btn" class="md:hidden flex flex-col gap-[5px] p-2 -mr-2 focus-ring rounded-sm" aria-label="Menu" aria-expanded="false">
+      <span id="mbar1" class="block w-5 h-px bg-ink transition-transform duration-200 origin-center"></span>
+      <span id="mbar2" class="block w-5 h-px bg-ink transition-opacity duration-200"></span>
+      <span id="mbar3" class="block w-5 h-px bg-ink transition-transform duration-200 origin-center"></span>
+    </button>
   </div>
 </nav>
 
+<!-- Mobile menu -->
+<div id="mob-menu" class="md:hidden fixed left-0 right-0 bg-page border-b border-hairline-soft z-40 px-8 py-6 flex-col gap-4" style="top:68px; display:none;">
+  <a href="../#conditions" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">Conditions</a>
+  <a href="../#how-it-works" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">How it works</a>
+  <a href="index.html" aria-current="page" class="text-base text-ink font-medium py-1">Good reads</a>
+  <a href="../about.html" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">About us</a>
+  <a href="../faqs.html" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">FAQs</a>
+  <a href="../arua-questionnaire/questionnaire/start.html" class="mt-2 h-[48px] rounded-pill bg-ink text-page text-[15px] font-medium flex items-center justify-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Get started</a>
+</div>
+
 <header class="relative overflow-hidden border-b border-hairline" style="min-height:300px;">
-  <img src="../Images/Photo Image Library/Piha 4.jpg" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 60%;" />
+  <img src="../Images/web/piha-4.jpg" alt="Piha coastline" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 60%;" />
   <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(246,241,232,0.92) 0%, rgba(246,241,232,0.82) 45%, rgba(230,218,200,0.60) 100%);"></div>
   <div class="relative z-10 max-w-[760px] mx-auto px-8 py-14">
-    <a href="index.html" class="inline-flex items-center gap-2 text-sm text-muted hover:text-ink transition-colors duration-150 focus-ring rounded-sm mb-8">
-      <span>←</span> <span>Good reads</span>
-    </a>
-    <div class="flex items-center gap-3 mb-6">
+        <div class="flex items-center gap-3 mb-6">
       <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill">Preventive Health</span>
       <span class="font-mono text-[11px] text-muted">6 min read</span>
     </div>
     <h1 class="dp font-[380] tracking-display leading-[1.08] text-[38px] md:text-[46px] mb-6">
-      What a baseline blood test tells you — and why most men don't have one.
+      What a baseline blood test tells you, and why most men don't have one.
     </h1>
     <p class="text-[18px] leading-[1.65] text-ink-soft max-w-[620px]">
       A blood test is probably the most information-dense health investment you can make. Ten minutes, a needle, a few days, and you have a picture of what's happening inside systems you otherwise can't see.
@@ -95,19 +139,19 @@
   <div class="prose">
 
     <h2>What a good baseline covers</h2>
-    <p>A useful panel for a man in midlife covers six areas: blood health, metabolic function, cardiovascular risk, hormonal status, organ function, and inflammation. Not all of these need to be repeated annually — some are more stable and warrant less frequent monitoring. But getting a baseline across all of them establishes a reference point with lasting value.</p>
+    <p>A useful panel for a man in midlife covers six areas: blood health, metabolic function, cardiovascular risk, hormonal status, organ function, and inflammation. Not all of these need to be repeated annually; some are more stable and warrant less frequent monitoring. But getting a baseline across all of them establishes a reference point with lasting value.</p>
 
     <h2>Full blood count</h2>
-    <p>This measures your red blood cells, white blood cells, platelets, haemoglobin, and haematocrit. It identifies anaemia (which causes fatigue and reduced stamina), flags possible immune issues, and provides a baseline for monitoring the effects of anything that affects blood cell production — including testosterone replacement, which raises red blood cell levels and needs monitoring for that reason.</p>
+    <p>This measures your red blood cells, white blood cells, platelets, haemoglobin, and haematocrit. It identifies anaemia (which causes fatigue and reduced stamina), flags possible immune issues, and provides a baseline for monitoring the effects of anything that affects blood cell production, including testosterone replacement, which raises red blood cell levels and needs monitoring for that reason.</p>
 
     <h2>Blood glucose and HbA1c</h2>
-    <p>Fasting glucose gives a snapshot of your blood sugar right now. HbA1c shows your average blood sugar over the past three months — think of it like an average speed camera rather than a point-in-time speed gun. Together, they identify pre-diabetes and type 2 diabetes. Pre-diabetes affects roughly 1 in 5 New Zealand adults, most of whom don't know it. It's reversible with lifestyle changes when caught early.</p>
+    <p>Fasting glucose gives a snapshot of your blood sugar right now. HbA1c shows your average blood sugar over the past three months. Think of it like an average speed camera rather than a point-in-time speed gun. Together, they identify pre-diabetes and type 2 diabetes. Pre-diabetes affects roughly 1 in 5 New Zealand adults, most of whom don't know it. It's reversible with lifestyle changes when caught early.</p>
 
     <h2>Lipid panel</h2>
-    <p>Total cholesterol, LDL (the type associated with arterial buildup), HDL (protective cholesterol), and triglycerides. Most men with elevated LDL have no symptoms — the only way to know is to measure. Cardiovascular risk isn't determined by any single number but by the pattern and the context. Elevated LDL in a 42-year-old with central obesity and high blood pressure is a different picture from the same reading in a lean, active 50-year-old.</p>
+    <p>Total cholesterol, LDL (the type associated with arterial buildup), HDL (protective cholesterol), and triglycerides. Most men with elevated LDL have no symptoms: the only way to know is to measure. Cardiovascular risk isn't determined by any single number but by the pattern and the context. Elevated LDL in a 42-year-old with central obesity and high blood pressure is a different picture from the same reading in a lean, active 50-year-old.</p>
 
     <div class="pull-quote">
-      Most men with elevated LDL have no symptoms. The only way to know your cholesterol is elevated is to measure it — and the only way to act before it becomes a cardiac event is to find out early.
+      Most men with elevated LDL have no symptoms. The only way to know your cholesterol is elevated is to measure it, and the only way to act before it becomes a cardiac event is to find out early.
     </div>
 
     <h2>Testosterone and SHBG</h2>
@@ -123,11 +167,11 @@
     <p>Deficiency is common in New Zealand men, particularly in winter. It's associated with fatigue, low mood, and reduced bone density. It's cheap to test and cheap to treat. Worth including.</p>
 
     <h2>Why normal results aren't wasted information</h2>
-    <p>If everything comes back in range, that's not a wasted test — it's a baseline. A testosterone reading of 14 nmol/L at age 42 means something different if you have another reading of 14 nmol/L at 48. If you have no prior reading, a number in isolation tells you relatively little about direction of travel. A trend is more valuable than a data point, and a data point is more valuable than an assumption.</p>
-    <p>Men who establish a baseline in their late 30s or early 40s and monitor key markers every two to three years are significantly better positioned to catch meaningful changes before they produce a clinical event — compared to men who only test when something goes wrong.</p>
+    <p>If everything comes back in range, that's not a wasted test: it'sa baseline. A testosterone reading of 14 nmol/L at age 42 means something different if you have another reading of 14 nmol/L at 48. If you have no prior reading, a number in isolation tells you relatively little about direction of travel. A trend is more valuable than a data point, and a data point is more valuable than an assumption.</p>
+    <p>Men who establish a baseline in their late 30s or early 40s and monitor key markers every two to three years are significantly better positioned to catch meaningful changes before they produce a clinical event, compared to men who only test when something goes wrong.</p>
 
     <h2>How to get one</h2>
-    <p>Your GP can order a baseline panel on request. Private providers and telehealth platforms can often order blood panels without a prior GP visit. The result should be reviewed in a clinical context, not just compared to reference ranges in isolation — the same number means different things in different people, and context changes what to do with it.</p>
+    <p>Your GP can order a baseline panel on request. Private providers and telehealth platforms can often order blood panels without a prior GP visit. The result should be reviewed in a clinical context, not just compared to reference ranges in isolation: the same number means different things in different people, and context changes what to do with it.</p>
 
   </div>
 </article>
@@ -147,7 +191,7 @@
       <a href="https://healthify.nz/hauora-wellbeing/h/health-check-ups" target="_blank" rel="noopener noreferrer" class="group flex items-start gap-3 text-[14px] text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">
         <svg class="shrink-0 mt-[4px] text-muted group-hover:text-accent transition-colors duration-150" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span>
-          <span class="block text-ink font-medium leading-snug">Health check-ups — how often</span>
+          <span class="block text-ink font-medium leading-snug">Health check-ups: how often</span>
           <span class="text-[12px] text-muted">Healthify NZ</span>
         </span>
       </a>
@@ -163,7 +207,7 @@
   <div class="bg-page-alt rounded-card border border-hairline-soft p-10">
     <p class="dp font-[380] tracking-display text-[22px] leading-[1.3] mb-2">Arua is a private men&rsquo;s health platform for New Zealand. Early access is open.</p>
     <p class="text-base text-ink-soft mb-7">Arua can help you get one, understand what it means, and work out whether anything warrants further attention.</p>
-    <a href="#" data-modal="signup" class="h-11 px-6 rounded-pill bg-ink text-page text-[15px] font-medium hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">Sign up for early access&thinsp;→</a>
+    <a href="../arua-questionnaire/questionnaire/start.html" class="h-11 px-6 rounded-pill bg-ink text-page text-[15px] font-medium hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">Find out if Arua is for you&thinsp;→</a>
   </div>
 </section>
 
@@ -192,7 +236,7 @@
 
       <a href="why-men-die-younger.html" class="lift focus-ring block border border-hairline-soft rounded-card p-6 bg-surface">
         <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Longevity</span>
-        <h3 class="dp font-[380] tracking-display text-[17px] leading-[1.25] mb-3">Why men die younger — and what changes that.</h3>
+        <h3 class="dp font-[380] tracking-display text-[17px] leading-[1.25] mb-3">Why men die younger, and what changes that.</h3>
         <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
           <span class="font-mono text-[11px] text-muted">7 min</span>
           <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
@@ -209,6 +253,17 @@
       <div>
         <p class="dp font-[380] tracking-display text-[52px] leading-none mb-5">arua</p>
         <p class="text-[13px] leading-[1.65] max-w-[240px]" style="color:rgba(246,241,232,.5)">Men's health. New Zealand.<br>Private, direct, evidence-based.</p>
+        <div class="flex items-center gap-5 mt-6">
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on Instagram (coming soon)" title="Instagram (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.6" cy="6.4" r="1.15" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on LinkedIn (coming soon)" title="LinkedIn (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+          </a>
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on Facebook (coming soon)" title="Facebook (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94z"/></svg>
+          </a>
+        </div>
       </div>
       <div>
         <p class="font-mono text-[11px] tracking-eyebrow uppercase mb-5" style="color:rgba(246,241,232,.38)">Conditions</p>
@@ -292,9 +347,28 @@
   form.addEventListener('submit',function(e){
     e.preventDefault();
     fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}})
-      .then(function(r){if(r.ok){form.style.display='none';ok.style.display='block';}});
+      .then(function(r){if(r.ok){form.style.display='none';ok.style.display='block';}else{form.submit();}}).catch(function(){form.submit();});
   });
 })();
+</script>
+<script>
+(function () {
+  var btn = document.getElementById('mob-menu-btn'), menu = document.getElementById('mob-menu')
+  if (!btn || !menu) return
+  var b1 = document.getElementById('mbar1'), b2 = document.getElementById('mbar2'), b3 = document.getElementById('mbar3')
+  var open = false
+  function set(o) {
+    open = o
+    menu.style.display = open ? 'flex' : 'none'
+    menu.style.flexDirection = 'column'
+    btn.setAttribute('aria-expanded', String(open))
+    b1.style.transform = open ? 'translateY(6px) rotate(45deg)' : ''
+    b2.style.opacity = open ? '0' : ''
+    b3.style.transform = open ? 'translateY(-6px) rotate(-45deg)' : ''
+  }
+  btn.addEventListener('click', function () { set(!open) })
+  menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { set(false) }) })
+})()
 </script>
 </body>
 </html>

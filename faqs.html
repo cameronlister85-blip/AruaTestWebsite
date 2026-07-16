@@ -59,18 +59,69 @@
 
     .focus-ring:focus-visible { outline: 2px solid #8C4A2F; outline-offset: 2px; }
 
-    /* Section label */
-    .faq-section-label {
+    /* Section groups */
+    .faq-group { margin-top: 96px; scroll-margin-top: 96px; }
+    .faq-group:first-of-type { margin-top: 72px; }
+    .faq-group-head {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #15140F;
+    }
+    .faq-group-num {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: #8C4A2F;
+    }
+    .faq-group-head h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-feature-settings: "ss01" 1, "ss02" 1;
+      font-weight: 380;
+      font-size: 26px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: #15140F;
+    }
+
+    /* Index rail (desktop) */
+    .faq-nav-link {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      padding: 9px 0;
+      font-size: 14px;
+      color: #3B3933;
+      text-decoration: none;
+      transition: color 150ms ease;
+    }
+    .faq-nav-link .n {
       font-family: 'JetBrains Mono', ui-monospace, monospace;
       font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
       color: #8A867D;
-      margin-top: 56px;
-      margin-bottom: 0;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #D9CFBF;
+      transition: color 150ms ease;
     }
+    .faq-nav-link:hover { color: #15140F; }
+    .faq-nav-link:hover .n { color: #8C4A2F; }
+    .faq-nav-link.active, .faq-nav-link.active .n { color: #8C4A2F; }
+    .faq-nav-link:active { opacity: .7; }
+
+    /* Quick-jump chips (mobile) */
+    .faq-chip {
+      display: inline-flex;
+      align-items: center;
+      height: 34px;
+      padding: 0 16px;
+      border: 1px solid #D9CFBF;
+      border-radius: 999px;
+      font-size: 13px;
+      color: #3B3933;
+      text-decoration: none;
+      transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+    }
+    .faq-chip:hover { border-color: #8C4A2F; color: #8C4A2F; background: rgba(140,74,47,.05); }
+    .faq-chip:active { background: rgba(140,74,47,.1); }
 
     /* Accordion item */
     .faq-item {
@@ -83,7 +134,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      padding: 22px 0;
+      padding: 26px 0;
       text-align: left;
       background: none;
       border: none;
@@ -149,6 +200,32 @@
       text-underline-offset: 3px;
     }
     .faq-a a:hover { color: #5C2E1A; }
+  
+    /* Nav links — horizon-dot underline (brand device) */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: -8px; height: 9px;
+      background:
+        radial-gradient(circle at 3.5px 3.5px, #8C4A2F 2.6px, transparent 3.2px) no-repeat,
+        linear-gradient(#C9BFA9, #C9BFA9) left bottom / 100% 1px no-repeat;
+      opacity: 0; transform: translateY(4px);
+      transition: opacity 200ms ease, transform 260ms cubic-bezier(.22,1,.36,1);
+      pointer-events: none;
+    }
+    .nav-link:hover::after,
+    .nav-link:focus-visible::after,
+    .nav-link[aria-current="page"]::after { opacity: 1; transform: translateY(0); }
+
+    /* Nav CTA — layered shadow + spring lift */
+    nav a[href$="start.html"] {
+      box-shadow: 0 1px 2px rgba(21,20,15,.16), 0 8px 20px -8px rgba(21,20,15,.35);
+      transition: background 150ms ease, transform 180ms cubic-bezier(.34,1.2,.64,1), box-shadow 180ms ease;
+    }
+    nav a[href$="start.html"]:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 3px rgba(21,20,15,.14), 0 12px 28px -10px rgba(21,20,15,.4);
+    }
+    nav a[href$="start.html"]:active { transform: translateY(0) scale(.97); }
   </style>
   <script type="application/ld+json">
   {
@@ -162,7 +239,7 @@
         "name": "What is Arua?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Arua is a New Zealand men's health service. We make it straightforward to get assessed for common men's health conditions — like erectile dysfunction and hair loss — and, if treatment is appropriate, to have medication prescribed and delivered to your door. The whole thing is designed to be done from your phone, in your own time, without sitting in a waiting room."
+          "text": "Arua is a New Zealand men's health service. We make it straightforward to get assessed for common men's health conditions (like erectile dysfunction and hair loss) and, if treatment is appropriate, to have medication prescribed and delivered to your door. The whole thing is designed to be done from your phone, in your own time, without sitting in a waiting room."
         }
       },
       {
@@ -178,7 +255,7 @@
         "name": "Is Arua a replacement for my GP?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. Arua is built to handle specific conditions well, not to replace the broader care your GP provides. If you have complex health issues, ongoing conditions that need active management, or anything that needs a hands-on physical examination, your GP is still the right call. For the conditions we treat, we're a faster and more private alternative — but we're an alternative, not a replacement."
+          "text": "No. Arua is built to handle specific conditions well, not to replace the broader care your GP provides. If you have complex health issues, ongoing conditions that need active management, or anything that needs a hands-on physical examination, your GP is still the right call. For the conditions we treat, we're a faster and more private alternative, but we're an alternative, not a replacement."
         }
       },
       {
@@ -186,7 +263,7 @@
         "name": "How do I get started?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "You create an account and complete a health questionnaire about the condition you're seeking help for. A clinician reviews your answers and, if you're suitable for treatment, you'll have a telehealth consult with a New Zealand-registered GP. If they prescribe, your medication is dispensed by our pharmacy partner and delivered to your door. Four steps: sign up, questionnaire, consult, delivery."
+          "text": "You start with a quick suitability check. It's anonymous: no account, no card, and if it ends in a stop or you close the page, nothing you've answered is kept. If the check suggests Arua could work for you and you choose to continue, that's when you create an account and we ask who you are. From there, you complete the full health questionnaire, a clinician reviews it, you have a telehealth consult with a New Zealand-registered GP, and if they prescribe, your medication is dispensed by our pharmacy partner and delivered to your door."
         }
       },
       {
@@ -194,7 +271,7 @@
         "name": "What's the telehealth consult like?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "It's a one-on-one video consult with a registered GP, done remotely so you can do it from wherever suits — home, car, lunch break. The clinician will already have read your questionnaire, so the consult isn't about repeating yourself. It's about them verifying what you've told them, checking for anything the questionnaire couldn't capture, answering your questions, and making the prescribing decision."
+          "text": "It's a one-on-one video consult with a registered GP, done remotely so you can do it from wherever suits: home, car, lunch break. The clinician will already have read your questionnaire, so the consult isn't about repeating yourself. It's about them verifying what you've told them, checking for anything the questionnaire couldn't capture, answering your questions, and making the prescribing decision."
         }
       },
       {
@@ -210,7 +287,7 @@
         "name": "Who are the clinicians?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Every clinician working through Arua is registered with the relevant New Zealand professional body — the Medical Council of New Zealand or the Pharmacy Council of New Zealand — and licensed to prescribe in this country. They're not offshore. They're not AI. They're New Zealand-registered professionals operating under the same standards they would in any GP clinic."
+          "text": "Every clinician working through Arua is registered with the relevant New Zealand professional body: the Medical Council of New Zealand or the Pharmacy Council of New Zealand, and licensed to prescribe in this country. They're not offshore. They're not AI. They're New Zealand-registered professionals operating under the same standards they would in any GP clinic."
         }
       },
       {
@@ -218,7 +295,7 @@
         "name": "Does a clinician actually review my information, or is it automated?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "A human clinician reviews every assessment, and a human GP runs every consult. Software helps us route information to the right clinician and flag things that need attention, but the clinical decision — whether to prescribe, what to prescribe, what dose — is always made by a registered prescriber during a one-on-one consult with you."
+          "text": "A human clinician reviews every assessment, and a human GP runs every consult. Software helps us route information to the right clinician and flag things that need attention, but the clinical decision (whether to prescribe, what to prescribe, what dose) is always made by a registered prescriber during a one-on-one consult with you."
         }
       },
       {
@@ -226,7 +303,7 @@
         "name": "Are clinical decisions made by Arua?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. Clinicians work independently. They assess you against their professional judgment and standard prescribing guidelines, and they make the call. Arua provides the platform that connects you to them and handles the operational side — we don't influence or override what they decide. If a clinician declines to prescribe, that's their decision, and we respect it."
+          "text": "No. Clinicians work independently. They assess you against their professional judgment and standard prescribing guidelines, and they make the call. Arua provides the platform that connects you to them and handles the operational side; we don't influence or override what they decide. If a clinician declines to prescribe, that's their decision, and we respect it."
         }
       },
       {
@@ -258,7 +335,7 @@
         "name": "How is it shipped?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Discreetly, to your door. Packaging is plain — no logos, no branding, no indication of what's inside. The return address is the pharmacy, not Arua."
+          "text": "Discreetly, to your door, or collect from a pharmacy near you if you prefer. Packaging is plain: no logos, no branding, no indication of what's inside. The return address is the pharmacy, not Arua."
         }
       },
       {
@@ -274,7 +351,7 @@
         "name": "What if I'm not home for the delivery?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Standard courier rules apply. If you're not home, the courier will follow the instructions on the pack — usually leaving it in a safe place or attempting redelivery. You can give specific delivery instructions when you order."
+          "text": "Standard courier rules apply. If you're not home, the courier will follow the instructions on the pack, usually leaving it in a safe place or attempting redelivery. You can give specific delivery instructions when you order."
         }
       },
       {
@@ -290,7 +367,7 @@
         "name": "What if there's a problem with my order?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Get in touch. Wrong item, missing item, damaged in transit — we'll sort it out, either by reshipping or refunding, whichever fits the situation."
+          "text": "Get in touch. Wrong item, missing item, damaged in transit. We'll sort it out, either by reshipping or refunding, whichever fits the situation."
         }
       },
       {
@@ -314,7 +391,7 @@
         "name": "Will Arua share my information with my GP?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Only if you ask us to, or if there's a clinical safety reason and the prescriber decides it's necessary. By default, what happens with Arua stays with Arua. That said, we do encourage you to keep your GP in the loop about any medication you're taking — it's good practice and it helps them care for you properly."
+          "text": "Only if you ask us to, or if there's a clinical safety reason and the prescriber decides it's necessary. By default, what happens with Arua stays with Arua. That said, we do encourage you to keep your GP in the loop about any medication you're taking: it's good practice and it helps them care for you properly."
         }
       },
       {
@@ -322,7 +399,7 @@
         "name": "What if I'm already on other medication?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Tell the clinician in your questionnaire, and bring it up again in your consult — they'll check for interactions either way. Drug interactions are one of the main reasons a prescriber might adjust a treatment plan or decline to prescribe, so the more accurate your current medication list is, the better."
+          "text": "Tell the clinician in your questionnaire, and bring it up again in your consult. They'll check for interactions either way. Drug interactions are one of the main reasons a prescriber might adjust a treatment plan or decline to prescribe, so the more accurate your current medication list is, the better."
         }
       },
       {
@@ -330,7 +407,15 @@
         "name": "Is my information private?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Health information is treated as sensitive information under New Zealand law and we handle it accordingly. We don't sell it. We don't share it with advertisers. We don't use it to train AI models."
+          "text": "Yes. Health information is treated as sensitive information under New Zealand law and we handle it accordingly. We don't sell it. We don't share it with advertisers. We don't use it to train AI models. The full detail is in our Privacy Policy."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "When does my name get attached to my answers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Only when you choose to continue past the suitability check. The check itself is anonymous: we don't ask who you are, and if it ends in a stop or you close the page, your answers are not kept. If you carry on and create an account, that's when we collect your name and contact details, and your health information is held under your name from that point on. It has to be: a clinician can only prescribe for, and review, a patient they can identify."
         }
       },
       {
@@ -374,56 +459,95 @@
 <!-- NAV -->
 <nav id="nav" class="sticky top-0 z-50 border-b border-transparent transition-[border-color,box-shadow] duration-300 bg-page/[.88] backdrop-blur-xl backdrop-saturate-150">
   <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-[68px] flex items-center justify-between">
-    <a href="/" class="dp font-[380] text-[52px] leading-none tracking-display text-ink focus-ring rounded-sm">arua</a>
+    <a href="./" class="dp font-[380] text-[52px] leading-none tracking-display text-ink focus-ring rounded-sm">arua</a>
 
     <div class="hidden md:flex items-center gap-8">
-      <a href="/#conditions" class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
-      <a href="Articles/index.html"    class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Good reads</a>
-      <a href="/#about"      class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About</a>
-      <a href="/#early-access" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium
+      <a href="./#conditions" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
+      <a href="./#how-it-works" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">How it works</a>
+      <a href="Articles/index.html" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Good reads</a>
+      <a href="about.html" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About us</a>
+      <a href="faqs.html" aria-current="page" class="nav-link text-sm text-ink font-medium focus-ring rounded-sm">FAQs</a>
+      <a href="arua-questionnaire/questionnaire/start.html" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium
                    hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">
-        Sign up for early access
+        Get started
       </a>
     </div>
 
-    <button class="md:hidden flex flex-col gap-[5px] p-1 focus-ring rounded-sm" aria-label="Menu">
-      <span class="block w-5 h-px bg-ink"></span>
-      <span class="block w-5 h-px bg-ink"></span>
-      <span class="block w-5 h-px bg-ink"></span>
+    <button id="mob-menu-btn" class="md:hidden flex flex-col gap-[5px] p-2 -mr-2 focus-ring rounded-sm" aria-label="Menu" aria-expanded="false">
+      <span id="mbar1" class="block w-5 h-px bg-ink transition-transform duration-200 origin-center"></span>
+      <span id="mbar2" class="block w-5 h-px bg-ink transition-opacity duration-200"></span>
+      <span id="mbar3" class="block w-5 h-px bg-ink transition-transform duration-200 origin-center"></span>
     </button>
   </div>
 </nav>
 
+<!-- Mobile menu -->
+<div id="mob-menu" class="md:hidden fixed left-0 right-0 bg-page border-b border-hairline-soft z-40 px-8 py-6 flex-col gap-4" style="top:68px; display:none;">
+  <a href="./#conditions" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">Conditions</a>
+  <a href="./#how-it-works" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">How it works</a>
+  <a href="Articles/index.html" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">Good reads</a>
+  <a href="about.html" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">About us</a>
+  <a href="faqs.html" aria-current="page" class="text-base text-ink font-medium py-1">FAQs</a>
+  <a href="arua-questionnaire/questionnaire/start.html" class="mt-2 h-[48px] rounded-pill bg-ink text-page text-[15px] font-medium flex items-center justify-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Get started</a>
+</div>
+
 <!-- HEADER -->
 <header class="relative overflow-hidden border-b border-hairline">
-  <img src="Images/Photo Image Library/South Island 2.jpg" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 50%;" />
+  <img src="Images/web/south-island-2.jpg" alt="South Island mountain range" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 50%;" />
   <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(246,241,232,0.92) 0%, rgba(246,241,232,0.82) 50%, rgba(235,220,195,0.60) 100%);"></div>
   <div class="relative z-10 max-w-[760px] mx-auto px-8 py-28">
-    <a href="/" class="inline-flex items-center gap-2 text-sm text-muted hover:text-ink transition-colors duration-150 focus-ring rounded-sm mb-10">
-      <span>&#8592;</span> <span>Arua</span>
-    </a>
-    <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-5">Support</p>
+        <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-5">Support</p>
     <h1 class="dp font-[380] tracking-display leading-[1.05] text-[38px] md:text-[48px] mb-5">
       Frequently asked questions.
     </h1>
     <p class="font-mono text-[12px] text-muted">
-      arua.co.nz &ensp;&#183;&ensp; Updated: 14 May 2026
+      arua.co.nz &ensp;&#183;&ensp; Updated: 16 July 2026
     </p>
   </div>
 </header>
 
-<!-- INTRO -->
-<section class="max-w-[760px] mx-auto px-8 pt-14 pb-4">
-  <p class="text-[18px] leading-[1.7] text-ink-soft border-b border-hairline-soft pb-14">
-    Answers to the most common questions about how Arua works, who it's for, how your medication is handled, and what we do with your information. If something isn't covered here, get in touch at <a href="mailto:hello@arua.co.nz" style="color:#8C4A2F;text-decoration:underline;text-underline-offset:3px;">hello@arua.co.nz</a>.
-  </p>
-</section>
-
 <!-- CONTENT -->
-<article class="max-w-[760px] mx-auto px-8 pb-24">
+<section class="bg-surface">
+<div class="max-w-[1200px] mx-auto px-8 lg:px-16 pt-16 md:pt-20 pb-32">
+  <div class="lg:grid lg:grid-cols-[230px_minmax(0,720px)] lg:gap-x-24 lg:justify-between">
+
+    <!-- Index rail (desktop) -->
+    <aside class="hidden lg:block">
+      <div class="sticky top-[100px]">
+        <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-4">On this page</p>
+        <nav id="faq-index" class="flex flex-col border-t border-hairline-soft pt-2">
+          <a href="#general" class="faq-nav-link focus-ring rounded-sm"><span class="n">01</span>General</a>
+          <a href="#how-it-works" class="faq-nav-link focus-ring rounded-sm"><span class="n">02</span>How it works</a>
+          <a href="#medication" class="faq-nav-link focus-ring rounded-sm"><span class="n">03</span>Medication and delivery</a>
+          <a href="#conditions" class="faq-nav-link focus-ring rounded-sm"><span class="n">04</span>Conditions and treatment</a>
+          <a href="#privacy" class="faq-nav-link focus-ring rounded-sm"><span class="n">05</span>Privacy and security</a>
+          <a href="#account" class="faq-nav-link focus-ring rounded-sm"><span class="n">06</span>Account and support</a>
+        </nav>
+        <div class="mt-9 pt-7 border-t border-hairline-soft">
+          <p class="text-[13px] leading-[1.6] text-ink-soft mb-2">Can't find what you're after?</p>
+          <a href="mailto:hello@arua.co.nz" class="font-mono text-[12px] tracking-mono-sm text-accent-deep hover:text-accent transition-colors duration-150 focus-ring rounded-sm">hello@arua.co.nz</a>
+        </div>
+      </div>
+    </aside>
+
+    <article>
+      <p class="text-[18px] leading-[1.7] text-ink-soft">
+        Answers to the most common questions about how Arua works, who it's for, how your medication is handled, and what we do with your information. If something isn't covered here, get in touch at <a href="mailto:hello@arua.co.nz" style="color:#8C4A2F;text-decoration:underline;text-underline-offset:3px;">hello@arua.co.nz</a>.
+      </p>
+
+      <!-- Quick jump (mobile) -->
+      <div class="flex flex-wrap gap-2 mt-8 lg:hidden">
+        <a href="#general" class="faq-chip focus-ring">General</a>
+        <a href="#how-it-works" class="faq-chip focus-ring">How it works</a>
+        <a href="#medication" class="faq-chip focus-ring">Medication</a>
+        <a href="#conditions" class="faq-chip focus-ring">Conditions</a>
+        <a href="#privacy" class="faq-chip focus-ring">Privacy</a>
+        <a href="#account" class="faq-chip focus-ring">Account</a>
+      </div>
 
   <!-- GENERAL -->
-  <p class="faq-section-label">General</p>
+  <section id="general" class="faq-group">
+    <div class="faq-group-head"><span class="faq-group-num">01</span><h2>General</h2></div>
 
   <div class="faq-item">
     <button class="faq-trigger focus-ring rounded-sm" aria-expanded="false">
@@ -434,7 +558,7 @@
     </button>
     <div class="faq-body" role="region">
       <div class="faq-body-inner">
-        <p class="faq-a">Arua is a New Zealand men's health service. We make it straightforward to get assessed for common men's health conditions — like erectile dysfunction and hair loss — and, if treatment is appropriate, to have medication prescribed and delivered to your door. The whole thing is designed to be done from your phone, in your own time, without sitting in a waiting room.</p>
+        <p class="faq-a">Arua is a New Zealand men's health service. We make it straightforward to get assessed for common men's health conditions (like erectile dysfunction and hair loss) and, if treatment is appropriate, to have medication prescribed and delivered to your door. The whole thing is designed to be done from your phone, in your own time, without sitting in a waiting room.</p>
       </div>
     </div>
   </div>
@@ -462,13 +586,16 @@
     </button>
     <div class="faq-body" role="region">
       <div class="faq-body-inner">
-        <p class="faq-a">No. Arua is built to handle specific conditions well, not to replace the broader care your GP provides. If you have complex health issues, ongoing conditions that need active management, or anything that needs a hands-on physical examination, your GP is still the right call. For the conditions we treat, we're a faster and more private alternative — but we're an alternative, not a replacement.</p>
+        <p class="faq-a">No. Arua is built to handle specific conditions well, not to replace the broader care your GP provides. If you have complex health issues, ongoing conditions that need active management, or anything that needs a hands-on physical examination, your GP is still the right call. For the conditions we treat, we're a faster and more private alternative, but we're an alternative, not a replacement.</p>
       </div>
     </div>
   </div>
 
+  </section>
+
   <!-- HOW IT WORKS -->
-  <p class="faq-section-label">How it works</p>
+  <section id="how-it-works" class="faq-group">
+    <div class="faq-group-head"><span class="faq-group-num">02</span><h2>How it works</h2></div>
 
   <div class="faq-item">
     <button class="faq-trigger focus-ring rounded-sm" aria-expanded="false">
@@ -479,7 +606,7 @@
     </button>
     <div class="faq-body" role="region">
       <div class="faq-body-inner">
-        <p class="faq-a">You create an account and complete a health questionnaire about the condition you're seeking help for. A clinician reviews your answers and, if you're suitable for treatment, you'll have a telehealth consult with a New Zealand-registered GP. If they prescribe, your medication is dispensed by our pharmacy partner and delivered to your door. Four steps: sign up, questionnaire, consult, delivery.</p>
+        <p class="faq-a">You start with a quick suitability check. It's anonymous: no account, no card, and if it ends in a stop or you close the page, nothing you've answered is kept. If the check suggests Arua could work for you and you choose to continue, that's when you create an account and we ask who you are. From there, you complete the full health questionnaire, a clinician reviews it, you have a telehealth consult with a New Zealand-registered GP, and if they prescribe, your medication is dispensed by our pharmacy partner and delivered to your door.</p>
       </div>
     </div>
   </div>
@@ -493,7 +620,7 @@
     </button>
     <div class="faq-body" role="region">
       <div class="faq-body-inner">
-        <p class="faq-a">It's a one-on-one video consult with a registered GP, done remotely so you can do it from wherever suits — home, car, lunch break. The clinician will already have read your questionnaire, so the consult isn't about repeating yourself. It's about them verifying what you've told them, checking for anything the questionnaire couldn't capture, answering your questions, and making the prescribing decision.</p>
+        <p class="faq-a">It's a one-on-one video consult with a registered GP, done remotely so you can do it from wherever suits: home, car, lunch break. The clinician will already have read your questionnaire, so the consult isn't about repeating yourself. It's about them verifying what you've told them, checking for anything the questionnaire couldn't capture, answering your questions, and making the prescribing decision.</p>
       </div>
     </div>
   </div>
@@ -521,7 +648,7 @@
     </button>
     <div class="faq-body" role="region">
       <div class="faq-body-inner">
-        <p class="faq-a">Every clinician working through Arua is registered with the relevant New Zealand professional body — the Medical Council of New Zealand or the Pharmacy Council of New Zealand — and licensed to prescribe in this country. They're not offshore. They're not AI. They're New Zealand-registered professionals operating under the same standards they would in any GP clinic.</p>
+        <p class="faq-a">Every clinician working through Arua is registered with the relevant New Zealand professional body: the Medical Council of New Zealand or the Pharmacy Council of New Zealand, and licensed to prescribe in this country. They're not offshore. They're not AI. They're New Zealand-registered professionals operating under the same standards they would in any GP clinic.</p>
       </div>
     </div>
   </div>
@@ -535,7 +662,7 @@
     </button>
     <div class="faq-body" role="region">
       <div class="faq-body-inner">
-        <p class="faq-a">A human clinician reviews every assessment, and a human GP runs every consult. Software helps us route information to the right clinician and flag things that need attention, but the clinical decision — whether to prescribe, what to prescribe, what dose — is always made by a registered prescriber during a one-on-one consult with you.</p>
+        <p class="faq-a">A human clinician reviews every assessment, and a human GP runs every consult. Software helps us route information to the right clinician and flag things that need attention, but the clinical decision (whether to prescribe, what to prescribe, what dose) is always made by a registered prescriber during a one-on-one consult with you.</p>
       </div>
     </div>
   </div>
@@ -549,7 +676,7 @@
     </button>
     <div class="faq-body" role="region">
       <div class="faq-body-inner">
-        <p class="faq-a">No. Clinicians work independently. They assess you against their professional judgment and standard prescribing guidelines, and they make the call. Arua provides the platform that connects you to them and handles the operational side — we don't influence or override what they decide. If a clinician declines to prescribe, that's their decision, and we respect it.</p>
+        <p class="faq-a">No. Clinicians work independently. They assess you against their professional judgment and standard prescribing guidelines, and they make the call. Arua provides the platform that connects you to them and handles the operational side; we don't influence or override what they decide. If a clinician declines to prescribe, that's their decision, and we respect it.</p>
       </div>
     </div>
   </div>
@@ -582,8 +709,11 @@
     </div>
   </div>
 
+  </section>
+
   <!-- MEDICATION AND DELIVERY -->
-  <p class="faq-section-label">Medication and delivery</p>
+  <section id="medication" class="faq-group">
+    <div class="faq-group-head"><span class="faq-group-num">03</span><h2>Medication and delivery</h2></div>
 
   <div class="faq-item">
     <button class="faq-trigger focus-ring rounded-sm" aria-expanded="false">
@@ -608,7 +738,7 @@
     </button>
     <div class="faq-body" role="region">
       <div class="faq-body-inner">
-        <p class="faq-a">Discreetly, to your door. Packaging is plain — no logos, no branding, no indication of what's inside. The return address is the pharmacy, not Arua.</p>
+        <p class="faq-a">Discreetly, to your door, or collect from a pharmacy near you if you prefer. Packaging is plain: no logos, no branding, no indication of what's inside. The return address is the pharmacy, not Arua.</p>
       </div>
     </div>
   </div>
@@ -636,7 +766,7 @@
     </button>
     <div class="faq-body" role="region">
       <div class="faq-body-inner">
-        <p class="faq-a">Standard courier rules apply. If you're not home, the courier will follow the instructions on the pack — usually leaving it in a safe place or attempting redelivery. You can give specific delivery instructions when you order.</p>
+        <p class="faq-a">Standard courier rules apply. If you're not home, the courier will follow the instructions on the pack, usually leaving it in a safe place or attempting redelivery. You can give specific delivery instructions when you order.</p>
       </div>
     </div>
   </div>
@@ -664,13 +794,16 @@
     </button>
     <div class="faq-body" role="region">
       <div class="faq-body-inner">
-        <p class="faq-a">Get in touch. Wrong item, missing item, damaged in transit — we'll sort it out, either by reshipping or refunding, whichever fits the situation.</p>
+        <p class="faq-a">Get in touch. Wrong item, missing item, damaged in transit. We'll sort it out, either by reshipping or refunding, whichever fits the situation.</p>
       </div>
     </div>
   </div>
 
+  </section>
+
   <!-- CONDITIONS AND TREATMENT -->
-  <p class="faq-section-label">Conditions and treatment</p>
+  <section id="conditions" class="faq-group">
+    <div class="faq-group-head"><span class="faq-group-num">04</span><h2>Conditions and treatment</h2></div>
 
   <div class="faq-item">
     <button class="faq-trigger focus-ring rounded-sm" aria-expanded="false">
@@ -709,7 +842,7 @@
     </button>
     <div class="faq-body" role="region">
       <div class="faq-body-inner">
-        <p class="faq-a">Only if you ask us to, or if there's a clinical safety reason and the prescriber decides it's necessary. By default, what happens with Arua stays with Arua. That said, we do encourage you to keep your GP in the loop about any medication you're taking — it's good practice and it helps them care for you properly.</p>
+        <p class="faq-a">Only if you ask us to, or if there's a clinical safety reason and the prescriber decides it's necessary. By default, what happens with Arua stays with Arua. That said, we do encourage you to keep your GP in the loop about any medication you're taking: it's good practice and it helps them care for you properly.</p>
       </div>
     </div>
   </div>
@@ -723,13 +856,16 @@
     </button>
     <div class="faq-body" role="region">
       <div class="faq-body-inner">
-        <p class="faq-a">Tell the clinician in your questionnaire, and bring it up again in your consult — they'll check for interactions either way. Drug interactions are one of the main reasons a prescriber might adjust a treatment plan or decline to prescribe, so the more accurate your current medication list is, the better.</p>
+        <p class="faq-a">Tell the clinician in your questionnaire, and bring it up again in your consult. They'll check for interactions either way. Drug interactions are one of the main reasons a prescriber might adjust a treatment plan or decline to prescribe, so the more accurate your current medication list is, the better.</p>
       </div>
     </div>
   </div>
 
+  </section>
+
   <!-- PRIVACY AND SECURITY -->
-  <p class="faq-section-label">Privacy and security</p>
+  <section id="privacy" class="faq-group">
+    <div class="faq-group-head"><span class="faq-group-num">05</span><h2>Privacy and security</h2></div>
 
   <div class="faq-item">
     <button class="faq-trigger focus-ring rounded-sm" aria-expanded="false">
@@ -741,6 +877,20 @@
     <div class="faq-body" role="region">
       <div class="faq-body-inner">
         <p class="faq-a">Yes. Health information is treated as sensitive information under New Zealand law and we handle it accordingly. We don't sell it. We don't share it with advertisers. We don't use it to train AI models. The full detail is in our <a href="/privacy.html">Privacy Policy</a>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-trigger focus-ring rounded-sm" aria-expanded="false">
+      <span>When does my name get attached to my answers?</span>
+      <span class="faq-icon" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v8M1 5h8" stroke="#8C4A2F" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </span>
+    </button>
+    <div class="faq-body" role="region">
+      <div class="faq-body-inner">
+        <p class="faq-a">Only when you choose to continue past the suitability check. The check itself is anonymous: we don't ask who you are, and if it ends in a stop or you close the page, your answers are not kept. If you carry on and create an account, that's when we collect your name and contact details, and your health information is held under your name from that point on. It has to be: a clinician can only prescribe for, and review, a patient they can identify. The full detail is in our <a href="/privacy.html">Privacy Policy</a>.</p>
       </div>
     </div>
   </div>
@@ -773,8 +923,11 @@
     </div>
   </div>
 
+  </section>
+
   <!-- ACCOUNT AND SUPPORT -->
-  <p class="faq-section-label">Account and support</p>
+  <section id="account" class="faq-group">
+    <div class="faq-group-head"><span class="faq-group-num">06</span><h2>Account and support</h2></div>
 
   <div class="faq-item">
     <button class="faq-trigger focus-ring rounded-sm" aria-expanded="false">
@@ -804,7 +957,12 @@
     </div>
   </div>
 
-</article>
+  </section>
+
+    </article>
+  </div>
+</div>
+</section>
 
 <!-- FOOTER -->
 <footer class="bg-ink text-page pt-[72px] pb-12">
@@ -813,6 +971,17 @@
       <div>
         <p class="dp font-[380] tracking-display text-[52px] leading-none mb-5">arua</p>
         <p class="text-[13px] leading-[1.65] max-w-[240px]" style="color:rgba(246,241,232,.5)">Men's health. New Zealand.<br>Private, direct, evidence-based.</p>
+        <div class="flex items-center gap-5 mt-6">
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on Instagram (coming soon)" title="Instagram (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.6" cy="6.4" r="1.15" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on LinkedIn (coming soon)" title="LinkedIn (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+          </a>
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on Facebook (coming soon)" title="Facebook (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94z"/></svg>
+          </a>
+        </div>
       </div>
       <div>
         <p class="font-mono text-[11px] tracking-eyebrow uppercase mb-5" style="color:rgba(246,241,232,.38)">Conditions</p>
@@ -862,7 +1031,43 @@
       trigger.setAttribute('aria-expanded', String(!isOpen))
     })
   })
+
+  // Index rail scrollspy
+  const spyLinks = document.querySelectorAll('#faq-index .faq-nav-link')
+  const spySections = document.querySelectorAll('.faq-group')
+  if (spyLinks.length && spySections.length) {
+    const byId = {}
+    spyLinks.forEach(l => { byId[l.getAttribute('href').slice(1)] = l })
+    const so = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return
+        spyLinks.forEach(l => l.classList.remove('active'))
+        const link = byId[e.target.id]
+        if (link) link.classList.add('active')
+      })
+    }, { rootMargin: '-15% 0px -70% 0px' })
+    spySections.forEach(s => so.observe(s))
+  }
 </script>
 
+<script>
+(function () {
+  var btn = document.getElementById('mob-menu-btn'), menu = document.getElementById('mob-menu')
+  if (!btn || !menu) return
+  var b1 = document.getElementById('mbar1'), b2 = document.getElementById('mbar2'), b3 = document.getElementById('mbar3')
+  var open = false
+  function set(o) {
+    open = o
+    menu.style.display = open ? 'flex' : 'none'
+    menu.style.flexDirection = 'column'
+    btn.setAttribute('aria-expanded', String(open))
+    b1.style.transform = open ? 'translateY(6px) rotate(45deg)' : ''
+    b2.style.opacity = open ? '0' : ''
+    b3.style.transform = open ? 'translateY(-6px) rotate(-45deg)' : ''
+  }
+  btn.addEventListener('click', function () { set(!open) })
+  menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { set(false) }) })
+})()
+</script>
 </body>
 </html>

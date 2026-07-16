@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <title>Testosterone Decline in Men: What Actually Happens — Arua</title>
-  <meta name="description" content="Testosterone declines with age — but the story is more nuanced than most men have heard. The only way to know where your levels actually sit is a blood test." />
+  <meta name="description" content="Testosterone declines with age, but the story is more nuanced than most men have heard. The only way to know where your levels actually sit is a blood test." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -40,13 +40,39 @@
     .prose h2 { font-family:'Fraunces',Georgia,serif; font-weight:380; font-size:22px; line-height:1.25; letter-spacing:-0.025em; font-feature-settings:"ss01" 1,"ss02" 1; color:#15140F; margin-top:48px; margin-bottom:14px; }
     .prose p  { font-size:17px; line-height:1.78; color:#3B3933; margin-bottom:20px; }
     .pull-quote { border-left:2px solid #8C4A2F; background:#EDE5D8; border-radius:0 6px 6px 0; padding:24px 32px; margin:36px 0; font-family:'Fraunces',Georgia,serif; font-weight:340; font-size:18px; line-height:1.5; font-style:italic; font-feature-settings:"ss01" 1,"ss02" 1; color:#15140F; }
+  
+    /* Nav links — horizon-dot underline (brand device) */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: -8px; height: 9px;
+      background:
+        radial-gradient(circle at 3.5px 3.5px, #8C4A2F 2.6px, transparent 3.2px) no-repeat,
+        linear-gradient(#C9BFA9, #C9BFA9) left bottom / 100% 1px no-repeat;
+      opacity: 0; transform: translateY(4px);
+      transition: opacity 200ms ease, transform 260ms cubic-bezier(.22,1,.36,1);
+      pointer-events: none;
+    }
+    .nav-link:hover::after,
+    .nav-link:focus-visible::after,
+    .nav-link[aria-current="page"]::after { opacity: 1; transform: translateY(0); }
+
+    /* Nav CTA — layered shadow + spring lift */
+    nav a[href$="start.html"] {
+      box-shadow: 0 1px 2px rgba(21,20,15,.16), 0 8px 20px -8px rgba(21,20,15,.35);
+      transition: background 150ms ease, transform 180ms cubic-bezier(.34,1.2,.64,1), box-shadow 180ms ease;
+    }
+    nav a[href$="start.html"]:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 3px rgba(21,20,15,.14), 0 12px 28px -10px rgba(21,20,15,.4);
+    }
+    nav a[href$="start.html"]:active { transform: translateY(0) scale(.97); }
   </style>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Testosterone Decline in Men: What Actually Happens — Arua",
-    "description": "Testosterone declines with age — but the story is more nuanced than most men have heard. The only way to know where your levels actually sit is a blood test.",
+    "description": "Testosterone declines with age, but the story is more nuanced than most men have heard. The only way to know where your levels actually sit is a blood test.",
     "url": "https://www.arua.co.nz/Articles/testosterone-decline.html",
     "datePublished": "2026-05-13",
     "dateModified": "2026-05-18",
@@ -65,27 +91,45 @@
 </head>
 <body class="bg-page font-body text-ink antialiased">
 
-<nav id="nav" class="sticky top-0 z-50 bg-page border-b border-transparent transition-colors duration-200">
-  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-16 flex items-center justify-between gap-8">
+<nav id="nav" class="sticky top-0 z-50 border-b border-transparent transition-[border-color,box-shadow] duration-300 bg-page/[.88] backdrop-blur-xl backdrop-saturate-150">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-[68px] flex items-center justify-between">
     <a href="../" class="dp font-[380] text-[52px] leading-none tracking-display text-ink focus-ring rounded-sm">arua</a>
-    <div class="hidden md:flex items-center gap-7">
-      <a href="../#conditions"   class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
-      <a href="../#how-it-works" class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">How it works</a>
-      <a href="index.html"      class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Good reads</a>
-      <a href="../#about"        class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About</a>
+
+    <div class="hidden md:flex items-center gap-8">
+      <a href="../#conditions" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
+      <a href="../#how-it-works" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">How it works</a>
+      <a href="index.html" aria-current="page" class="nav-link text-sm text-ink font-medium focus-ring rounded-sm">Good reads</a>
+      <a href="../about.html" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About us</a>
+      <a href="../faqs.html" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">FAQs</a>
+      <a href="../arua-questionnaire/questionnaire/start.html" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium
+                   hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">
+        Get started
+      </a>
     </div>
-    <a href="#" data-modal="signup" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">Sign up for early access</a>
+
+    <button id="mob-menu-btn" class="md:hidden flex flex-col gap-[5px] p-2 -mr-2 focus-ring rounded-sm" aria-label="Menu" aria-expanded="false">
+      <span id="mbar1" class="block w-5 h-px bg-ink transition-transform duration-200 origin-center"></span>
+      <span id="mbar2" class="block w-5 h-px bg-ink transition-opacity duration-200"></span>
+      <span id="mbar3" class="block w-5 h-px bg-ink transition-transform duration-200 origin-center"></span>
+    </button>
   </div>
 </nav>
 
+<!-- Mobile menu -->
+<div id="mob-menu" class="md:hidden fixed left-0 right-0 bg-page border-b border-hairline-soft z-40 px-8 py-6 flex-col gap-4" style="top:68px; display:none;">
+  <a href="../#conditions" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">Conditions</a>
+  <a href="../#how-it-works" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">How it works</a>
+  <a href="index.html" aria-current="page" class="text-base text-ink font-medium py-1">Good reads</a>
+  <a href="../about.html" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">About us</a>
+  <a href="../faqs.html" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">FAQs</a>
+  <a href="../arua-questionnaire/questionnaire/start.html" class="mt-2 h-[48px] rounded-pill bg-ink text-page text-[15px] font-medium flex items-center justify-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Get started</a>
+</div>
+
 <header class="relative overflow-hidden border-b border-hairline" style="min-height:300px;">
-  <img src="../Images/Photo Image Library/Piha 4.jpg" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 60%;" />
+  <img src="../Images/web/piha-4.jpg" alt="Piha coastline" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 60%;" />
   <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(246,241,232,0.92) 0%, rgba(246,241,232,0.82) 45%, rgba(230,218,200,0.60) 100%);"></div>
   <div class="relative z-10 max-w-[760px] mx-auto px-8 py-14">
-    <a href="index.html" class="inline-flex items-center gap-2 text-sm text-muted hover:text-ink transition-colors duration-150 focus-ring rounded-sm mb-8">
-      <span>←</span> <span>Good reads</span>
-    </a>
-    <div class="flex items-center gap-3 mb-6">
+        <div class="flex items-center gap-3 mb-6">
       <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill">Hormonal Health</span>
       <span class="font-mono text-[11px] text-muted">8 min read</span>
     </div>
@@ -93,7 +137,7 @@
       Testosterone decline in men: what actually happens and when to act.
     </h1>
     <p class="text-[18px] leading-[1.65] text-ink-soft max-w-[620px]">
-      Yes, testosterone declines with age. But the story most men have heard is considerably more complicated than that — and the oversimplification leads men either to worry unnecessarily or to seek treatment they don't need.
+      Yes, testosterone declines with age. But the story most men have heard is considerably more complicated than that, and the oversimplification leads men either to worry unnecessarily or to seek treatment they don't need.
     </p>
   </div>
 </header>
@@ -102,31 +146,31 @@
   <div class="prose">
 
     <h2>What testosterone actually does in your body</h2>
-    <p>Testosterone tends to get reduced to its association with sex drive and muscle, but it's doing considerably more than that. It regulates red blood cell production (which affects your energy and stamina), maintains bone density, governs how your body distributes muscle versus fat, influences mood and sharpness of thinking, and plays a role in how efficiently your cells produce energy. It's working across virtually every tissue in your body — not just the reproductive system.</p>
-    <p>The important nuance is that these functions are maintained across a wide range of testosterone concentrations. Your body doesn't need peak levels to function normally — it needs adequate levels. And what 'adequate' means varies meaningfully between men. Two men with identical testosterone readings on a blood test can have completely different clinical experiences, depending on how sensitive their tissues are to available testosterone and how their bodies process it.</p>
+    <p>Testosterone tends to get reduced to its association with sex drive and muscle, but it's doing considerably more than that. It regulates red blood cell production (which affects your energy and stamina), maintains bone density, governs how your body distributes muscle versus fat, influences mood and sharpness of thinking, and plays a role in how efficiently your cells produce energy. It's working across virtually every tissue in your body, not just the reproductive system.</p>
+    <p>The important nuance is that these functions are maintained across a wide range of testosterone concentrations. Your body doesn't need peak levels to function normally, and it needs adequate levels. And what 'adequate' means varies meaningfully between men. Two men with identical testosterone readings on a blood test can have completely different clinical experiences, depending on how sensitive their tissues are to available testosterone and how their bodies process it.</p>
 
-    <h2>The rate of decline — in actual numbers</h2>
-    <p>From around age 30, testosterone falls at roughly 1–2% per year in most men. That's a population average — the rate varies between individuals, sometimes significantly. By age 70, the average man has about 30% less circulating testosterone than he did at 30. That sounds alarming until you understand that the body has considerable reserve built in. A 30% reduction over 40 years, spread across that range of individual variation, doesn't produce symptoms in the majority of men.</p>
-    <p>Symptoms associated with low testosterone typically emerge when levels fall below a threshold that's both individual and contextual — shaped by body composition, sleep quality, stress, alcohol consumption, and other factors that independently affect how testosterone is produced and used. This is why the same reading means different things in different men, and why treatment decisions need to account for the full picture rather than just a number.</p>
+    <h2>The rate of decline, in actual numbers</h2>
+    <p>From around age 30, testosterone falls at roughly 1–2% per year in most men. That's a population average: the rate varies between individuals, sometimes significantly. By age 70, the average man has about 30% less circulating testosterone than he did at 30. That sounds alarming until you understand that the body has considerable reserve built in. A 30% reduction over 40 years, spread across that range of individual variation, doesn't produce symptoms in the majority of men.</p>
+    <p>Symptoms associated with low testosterone typically emerge when levels fall below a threshold that's both individual and contextual, shaped by body composition, sleep quality, stress, alcohol consumption, and other factors that independently affect how testosterone is produced and used. This is why the same reading means different things in different men, and why treatment decisions need to account for the full picture rather than just a number.</p>
 
     <div class="pull-quote">
-      Testosterone declines at roughly 1–2% per year from age 30. By 70, most men have about 30% less than at their peak — spread across 40 years, that's a gentler slope than it sounds.
+      Testosterone declines at roughly 1–2% per year from age 30. By 70, most men have about 30% less than at their peak. Spread across 40 years, that's a gentler slope than it sounds.
     </div>
 
     <h2>Symptoms that actually warrant a blood test</h2>
-    <p>The honest challenge with testosterone symptoms is that they overlap almost completely with a dozen other conditions. Fatigue, reduced libido, low mood, difficulty concentrating, and changes in body composition are all consistent with low testosterone — and equally consistent with poor sleep, depression, thyroid dysfunction, anaemia, and several others. Trying to diagnose yourself from a symptom list is not reliable.</p>
-    <p>That said, a few symptoms are more specifically associated with testosterone deficiency: reduced or absent morning erections, noticeable loss of body hair, significant loss of muscle mass despite maintaining activity levels, and — in more marked cases — hot flushes. These are more specific signals, though still not diagnostic without a blood test.</p>
-    <p>If you're experiencing several of the broader symptoms consistently — not just a bad week — a blood test is the right next move. Not because treatment is inevitable, but because knowing where your levels actually sit transforms a guessing game into a clinical conversation.</p>
+    <p>The honest challenge with testosterone symptoms is that they overlap almost completely with a dozen other conditions. Fatigue, reduced libido, low mood, difficulty concentrating, and changes in body composition are all consistent with low testosterone, and equally consistent with poor sleep, depression, thyroid dysfunction, anaemia, and several others. Trying to diagnose yourself from a symptom list is not reliable.</p>
+    <p>That said, a few symptoms are more specifically associated with testosterone deficiency: reduced or absent morning erections, noticeable loss of body hair, significant loss of muscle mass despite maintaining activity levels, and (in more marked cases) hot flushes. These are more specific signals, though still not diagnostic without a blood test.</p>
+    <p>If you're experiencing several of the broader symptoms consistently, not just a bad week: a blood test is the right next move. Not because treatment is inevitable, but because knowing where your levels actually sit transforms a guessing game into a clinical conversation.</p>
 
     <h2>What the blood test actually measures</h2>
     <p>A testosterone blood test measures the total amount circulating in your blood. Some of that testosterone is bound to proteins and unavailable to act on your tissues; the biologically active portion is called free testosterone. Both figures are useful, and a comprehensive assessment will include both alongside sex hormone-binding globulin (SHBG), which helps interpret how much testosterone is actually available to your body.</p>
-    <p>Timing matters more than most men realise. Testosterone follows a daily rhythm — it peaks in the early morning and falls through the day, typically dropping 20–30% between 8am and 2pm. Testing in the afternoon can make normal levels look low. The test should be done before 10am, ideally on two separate occasions before any treatment decision is made, because results vary between samples.</p>
-    <p>Reference ranges on your blood test result represent what's statistically normal in a broad population — not what's optimal for you specifically. A reading at the low end of 'normal' in a symptomatic man is clinically different from the same reading in a man with no symptoms. Context is everything, which is why a result without a clinical conversation is only half the information.</p>
+    <p>Timing matters more than most men realise. Testosterone follows a daily rhythm, and it peaks in the early morning and falls through the day, typically dropping 20–30% between 8am and 2pm. Testing in the afternoon can make normal levels look low. The test should be done before 10am, ideally on two separate occasions before any treatment decision is made, because results vary between samples.</p>
+    <p>Reference ranges on your blood test result represent what's statistically normal in a broad population, not what's optimal for you specifically. A reading at the low end of 'normal' in a symptomatic man is clinically different from the same reading in a man with no symptoms. Context is everything, which is why a result without a clinical conversation is only half the information.</p>
 
     <h2>The lifestyle factors that move the needle</h2>
-    <p>Before medication enters the conversation, it's worth knowing that testosterone is genuinely sensitive to modifiable lifestyle factors — and the effects are measurable, not trivial.</p>
-    <p>Sleep is the biggest lever. The majority of your daily testosterone is released during deep sleep. Men sleeping fewer than six hours consistently have measurably lower testosterone than those sleeping seven to nine — studies show reductions of 10–15% in some cases. That's not a rounding error. If your sleep is poor, fixing it will move your testosterone more than almost anything else.</p>
-    <p>Body composition matters because fat tissue converts testosterone to oestrogen. Men who are carrying significant central weight are effectively accelerating the conversion of their testosterone before it can do its job. Weight loss in overweight men consistently improves testosterone levels — often meaningfully, without any medication.</p>
+    <p>Before medication enters the conversation, it's worth knowing that testosterone is genuinely sensitive to modifiable lifestyle factors, and the effects are measurable, not trivial.</p>
+    <p>Sleep is the biggest lever. The majority of your daily testosterone is released during deep sleep. Men sleeping fewer than six hours consistently have measurably lower testosterone than those sleeping seven to nine; studies show reductions of 10–15% in some cases. That's not a rounding error. If your sleep is poor, fixing it will move your testosterone more than almost anything else.</p>
+    <p>Body composition matters because fat tissue converts testosterone to oestrogen. Men who are carrying significant central weight are effectively accelerating the conversion of their testosterone before it can do its job. Weight loss in overweight men consistently improves testosterone levels, often meaningfully, without any medication.</p>
     <p>Alcohol suppresses testosterone production directly at the level of the testes, and also impairs the liver's ability to clear oestrogen. Chronic heavy use produces sustained effects. Stress chronically elevates cortisol, which directly antagonises testosterone production through a well-documented hormonal relationship.</p>
 
     <div class="pull-quote">
@@ -137,7 +181,7 @@
     <p>Testosterone replacement therapy (TRT) is appropriate for men with consistently low levels who have symptoms attributable to those levels, after other causes have been considered. It's not appropriate for men with low-normal readings and symptoms that are better explained by poor sleep or lifestyle factors, and it's not a performance enhancement for men with normal levels.</p>
     <p>The most important thing to know about TRT before starting it: it suppresses sperm production, often to zero. If you haven't completed your family, this needs to be part of the conversation before you begin. The effect is usually reversible on stopping, but recovery takes months and isn't guaranteed in all cases.</p>
     <p>TRT is available as daily gels, injections, or patches. Each has different absorption profiles and practical implications. The choice depends on your lifestyle, preferences, and what your clinician recommends based on your specific situation.</p>
-    <p>A testosterone panel and a clinical conversation will tell you whether your levels are a factor in what you're experiencing — and what, if anything, to do about it. That's a more useful starting point than guessing.</p>
+    <p>A testosterone panel and a clinical conversation will tell you whether your levels are a factor in what you're experiencing, and what, if anything, to do about it. That's a more useful starting point than guessing.</p>
 
   </div>
 </article>
@@ -166,7 +210,7 @@
   <div class="bg-page-alt rounded-card border border-hairline-soft p-10">
     <p class="dp font-[380] tracking-display text-[22px] leading-[1.3] mb-2">Arua is a private men&rsquo;s health platform for New Zealand. Early access is open.</p>
     <p class="text-base text-ink-soft mb-7">That's a more useful starting point than guessing.</p>
-    <a href="#" data-modal="signup" class="h-11 px-6 rounded-pill bg-ink text-page text-[15px] font-medium hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">Sign up for early access&thinsp;→</a>
+    <a href="../arua-questionnaire/questionnaire/start.html" class="h-11 px-6 rounded-pill bg-ink text-page text-[15px] font-medium hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">Find out if Arua is for you&thinsp;→</a>
   </div>
 </section>
 
@@ -203,6 +247,17 @@
       <div>
         <p class="dp font-[380] tracking-display text-[52px] leading-none mb-5">arua</p>
         <p class="text-[13px] leading-[1.65] max-w-[240px]" style="color:rgba(246,241,232,.5)">Men's health. New Zealand.<br>Private, direct, evidence-based.</p>
+        <div class="flex items-center gap-5 mt-6">
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on Instagram (coming soon)" title="Instagram (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.6" cy="6.4" r="1.15" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on LinkedIn (coming soon)" title="LinkedIn (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+          </a>
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on Facebook (coming soon)" title="Facebook (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94z"/></svg>
+          </a>
+        </div>
       </div>
       <div>
         <p class="font-mono text-[11px] tracking-eyebrow uppercase mb-5" style="color:rgba(246,241,232,.38)">Conditions</p>
@@ -286,9 +341,28 @@
   form.addEventListener('submit',function(e){
     e.preventDefault();
     fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}})
-      .then(function(r){if(r.ok){form.style.display='none';ok.style.display='block';}});
+      .then(function(r){if(r.ok){form.style.display='none';ok.style.display='block';}else{form.submit();}}).catch(function(){form.submit();});
   });
 })();
+</script>
+<script>
+(function () {
+  var btn = document.getElementById('mob-menu-btn'), menu = document.getElementById('mob-menu')
+  if (!btn || !menu) return
+  var b1 = document.getElementById('mbar1'), b2 = document.getElementById('mbar2'), b3 = document.getElementById('mbar3')
+  var open = false
+  function set(o) {
+    open = o
+    menu.style.display = open ? 'flex' : 'none'
+    menu.style.flexDirection = 'column'
+    btn.setAttribute('aria-expanded', String(open))
+    b1.style.transform = open ? 'translateY(6px) rotate(45deg)' : ''
+    b2.style.opacity = open ? '0' : ''
+    b3.style.transform = open ? 'translateY(-6px) rotate(-45deg)' : ''
+  }
+  btn.addEventListener('click', function () { set(!open) })
+  menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { set(false) }) })
+})()
 </script>
 </body>
 </html>

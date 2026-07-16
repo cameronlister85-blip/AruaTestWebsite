@@ -31,26 +31,76 @@
     .lift { transition:transform 0.28s cubic-bezier(0.34,1.3,0.64,1), box-shadow 0.28s ease; }
     .lift:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(21,20,15,.10); }
     .focus-ring:focus-visible { outline:2px solid #8C4A2F; outline-offset:3px; }
+    .photo-frame { position:relative; overflow:hidden; }
+    .photo-frame::before { content:''; position:absolute; inset:0; z-index:1; pointer-events:none; background:rgba(140,74,47,.10); mix-blend-mode:multiply; }
+    .photo-frame::after { content:''; position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(to top, rgba(21,20,15,.22), transparent 45%); }
+  
+    /* Nav links — horizon-dot underline (brand device) */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: -8px; height: 9px;
+      background:
+        radial-gradient(circle at 3.5px 3.5px, #8C4A2F 2.6px, transparent 3.2px) no-repeat,
+        linear-gradient(#C9BFA9, #C9BFA9) left bottom / 100% 1px no-repeat;
+      opacity: 0; transform: translateY(4px);
+      transition: opacity 200ms ease, transform 260ms cubic-bezier(.22,1,.36,1);
+      pointer-events: none;
+    }
+    .nav-link:hover::after,
+    .nav-link:focus-visible::after,
+    .nav-link[aria-current="page"]::after { opacity: 1; transform: translateY(0); }
+
+    /* Nav CTA — layered shadow + spring lift */
+    nav a[href$="start.html"] {
+      box-shadow: 0 1px 2px rgba(21,20,15,.16), 0 8px 20px -8px rgba(21,20,15,.35);
+      transition: background 150ms ease, transform 180ms cubic-bezier(.34,1.2,.64,1), box-shadow 180ms ease;
+    }
+    nav a[href$="start.html"]:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 3px rgba(21,20,15,.14), 0 12px 28px -10px rgba(21,20,15,.4);
+    }
+    nav a[href$="start.html"]:active { transform: translateY(0) scale(.97); }
   </style>
 </head>
 <body class="bg-page font-body text-ink antialiased">
 
-<nav id="nav" class="sticky top-0 z-50 bg-page border-b border-transparent transition-colors duration-200">
-  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-16 flex items-center justify-between gap-8">
+<nav id="nav" class="sticky top-0 z-50 border-b border-transparent transition-[border-color,box-shadow] duration-300 bg-page/[.88] backdrop-blur-xl backdrop-saturate-150">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-[68px] flex items-center justify-between">
     <a href="../" class="dp font-[380] text-[52px] leading-none tracking-display text-ink focus-ring rounded-sm">arua</a>
-    <div class="hidden md:flex items-center gap-7">
-      <a href="../#conditions"   class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
-      <a href="../#how-it-works" class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">How it works</a>
-      <a href="./"               class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Good reads</a>
-      <a href="../#about"        class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About</a>
+
+    <div class="hidden md:flex items-center gap-8">
+      <a href="../#conditions" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
+      <a href="../#how-it-works" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">How it works</a>
+      <a href="./" aria-current="page" class="nav-link text-sm text-ink font-medium focus-ring rounded-sm">Good reads</a>
+      <a href="../about.html" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About us</a>
+      <a href="../faqs.html" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">FAQs</a>
+      <a href="../arua-questionnaire/questionnaire/start.html" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium
+                   hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">
+        Get started
+      </a>
     </div>
-    <a href="#" data-modal="signup" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">Sign up for early access</a>
+
+    <button id="mob-menu-btn" class="md:hidden flex flex-col gap-[5px] p-2 -mr-2 focus-ring rounded-sm" aria-label="Menu" aria-expanded="false">
+      <span id="mbar1" class="block w-5 h-px bg-ink transition-transform duration-200 origin-center"></span>
+      <span id="mbar2" class="block w-5 h-px bg-ink transition-opacity duration-200"></span>
+      <span id="mbar3" class="block w-5 h-px bg-ink transition-transform duration-200 origin-center"></span>
+    </button>
   </div>
 </nav>
 
+<!-- Mobile menu -->
+<div id="mob-menu" class="md:hidden fixed left-0 right-0 bg-page border-b border-hairline-soft z-40 px-8 py-6 flex-col gap-4" style="top:68px; display:none;">
+  <a href="../#conditions" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">Conditions</a>
+  <a href="../#how-it-works" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">How it works</a>
+  <a href="./" aria-current="page" class="text-base text-ink font-medium py-1">Good reads</a>
+  <a href="../about.html" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">About us</a>
+  <a href="../faqs.html" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">FAQs</a>
+  <a href="../arua-questionnaire/questionnaire/start.html" class="mt-2 h-[48px] rounded-pill bg-ink text-page text-[15px] font-medium flex items-center justify-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Get started</a>
+</div>
+
 <!-- HEADER -->
 <header class="relative overflow-hidden border-b border-hairline" style="min-height:340px;">
-  <img src="../Images/Photo Image Library/Piha 1.jpg" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 55%;" />
+  <img src="../Images/web/piha-1.jpg" alt="Piha beach coastline" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 55%;" fetchpriority="high" />
   <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(246,241,232,0.92) 0%, rgba(246,241,232,0.82) 45%, rgba(230,218,200,0.60) 100%);"></div>
   <div class="relative z-10 py-24">
     <div class="max-w-[1280px] mx-auto px-8 lg:px-16">
@@ -71,7 +121,8 @@
     <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-8">Sexual health</p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-      <a href="why-ed-happens.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+      <a href="why-ed-happens.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-[18px] overflow-hidden block">
+        <div class="photo-frame aspect-[16/9]"><img src="../Images/web/card/man-cool-light-3.jpg" alt="" class="w-full h-full object-cover" loading="lazy" decoding="async" /></div>
         <div class="p-6">
           <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Sexual Health</span>
           <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Why ED happens: the physiological causes most men don't know about.</h3>
@@ -83,11 +134,12 @@
         </div>
       </a>
 
-      <a href="ed-and-mental-health.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+      <a href="ed-and-mental-health.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-[18px] overflow-hidden block">
+        <div class="photo-frame aspect-[16/9]"><img src="../Images/web/card/piha-6.jpg" alt="" class="w-full h-full object-cover" style="object-position:center 40%;" loading="lazy" decoding="async" /></div>
         <div class="p-6">
           <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Sexual Health</span>
           <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">ED and mental health: the relationship most men never hear about.</h3>
-          <p class="text-sm text-ink-soft leading-[1.6] mb-4">The relationship is bidirectional and self-reinforcing. Getting the full picture changes how the problem is approached — and produces better outcomes.</p>
+          <p class="text-sm text-ink-soft leading-[1.6] mb-4">The relationship is bidirectional and self-reinforcing. Getting the full picture changes how the problem is approached, and produces better outcomes.</p>
           <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
             <span class="font-mono text-[11px] text-muted">7 min read</span>
             <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
@@ -105,7 +157,8 @@
     <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-8">Hormonal health</p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-      <a href="testosterone-decline.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+      <a href="testosterone-decline.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-[18px] overflow-hidden block">
+        <div class="photo-frame aspect-[16/9]"><img src="../Images/web/card/man-running-1.jpg" alt="" class="w-full h-full object-cover" style="object-position:center 72%;" loading="lazy" decoding="async" /></div>
         <div class="p-6">
           <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Hormonal Health</span>
           <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Testosterone decline in men: what actually happens and when to act.</h3>
@@ -117,7 +170,8 @@
         </div>
       </a>
 
-      <a href="low-energy-at-40.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+      <a href="low-energy-at-40.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-[18px] overflow-hidden block">
+        <div class="photo-frame aspect-[16/9]"><img src="../Images/web/card/man-coffee-2.jpg" alt="" class="w-full h-full object-cover" loading="lazy" decoding="async" /></div>
         <div class="p-6">
           <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Hormonal Health</span>
           <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Low energy at 40: is it age, or something worth investigating?</h3>
@@ -129,11 +183,12 @@
         </div>
       </a>
 
-      <a href="testosterone-weight-energy.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+      <a href="testosterone-weight-energy.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-[18px] overflow-hidden block">
+        <div class="photo-frame aspect-[16/9]"><img src="../Images/web/card/man-running-3.jpg" alt="" class="w-full h-full object-cover" loading="lazy" decoding="async" /></div>
         <div class="p-6">
           <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Hormonal Health</span>
           <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Testosterone, weight, and energy: why the three move together.</h3>
-          <p class="text-sm text-ink-soft leading-[1.6] mb-4">These aren't separate systems operating independently — they're components of the same metabolic loop.</p>
+          <p class="text-sm text-ink-soft leading-[1.6] mb-4">These aren't separate systems operating independently; they're components of the same metabolic loop.</p>
           <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
             <span class="font-mono text-[11px] text-muted">6 min read</span>
             <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
@@ -151,10 +206,11 @@
     <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-8">Hair loss, longevity & more</p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-      <a href="hair-loss-finasteride.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+      <a href="hair-loss-finasteride.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-[18px] overflow-hidden block">
+        <div class="photo-frame aspect-[16/9]"><img src="../Images/web/card/man-warm-light-3.jpg" alt="" class="w-full h-full object-cover" loading="lazy" decoding="async" /></div>
         <div class="p-6">
           <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Hair Loss</span>
-          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Hair loss in men: what finasteride actually does — and what it doesn't.</h3>
+          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Hair loss in men: what finasteride actually does, and what it doesn't.</h3>
           <p class="text-sm text-ink-soft leading-[1.6] mb-4">The side effect picture is considerably less alarming than the internet would have you believe. Here are the actual numbers.</p>
           <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
             <span class="font-mono text-[11px] text-muted">7 min read</span>
@@ -163,11 +219,12 @@
         </div>
       </a>
 
-      <a href="why-men-die-younger.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+      <a href="why-men-die-younger.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-[18px] overflow-hidden block">
+        <div class="photo-frame aspect-[16/9]"><img src="../Images/web/card/father-son-1.jpg" alt="" class="w-full h-full object-cover" loading="lazy" decoding="async" /></div>
         <div class="p-6">
           <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Longevity</span>
-          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Why men die younger — and what changes that outcome.</h3>
-          <p class="text-sm text-ink-soft leading-[1.6] mb-4">The gap persists across ethnicity, income, and geography. It's not primarily biological — and it's largely preventable.</p>
+          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Why men die younger, and what changes that outcome.</h3>
+          <p class="text-sm text-ink-soft leading-[1.6] mb-4">The gap persists across ethnicity, income, and geography. It's not primarily biological, and it's largely preventable.</p>
           <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
             <span class="font-mono text-[11px] text-muted">7 min read</span>
             <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
@@ -175,11 +232,12 @@
         </div>
       </a>
 
-      <a href="baseline-blood-test.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+      <a href="baseline-blood-test.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-[18px] overflow-hidden block">
+        <div class="photo-frame aspect-[16/9]"><img src="../Images/web/card/man-running-2.jpg" alt="" class="w-full h-full object-cover" loading="lazy" decoding="async" /></div>
         <div class="p-6">
           <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Preventive Health</span>
-          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">What a baseline blood test tells you — and why most men don't have one.</h3>
-          <p class="text-sm text-ink-soft leading-[1.6] mb-4">Ten minutes, a needle, a few days — and you have a picture of systems you otherwise can't see.</p>
+          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">What a baseline blood test tells you, and why most men don't have one.</h3>
+          <p class="text-sm text-ink-soft leading-[1.6] mb-4">Ten minutes, a needle, a few days, and you have a picture of systems you otherwise can't see.</p>
           <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
             <span class="font-mono text-[11px] text-muted">6 min read</span>
             <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
@@ -187,7 +245,8 @@
         </div>
       </a>
 
-      <a href="sleep-mens-health.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+      <a href="sleep-mens-health.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-[18px] overflow-hidden block">
+        <div class="photo-frame aspect-[16/9]"><img src="../Images/web/card/man-home-1.jpg" alt="" class="w-full h-full object-cover" loading="lazy" decoding="async" /></div>
         <div class="p-6">
           <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Longevity</span>
           <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Sleep and men's health: the connection your GP hasn't had time to explain.</h3>
@@ -199,11 +258,12 @@
         </div>
       </a>
 
-      <a href="why-men-dont-ask-for-help.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-card overflow-hidden block">
+      <a href="why-men-dont-ask-for-help.html" class="lift focus-ring bg-surface border border-hairline-soft rounded-[18px] overflow-hidden block">
+        <div class="photo-frame aspect-[16/9]"><img src="../Images/web/card/man-outdoors-2.jpg" alt="" class="w-full h-full object-cover" style="object-position:center 38%;" loading="lazy" decoding="async" /></div>
         <div class="p-6">
           <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Men's Health</span>
-          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Why men don't ask for help — and what happens when the system makes it easier.</h3>
-          <p class="text-sm text-ink-soft leading-[1.6] mb-4">Telling men to engage with healthcare the way women do hasn't closed the gap. The more useful question is why — and what a better system looks like.</p>
+          <h3 class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Why men don't ask for help, and what happens when the system makes it easier.</h3>
+          <p class="text-sm text-ink-soft leading-[1.6] mb-4">Telling men to engage with healthcare the way women do hasn't closed the gap. The more useful question is why, and what a better system looks like.</p>
           <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
             <span class="font-mono text-[11px] text-muted">7 min read</span>
             <span class="text-sm font-medium text-ink">Read&thinsp;→</span>
@@ -218,9 +278,9 @@
 <!-- CTA -->
 <section class="bg-ink text-page py-20">
   <div class="max-w-[1280px] mx-auto px-8 lg:px-16 text-center">
-    <h2 class="dp font-[380] tracking-display leading-[1.1] text-[38px] mb-4">Ready to start?</h2>
-    <p class="text-base leading-[1.6] mb-8 max-w-[440px] mx-auto" style="color:rgba(246,241,232,.7)">Private. Structured. NZ-registered clinicians. Delivered to your door in 48 hours.</p>
-    <a href="#" data-modal="signup" class="h-12 px-8 rounded-pill bg-page text-ink text-[15px] font-medium hover:bg-page-alt active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">Sign up for early access&thinsp;→</a>
+    <h2 class="dp font-[380] tracking-display leading-[1.1] text-[38px] mb-4">Ready when you are.</h2>
+    <p class="text-base leading-[1.6] mb-8 max-w-[440px] mx-auto" style="color:rgba(246,241,232,.7)">Private. Structured. NZ-registered clinicians. To your door in 48 hours, or pick up from a local pharmacy.</p>
+    <a href="../arua-questionnaire/questionnaire/start.html" class="h-12 px-8 rounded-pill bg-page text-ink text-[15px] font-medium hover:bg-page-alt active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">Find out if Arua is for you&thinsp;→</a>
   </div>
 </section>
 
@@ -231,6 +291,17 @@
       <div>
         <p class="dp font-[380] tracking-display text-[52px] leading-none mb-5">arua</p>
         <p class="text-[13px] leading-[1.65] max-w-[240px]" style="color:rgba(246,241,232,.5)">Men's health. New Zealand.<br>Private, direct, evidence-based.</p>
+        <div class="flex items-center gap-5 mt-6">
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on Instagram (coming soon)" title="Instagram (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.6" cy="6.4" r="1.15" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on LinkedIn (coming soon)" title="LinkedIn (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+          </a>
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on Facebook (coming soon)" title="Facebook (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94z"/></svg>
+          </a>
+        </div>
       </div>
       <div>
         <p class="font-mono text-[11px] tracking-eyebrow uppercase mb-5" style="color:rgba(246,241,232,.38)">Conditions</p>
@@ -314,9 +385,28 @@
   form.addEventListener('submit',function(e){
     e.preventDefault();
     fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}})
-      .then(function(r){if(r.ok){form.style.display='none';ok.style.display='block';}});
+      .then(function(r){if(r.ok){form.style.display='none';ok.style.display='block';}else{form.submit();}}).catch(function(){form.submit();});
   });
 })();
+</script>
+<script>
+(function () {
+  var btn = document.getElementById('mob-menu-btn'), menu = document.getElementById('mob-menu')
+  if (!btn || !menu) return
+  var b1 = document.getElementById('mbar1'), b2 = document.getElementById('mbar2'), b3 = document.getElementById('mbar3')
+  var open = false
+  function set(o) {
+    open = o
+    menu.style.display = open ? 'flex' : 'none'
+    menu.style.flexDirection = 'column'
+    btn.setAttribute('aria-expanded', String(open))
+    b1.style.transform = open ? 'translateY(6px) rotate(45deg)' : ''
+    b2.style.opacity = open ? '0' : ''
+    b3.style.transform = open ? 'translateY(-6px) rotate(-45deg)' : ''
+  }
+  btn.addEventListener('click', function () { set(!open) })
+  menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { set(false) }) })
+})()
 </script>
 </body>
 </html>

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arua — ED Screening Process</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,340;9..144,380;9..144,500&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --page:        #F6F1E8;
+      --ink:         #15140F;
+      --ink-soft:    #3B3933;
+      --muted:       #8A867D;
+      --hairline:    #D9CFBF;
+      --accent:      #8C4A2F;
+      --sage:        #DCE3D2;
+      --sage-deep:   #5E6B4F;
+      --surface:     #FFFFFF;
+      --amber:       #F5A623;
+      --red-soft:    #FDECEA;
+      --red:         #C0392B;
+    }
+
+    body {
+      font-family: 'Inter Tight', -apple-system, sans-serif;
+      background: var(--page);
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.6;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .dp { font-family: 'Fraunces', Georgia, serif; font-feature-settings: "ss01" 1, "ss02" 1; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* ── Layout ── */
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 56px 48px;
+    }
+
+    /* ── Header ── */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-bottom: 24px;
+      border-bottom: 1.5px solid var(--ink);
+      margin-bottom: 48px;
+    }
+    .wordmark { font-family: 'Fraunces', Georgia, serif; font-feature-settings: "ss01" 1, "ss02" 1; font-weight: 380; font-size: 44px; letter-spacing: -0.035em; line-height: 1; color: var(--ink); }
+    .doc-title { text-align: right; }
+    .doc-title h1 { font-family: 'Fraunces', Georgia, serif; font-weight: 380; font-size: 20px; letter-spacing: -0.02em; color: var(--ink); }
+    .doc-title p { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+
+    /* ── Sections ── */
+    section { margin-bottom: 44px; }
+    h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 380;
+      font-size: 22px;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--hairline);
+    }
+    h3 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 20px 0 10px;
+    }
+    p { color: var(--ink-soft); margin-bottom: 10px; }
+
+    /* ── Flow steps ── */
+    .flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .flow-step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      position: relative;
+    }
+    .flow-step:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 32px;
+      bottom: -8px;
+      width: 1.5px;
+      background: var(--hairline);
+    }
+    .flow-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--page);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .flow-body {
+      flex: 1;
+      padding-bottom: 20px;
+    }
+    .flow-label {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+    .flow-desc { font-size: 13px; color: var(--ink-soft); margin: 0; }
+
+    /* ── Outcome badges ── */
+    .outcomes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .outcome-card {
+      border: 1.5px solid var(--hairline);
+      border-radius: 8px;
+      padding: 16px 18px;
+      background: var(--surface);
+    }
+    .outcome-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .outcome-label {
+      font-weight: 600;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    .outcome-desc { font-size: 12px; color: var(--muted); margin: 0; }
+    .code-s0 { color: var(--red); }
+    .code-s1 { color: var(--accent); }
+    .code-s2 { color: #B07D00; }
+    .code-s3 { color: var(--sage-deep); }
+
+    /* ── Tables ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      background: var(--surface);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1.5px solid var(--hairline);
+    }
+    thead { background: #EDE5D8; }
+    th {
+      text-align: left;
+      padding: 10px 14px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--hairline);
+    }
+    td {
+      padding: 10px 14px;
+      color: var(--ink-soft);
+      border-bottom: 1px solid #F0E8DC;
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    .q-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); white-space: nowrap; }
+    .q-eyebrow { font-size: 10px; color: var(--muted); display: block; margin-bottom: 2px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+    .q-text { color: var(--ink); font-weight: 500; }
+
+    /* Routing pills */
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+    .pill-continue { background: var(--sage); color: var(--sage-deep); }
+    .pill-s0 { background: #FDECEA; color: var(--red); }
+    .pill-s1 { background: rgba(140,74,47,.12); color: var(--accent); }
+    .pill-s2 { background: #FEF3E2; color: #B07D00; }
+
+    /* ── Flags list ── */
+    .flags-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .flag-item {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+    .flag-trigger {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* ── Data fields ── */
+    .fields { display: flex; flex-wrap: wrap; gap: 8px; }
+    .field-tag {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+    .field-tag .ftype { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); display: block; }
+
+    /* ── Tech stack ── */
+    .stack { display: flex; gap: 12px; flex-wrap: wrap; }
+    .stack-item {
+      flex: 1;
+      min-width: 160px;
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .stack-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .stack-name { font-weight: 600; font-size: 13px; color: var(--ink); margin-bottom: 2px; }
+    .stack-desc { font-size: 11px; color: var(--muted); margin: 0; }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 56px;
+      padding-top: 20px;
+      border-top: 1px solid var(--hairline);
+      display: flex;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── Print ── */
+    @media print {
+      body { background: white; font-size: 12px; }
+      .page { padding: 32px 40px; max-width: 100%; }
+      header { margin-bottom: 32px; }
+      section { margin-bottom: 32px; page-break-inside: avoid; }
+      table { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <header>
+    <div class="wordmark">arua</div>
+    <div class="doc-title">
+      <h1>ED Screening — Process Overview</h1>
+      <p>Pre-launch v1 &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; June 2026</p>
+    </div>
+  </header>
+
+  <!-- 1. Purpose -->
+  <section>
+    <h2>Purpose</h2>
+    <p>This document describes the pre-launch ED suitability screening flow. Its purpose is to quickly identify whether a prospective patient is likely suitable for Arua's online ED treatment pathway, and to capture their contact details so the team can reach out when the service launches.</p>
+    <p>This is <strong>not</strong> a full clinical intake. Hard contraindications are screened out immediately. Everyone else who completes the form is captured as a lead, with any clinical cautions flagged for review when the time comes.</p>
+  </section>
+
+  <!-- 2. Process flow -->
+  <section>
+    <h2>Process flow</h2>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-body">
+          <div class="flow-label">Entry</div>
+          <p class="flow-desc">Prospective patient lands on the screening page via a CTA link. No account created, no data stored yet.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-body">
+          <div class="flow-label">Suitability screen — 12 questions</div>
+          <p class="flow-desc">Short yes / no / not sure questions covering eligibility, safety, medicines, and health history. Each answer routes to one of four outcomes (see below). Questions advance automatically on selection.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3a</div>
+        <div class="flow-body">
+          <div class="flow-label">S0 — Urgent redirect</div>
+          <p class="flow-desc">User reports emergency symptoms. Full-screen stop. Directed to call 111. No data captured.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3b</div>
+        <div class="flow-body">
+          <div class="flow-label">S1 — Hard stop</div>
+          <p class="flow-desc">User has a clear contraindication (nitrates, poppers, riociguat, under 18, outside NZ, recent major cardiac event, NAION, sex medically inadvisable). Full-screen stop. Directed to GP or urgent care. No data captured.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3c</div>
+        <div class="flow-body">
+          <div class="flow-label">S2 / S3 — Contact capture</div>
+          <p class="flow-desc">User passes or has caution flags. Presented with a contact form: first name, last name, date of birth, email, NZ mobile. On submit, data is sent to Airtable. S2 submissions include a plain-English list of which questions raised a caution.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-body">
+          <div class="flow-label">Thank you screen</div>
+          <p class="flow-desc">User is told they're on the list and that Arua will be in touch when ready to launch. No clinical commitments are made at this stage.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Outcome codes -->
+  <section>
+    <h2>Outcome codes</h2>
+    <div class="outcomes">
+      <div class="outcome-card">
+        <div class="outcome-code code-s0">S0 — Urgent redirect</div>
+        <div class="outcome-label">Emergency symptoms present</div>
+        <p class="outcome-desc">Pathway stops immediately. User directed to call 111. No data captured.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-code code-s1">S1 — Hard stop</div>
+        <div class="outcome-label">Clear contraindication or ineligible</div>
+        <p class="outcome-desc">Pathway stops. User directed to GP or urgent care. No data captured.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-code code-s2">S2 — Needs review</div>
+        <div class="outcome-label">Caution flag present</div>
+        <p class="outcome-desc">User continues to contact form. Specific flags recorded in Airtable for clinical review when contacted.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-code code-s3">S3 — Clear</div>
+        <div class="outcome-label">Likely suitable</div>
+        <p class="outcome-desc">User continues to contact form. No flags recorded. Standard outreach when service launches.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Question routing -->
+  <section>
+    <h2>Suitability questions &amp; routing</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:36px;">#</th>
+          <th style="width:34%;">Question</th>
+          <th>Yes</th>
+          <th>No</th>
+          <th>Not sure</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="q-num">Q1</td>
+          <td><span class="q-eyebrow">Eligibility</span><span class="q-text">Are you aged 18 or over?</span></td>
+          <td><span class="pill pill-continue">Continue</span></td>
+          <td><span class="pill pill-s1">S1</span></td>
+          <td style="color:#D9CFBF;">—</td>
+        </tr>
+        <tr>
+          <td class="q-num">Q2</td>
+          <td><span class="q-eyebrow">Eligibility</span><span class="q-text">Are you seeking treatment for yourself?</span></td>
+          <td><span class="pill pill-continue">Continue</span></td>
+          <td><span class="pill pill-s1">S1</span></td>
+          <td style="color:#D9CFBF;">—</td>
+        </tr>
+        <tr>
+          <td class="q-num">Q3</td>
+          <td><span class="q-eyebrow">Eligibility</span><span class="q-text">Are you currently in New Zealand?</span></td>
+          <td><span class="pill pill-continue">Continue</span></td>
+          <td><span class="pill pill-s1">S1</span></td>
+          <td style="color:#D9CFBF;">—</td>
+        </tr>
+        <tr>
+          <td class="q-num">Q4</td>
+          <td><span class="q-eyebrow">Safety</span><span class="q-text">Do you currently have emergency symptoms (chest pain, stroke, severe breathlessness)?</span></td>
+          <td><span class="pill pill-s0">S0</span></td>
+          <td><span class="pill pill-continue">Continue</span></td>
+          <td style="color:#D9CFBF;">—</td>
+        </tr>
+        <tr>
+          <td class="q-num">Q5</td>
+          <td><span class="q-eyebrow">Medicines</span><span class="q-text">Are you taking nitrates for chest pain or heart disease?</span></td>
+          <td><span class="pill pill-s1">S1</span></td>
+          <td><span class="pill pill-continue">Continue</span></td>
+          <td><span class="pill pill-s2">S2</span></td>
+        </tr>
+        <tr>
+          <td class="q-num">Q6</td>
+          <td><span class="q-eyebrow">Medicines</span><span class="q-text">Do you use poppers, amyl nitrite, or alkyl nitrites?</span></td>
+          <td><span class="pill pill-s1">S1</span></td>
+          <td><span class="pill pill-continue">Continue</span></td>
+          <td><span class="pill pill-s2">S2</span></td>
+        </tr>
+        <tr>
+          <td class="q-num">Q7</td>
+          <td><span class="q-eyebrow">Medicines</span><span class="q-text">Are you taking riociguat or pulmonary hypertension medicine?</span></td>
+          <td><span class="pill pill-s1">S1</span></td>
+          <td><span class="pill pill-continue">Continue</span></td>
+          <td><span class="pill pill-s2">S2</span></td>
+        </tr>
+        <tr>
+          <td class="q-num">Q8</td>
+          <td><span class="q-eyebrow">Health history</span><span class="q-text">Has a doctor told you that sexual activity is unsafe for you?</span></td>
+          <td><span class="pill pill-s1">S1</span></td>
+          <td><span class="pill pill-continue">Continue</span></td>
+          <td><span class="pill pill-s2">S2</span></td>
+        </tr>
+        <tr>
+          <td class="q-num">Q9</td>
+          <td><span class="q-eyebrow">Health history</span><span class="q-text">Have you recently had a heart attack, stroke, unstable angina, severe heart failure, or serious arrhythmia?</span></td>
+          <td><span class="pill pill-s1">S1</span></td>
+          <td><span class="pill pill-continue">Continue</span></td>
+          <td><span class="pill pill-s2">S2</span></td>
+        </tr>
+        <tr>
+          <td class="q-num">Q10</td>
+          <td><span class="q-eyebrow">Health history</span><span class="q-text">Have you had sudden vision loss or been told you have NAION?</span></td>
+          <td><span class="pill pill-s1">S1</span></td>
+          <td><span class="pill pill-continue">Continue</span></td>
+          <td><span class="pill pill-s2">S2</span></td>
+        </tr>
+        <tr>
+          <td class="q-num">Q11</td>
+          <td><span class="q-eyebrow">Health history</span><span class="q-text">Do you have very low, very high, or uncontrolled blood pressure?</span></td>
+          <td><span class="pill pill-s2">S2</span></td>
+          <td><span class="pill pill-continue">Continue</span></td>
+          <td><span class="pill pill-s2">S2</span></td>
+        </tr>
+        <tr>
+          <td class="q-num">Q12</td>
+          <td><span class="q-eyebrow">One last thing</span><span class="q-text">Are you looking for immediate medical or mental health support rather than ED treatment?</span></td>
+          <td><span class="pill pill-s1">S1</span></td>
+          <td><span class="pill pill-continue">Continue</span></td>
+          <td><span class="pill pill-s2">S2</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 5. S2 flags -->
+  <section>
+    <h2>S2 caution flags</h2>
+    <p>When a question routes to S2, the following plain-English label is recorded in the Flags field in Airtable. Multiple flags can apply to a single submission.</p>
+    <div class="flags-grid">
+      <div class="flag-item"><span class="flag-trigger">Q3 — Not sure</span>Location unconfirmed</div>
+      <div class="flag-item"><span class="flag-trigger">Q5 — Not sure</span>Uncertain about nitrates</div>
+      <div class="flag-item"><span class="flag-trigger">Q6 — Not sure</span>Uncertain about poppers / amyl nitrite</div>
+      <div class="flag-item"><span class="flag-trigger">Q7 — Not sure</span>Uncertain about pulmonary hypertension medicines</div>
+      <div class="flag-item"><span class="flag-trigger">Q8 — Not sure</span>Uncertain whether sexual activity is safe</div>
+      <div class="flag-item"><span class="flag-trigger">Q9 — Not sure</span>Uncertain about recent cardiac history</div>
+      <div class="flag-item"><span class="flag-trigger">Q10 — Not sure</span>Uncertain about vision / eye history</div>
+      <div class="flag-item"><span class="flag-trigger">Q11 — Yes</span>Blood pressure concerns</div>
+      <div class="flag-item"><span class="flag-trigger">Q11 — Not sure</span>Blood pressure status unknown</div>
+      <div class="flag-item"><span class="flag-trigger">Q12 — Not sure</span>Unclear purpose of visit</div>
+    </div>
+  </section>
+
+  <!-- 6. Data captured -->
+  <section>
+    <h2>Data captured (Airtable)</h2>
+    <p>The following fields are recorded for every submission that reaches the contact form. S1 and S0 outcomes capture no personal data.</p>
+    <div class="fields">
+      <div class="field-tag">First name<span class="ftype">Text</span></div>
+      <div class="field-tag">Last name<span class="ftype">Text</span></div>
+      <div class="field-tag">Date of birth<span class="ftype">Date</span></div>
+      <div class="field-tag">Email<span class="ftype">Email</span></div>
+      <div class="field-tag">Mobile<span class="ftype">NZ mobile</span></div>
+      <div class="field-tag">Outcome<span class="ftype">Clear / Needs review</span></div>
+      <div class="field-tag">Flags<span class="ftype">Long text (S2 only)</span></div>
+      <div class="field-tag">Submitted from<span class="ftype">ED screening</span></div>
+      <div class="field-tag">Timestamp<span class="ftype">Auto</span></div>
+    </div>
+  </section>
+
+  <!-- 7. Technical setup -->
+  <section>
+    <h2>Technical setup</h2>
+    <div class="stack">
+      <div class="stack-item">
+        <div class="stack-label">Frontend</div>
+        <div class="stack-name">ed-screening.html</div>
+        <p class="stack-desc">Single-file HTML/JS questionnaire. Hosted on Cloudflare Pages (feature/questionnaire branch, local only pre-launch).</p>
+      </div>
+      <div class="stack-item">
+        <div class="stack-label">API proxy</div>
+        <div class="stack-name">Cloudflare Worker</div>
+        <p class="stack-desc">arua-form-submit.cameron-lister.workers.dev — keeps Airtable credentials server-side. Already live.</p>
+      </div>
+      <div class="stack-item">
+        <div class="stack-label">Data store</div>
+        <div class="stack-name">Airtable</div>
+        <p class="stack-desc">Pre-Launch Lead Capture base, Lead Submissions table. Temporary pre-launch store — to be migrated to clinical system at launch.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Arua — Confidential</span>
+    <span>ED Screening Process v1 &nbsp;·&nbsp; June 2026</span>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -105,6 +105,32 @@
       text-underline-offset: 3px;
     }
     .prose a:hover { color: #5C2E1A; }
+  
+    /* Nav links — horizon-dot underline (brand device) */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: -8px; height: 9px;
+      background:
+        radial-gradient(circle at 3.5px 3.5px, #8C4A2F 2.6px, transparent 3.2px) no-repeat,
+        linear-gradient(#C9BFA9, #C9BFA9) left bottom / 100% 1px no-repeat;
+      opacity: 0; transform: translateY(4px);
+      transition: opacity 200ms ease, transform 260ms cubic-bezier(.22,1,.36,1);
+      pointer-events: none;
+    }
+    .nav-link:hover::after,
+    .nav-link:focus-visible::after,
+    .nav-link[aria-current="page"]::after { opacity: 1; transform: translateY(0); }
+
+    /* Nav CTA — layered shadow + spring lift */
+    nav a[href$="start.html"] {
+      box-shadow: 0 1px 2px rgba(21,20,15,.16), 0 8px 20px -8px rgba(21,20,15,.35);
+      transition: background 150ms ease, transform 180ms cubic-bezier(.34,1.2,.64,1), box-shadow 180ms ease;
+    }
+    nav a[href$="start.html"]:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 3px rgba(21,20,15,.14), 0 12px 28px -10px rgba(21,20,15,.4);
+    }
+    nav a[href$="start.html"]:active { transform: translateY(0) scale(.97); }
   </style>
 </head>
 <body class="bg-page text-ink font-body antialiased">
@@ -112,38 +138,47 @@
 <!-- NAV -->
 <nav id="nav" class="sticky top-0 z-50 border-b border-transparent transition-[border-color,box-shadow] duration-300 bg-page/[.88] backdrop-blur-xl backdrop-saturate-150">
   <div class="max-w-[1280px] mx-auto px-8 lg:px-16 h-[68px] flex items-center justify-between">
-    <a href="/" class="dp font-[380] text-[52px] leading-none tracking-display text-ink focus-ring rounded-sm">arua</a>
+    <a href="./" class="dp font-[380] text-[52px] leading-none tracking-display text-ink focus-ring rounded-sm">arua</a>
 
     <div class="hidden md:flex items-center gap-8">
-      <a href="/#conditions" class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
-      <a href="Articles/index.html"    class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Good reads</a>
-      <a href="/#about"      class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About</a>
-      <a href="/#early-access" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium
+      <a href="./#conditions" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
+      <a href="./#how-it-works" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">How it works</a>
+      <a href="Articles/index.html" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Good reads</a>
+      <a href="about.html" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About us</a>
+      <a href="faqs.html" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">FAQs</a>
+      <a href="arua-questionnaire/questionnaire/start.html" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium
                    hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">
-        Sign up for early access
+        Get started
       </a>
     </div>
 
-    <button class="md:hidden flex flex-col gap-[5px] p-1 focus-ring rounded-sm" aria-label="Menu">
-      <span class="block w-5 h-px bg-ink"></span>
-      <span class="block w-5 h-px bg-ink"></span>
-      <span class="block w-5 h-px bg-ink"></span>
+    <button id="mob-menu-btn" class="md:hidden flex flex-col gap-[5px] p-2 -mr-2 focus-ring rounded-sm" aria-label="Menu" aria-expanded="false">
+      <span id="mbar1" class="block w-5 h-px bg-ink transition-transform duration-200 origin-center"></span>
+      <span id="mbar2" class="block w-5 h-px bg-ink transition-opacity duration-200"></span>
+      <span id="mbar3" class="block w-5 h-px bg-ink transition-transform duration-200 origin-center"></span>
     </button>
   </div>
 </nav>
 
+<!-- Mobile menu -->
+<div id="mob-menu" class="md:hidden fixed left-0 right-0 bg-page border-b border-hairline-soft z-40 px-8 py-6 flex-col gap-4" style="top:68px; display:none;">
+  <a href="./#conditions" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">Conditions</a>
+  <a href="./#how-it-works" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">How it works</a>
+  <a href="Articles/index.html" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">Good reads</a>
+  <a href="about.html" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">About us</a>
+  <a href="faqs.html" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">FAQs</a>
+  <a href="arua-questionnaire/questionnaire/start.html" class="mt-2 h-[48px] rounded-pill bg-ink text-page text-[15px] font-medium flex items-center justify-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Get started</a>
+</div>
+
 <!-- HEADER -->
 <header class="bg-page-alt border-b border-hairline">
   <div class="max-w-[760px] mx-auto px-8 py-16">
-    <a href="/" class="inline-flex items-center gap-2 text-sm text-muted hover:text-ink transition-colors duration-150 focus-ring rounded-sm mb-10">
-      <span>&#8592;</span> <span>Arua</span>
-    </a>
-    <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-5">Legal</p>
+        <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-5">Legal</p>
     <h1 class="dp font-[380] tracking-display leading-[1.05] text-[38px] md:text-[48px] mb-5">
       Privacy Policy
     </h1>
     <p class="font-mono text-[12px] text-muted">
-      arua.co.nz &ensp;&#183;&ensp; Last updated: 13 May 2026
+      arua.co.nz &ensp;&#183;&ensp; Last updated: 16 July 2026
     </p>
   </div>
 </header>
@@ -164,16 +199,19 @@
 
     <h2>1. Who we are</h2>
     <p>Arua is a men's health service operating at arua.co.nz. Clinical care is delivered by New Zealand-registered prescribers we contract with. They are independently responsible for the clinical advice and prescribing decisions they make; Arua is responsible for the platform that connects you to them and for how your information is handled within that platform.</p>
-    <p>If you have any questions or concerns about your information, including requests to access or correct it, you can reach our privacy team at <a href="mailto:hello@arua.co.nz">privacy@arua.co.nz</a>.</p>
+    <p>If you have any questions or concerns about your information, including requests to access or correct it, you can reach our privacy team at <a href="mailto:privacy@arua.co.nz">privacy@arua.co.nz</a>.</p>
 
     <h2>2. What we collect</h2>
-    <p>We collect two categories of information from you, and only what we need.</p>
+    <p>We collect information from you in stages, and only what we need at each stage.</p>
+
+    <p><strong>The suitability check</strong></p>
+    <p>The quick suitability check on our website is anonymous. You do not need an account and we do not ask who you are. If the check ends in a stop, or you close the page partway through, your answers are not kept. Your answers are only saved if you choose to continue at the end of the check and give us your details, so that a clinician can pick up your case without you starting again.</p>
 
     <p><strong>Account information</strong></p>
-    <p>When you create an account, we collect your name, date of birth, email address, phone number, delivery address, and a password (stored hashed, not as plain text). We also record account activity: when you log in, what you have viewed, what you have ordered.</p>
+    <p>When you create an account, we collect your name, date of birth, email address, phone number, delivery address, and a password (stored hashed, not as plain text). We also record account activity: when you log in, what you have viewed, what you have ordered. This is the point at which information starts being held under your name. We need to know who you are before a prescriber can assess you: prescribing, and the clinical review that follows it, can only happen for an identified patient.</p>
 
     <p><strong>Health questionnaire</strong></p>
-    <p>Before a prescriber can assess you, you complete a health questionnaire. This includes information about your symptoms, relevant medical history, current medications, allergies, and lifestyle factors that affect the conditions you are seeking care for. This is health information under New Zealand law and we treat it accordingly.</p>
+    <p>Before a prescriber can assess you, you complete a health questionnaire. This includes information about your symptoms, relevant medical history, current medications, allergies, and lifestyle factors that affect the conditions you are seeking care for. You complete it after creating an account, so it is held under your name. This is health information under New Zealand law and we treat it accordingly.</p>
     <p>We do not currently collect blood test results, ongoing consultation notes, or a full clinical record. If that changes, we will update this policy and tell you before it applies to you.</p>
 
     <p><strong>Information collected automatically</strong></p>
@@ -217,7 +255,7 @@
       <li><strong>Withdraw consent.</strong> You can withdraw your consent to ongoing use of your information at any time, though this may mean we cannot continue to provide the service.</li>
       <li><strong>Complain.</strong> If you think we have mishandled your information, raise it with us first using the contact details below. If you are not satisfied with our response, you can complain to the Office of the Privacy Commissioner.</li>
     </ul>
-    <p>To exercise any of these rights, contact us at <a href="mailto:hello@arua.co.nz">privacy@arua.co.nz</a>.</p>
+    <p>To exercise any of these rights, contact us at <a href="mailto:privacy@arua.co.nz">privacy@arua.co.nz</a>.</p>
 
     <h2>8. Cookies and analytics</h2>
     <p>We use cookies to make the site work properly, for example to keep you logged in, and to understand how the site is used so we can improve it. Some cookies are essential and cannot be turned off without breaking the site. Others are analytics cookies, which you can decline through the cookie banner on your first visit, or by adjusting your browser settings.</p>
@@ -232,7 +270,7 @@
     <h2>11. Contact us</h2>
     <p>For anything in this policy, or any question about your information, get in touch:</p>
     <ul>
-      <li>Email: <a href="mailto:hello@arua.co.nz">privacy@arua.co.nz</a></li>
+      <li>Email: <a href="mailto:privacy@arua.co.nz">privacy@arua.co.nz</a></li>
     </ul>
     <p>If you would prefer to take a complaint outside of Arua, the Office of the Privacy Commissioner can be contacted at <a href="https://www.privacy.org.nz" target="_blank" rel="noopener">privacy.org.nz</a> or 0800 803 909.</p>
 
@@ -246,6 +284,17 @@
       <div>
         <p class="dp font-[380] tracking-display text-[52px] leading-none mb-5">arua</p>
         <p class="text-[13px] leading-[1.65] max-w-[240px]" style="color:rgba(246,241,232,.5)">Men's health. New Zealand.<br>Private, direct, evidence-based.</p>
+        <div class="flex items-center gap-5 mt-6">
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on Instagram (coming soon)" title="Instagram (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.6" cy="6.4" r="1.15" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on LinkedIn (coming soon)" title="LinkedIn (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+          </a>
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on Facebook (coming soon)" title="Facebook (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94z"/></svg>
+          </a>
+        </div>
       </div>
       <div>
         <p class="font-mono text-[11px] tracking-eyebrow uppercase mb-5" style="color:rgba(246,241,232,.38)">Conditions</p>
@@ -288,5 +337,24 @@
   }, { passive: true })
 </script>
 
+<script>
+(function () {
+  var btn = document.getElementById('mob-menu-btn'), menu = document.getElementById('mob-menu')
+  if (!btn || !menu) return
+  var b1 = document.getElementById('mbar1'), b2 = document.getElementById('mbar2'), b3 = document.getElementById('mbar3')
+  var open = false
+  function set(o) {
+    open = o
+    menu.style.display = open ? 'flex' : 'none'
+    menu.style.flexDirection = 'column'
+    btn.setAttribute('aria-expanded', String(open))
+    b1.style.transform = open ? 'translateY(6px) rotate(45deg)' : ''
+    b2.style.opacity = open ? '0' : ''
+    b3.style.transform = open ? 'translateY(-6px) rotate(-45deg)' : ''
+  }
+  btn.addEventListener('click', function () { set(!open) })
+  menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { set(false) }) })
+})()
+</script>
 </body>
 </html>

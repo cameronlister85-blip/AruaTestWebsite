@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <title>Erectile Dysfunction — Arua Men's Health</title>
-  <meta name="description" content="Private, structured ED treatment from NZ-registered clinicians. No waiting room. Discreet packaging. Coming soon." />
+  <meta name="description" content="Private, structured ED treatment from NZ-registered clinicians. No waiting room. Plain packaging. Coming soon." />
+  <link rel="canonical" href="https://www.arua.co.nz/conditions/ed.html" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,8 +29,11 @@
             accent:         '#8C4A2F',
             'accent-ink':   '#FFFFFF',
             'accent-deep':  '#5C2E1A',
+            caramel:        '#4A3423',
+            'caramel-wash': '#EAD9C4',
             sage:           '#DCE3D2',
             'sage-deep':    '#5E6B4F',
+            'sage-wash':    '#E4E9DB',
           },
           fontFamily: {
             display: ['"Fraunces"', 'Georgia', 'serif'],
@@ -45,6 +49,7 @@
           borderRadius: {
             pill: '999px',
             card: '6px',
+            'card-lg': '18px',
           },
           transitionTimingFunction: {
             spring: 'cubic-bezier(0.34,1.3,0.64,1)',
@@ -73,20 +78,56 @@
       outline: 2px solid #8C4A2F;
       outline-offset: 2px;
     }
+
+    .photo-frame { position: relative; overflow: hidden; }
+    .photo-frame::before {
+      content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: rgba(140,74,47,.10); mix-blend-mode: multiply;
+    }
+    .photo-frame::after {
+      content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: linear-gradient(to top, rgba(21,20,15,.22), transparent 45%);
+    }
+  
+    /* Nav links — horizon-dot underline (brand device) */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: -8px; height: 9px;
+      background:
+        radial-gradient(circle at 3.5px 3.5px, #8C4A2F 2.6px, transparent 3.2px) no-repeat,
+        linear-gradient(#C9BFA9, #C9BFA9) left bottom / 100% 1px no-repeat;
+      opacity: 0; transform: translateY(4px);
+      transition: opacity 200ms ease, transform 260ms cubic-bezier(.22,1,.36,1);
+      pointer-events: none;
+    }
+    .nav-link:hover::after,
+    .nav-link:focus-visible::after,
+    .nav-link[aria-current="page"]::after { opacity: 1; transform: translateY(0); }
+
+    /* Nav CTA — layered shadow + spring lift */
+    nav a[href$="start.html"] {
+      box-shadow: 0 1px 2px rgba(21,20,15,.16), 0 8px 20px -8px rgba(21,20,15,.35);
+      transition: background 150ms ease, transform 180ms cubic-bezier(.34,1.2,.64,1), box-shadow 180ms ease;
+    }
+    nav a[href$="start.html"]:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 3px rgba(21,20,15,.14), 0 12px 28px -10px rgba(21,20,15,.4);
+    }
+    nav a[href$="start.html"]:active { transform: translateY(0) scale(.97); }
   </style>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "MedicalWebPage",
     "name": "Erectile Dysfunction — Arua Men's Health",
-    "description": "Private, structured ED treatment from NZ-registered clinicians. No waiting room. Discreet packaging.",
+    "description": "Private, structured ED treatment from NZ-registered clinicians. No waiting room. Plain packaging.",
     "url": "https://www.arua.co.nz/conditions/ed.html",
     "inLanguage": "en-NZ",
     "about": {
       "@type": "MedicalCondition",
       "name": "Erectile Dysfunction",
       "alternateName": ["ED", "Impotence"],
-      "description": "Erectile dysfunction is the persistent difficulty achieving or maintaining an erection firm enough for sexual activity. It affects approximately one in three New Zealand men over 40.",
+      "description": "Erectile dysfunction is the persistent difficulty achieving or maintaining an erection firm enough for sexual activity. It affects approximately one in five New Zealand men at some point.",
       "relevantSpecialty": {
         "@type": "MedicalSpecialty",
         "name": "Urology"
@@ -97,11 +138,11 @@
       "name": "Arua",
       "url": "https://www.arua.co.nz"
     },
-    "dateModified": "2026-05-18"
+    "dateModified": "2026-07-02"
   }
   </script>
 </head>
-<body class="bg-page text-ink font-body antialiased">
+<body class="bg-page text-ink font-body antialiased overflow-x-hidden">
 
 <!-- NAV -->
 <nav id="nav" class="sticky top-0 z-50 border-b border-transparent transition-[border-color,box-shadow] duration-300 bg-page/[.88] backdrop-blur-xl backdrop-saturate-150">
@@ -109,76 +150,106 @@
     <a href="../" class="dp font-[380] text-[52px] leading-none tracking-display text-ink focus-ring rounded-sm">arua</a>
 
     <div class="hidden md:flex items-center gap-8">
-      <a href="../#conditions" class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
-      <a href="../Articles/index.html"    class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Good reads</a>
-      <a href="../#about"      class="text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About</a>
-      <a href="#early-access" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium
+      <a href="../#conditions" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Conditions</a>
+      <a href="../#how-it-works" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">How it works</a>
+      <a href="../Articles/index.html" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">Good reads</a>
+      <a href="../about.html" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">About us</a>
+      <a href="../faqs.html" class="nav-link text-sm text-ink-soft hover:text-ink transition-colors duration-150 focus-ring rounded-sm">FAQs</a>
+      <a href="../arua-questionnaire/questionnaire/ed-screening.html" class="h-[38px] px-5 rounded-pill bg-ink text-page text-sm font-medium
                    hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">
-        Sign up for early access
+        Get started
       </a>
     </div>
 
-    <button class="md:hidden flex flex-col gap-[5px] p-1 focus-ring rounded-sm" aria-label="Menu">
-      <span class="block w-5 h-px bg-ink"></span>
-      <span class="block w-5 h-px bg-ink"></span>
-      <span class="block w-5 h-px bg-ink"></span>
+    <button id="mob-menu-btn" class="md:hidden flex flex-col gap-[5px] p-2 -mr-2 focus-ring rounded-sm" aria-label="Menu" aria-expanded="false">
+      <span id="mbar1" class="block w-5 h-px bg-ink transition-transform duration-200 origin-center"></span>
+      <span id="mbar2" class="block w-5 h-px bg-ink transition-opacity duration-200"></span>
+      <span id="mbar3" class="block w-5 h-px bg-ink transition-transform duration-200 origin-center"></span>
     </button>
   </div>
 </nav>
 
+<!-- Mobile menu -->
+<div id="mob-menu" class="md:hidden fixed left-0 right-0 bg-page border-b border-hairline-soft z-40 px-8 py-6 flex-col gap-4" style="top:68px; display:none;">
+  <a href="../#conditions" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">Conditions</a>
+  <a href="../#how-it-works" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">How it works</a>
+  <a href="../Articles/index.html" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">Good reads</a>
+  <a href="../about.html" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">About us</a>
+  <a href="../faqs.html" class="text-base text-ink-soft hover:text-ink transition-colors duration-150 py-1">FAQs</a>
+  <a href="../arua-questionnaire/questionnaire/ed-screening.html" class="mt-2 h-[48px] rounded-pill bg-ink text-page text-[15px] font-medium flex items-center justify-center hover:bg-[#2e2d25] transition-colors duration-150 focus-ring">Get started</a>
+</div>
+
 <!-- HEADER -->
 <header class="relative overflow-hidden border-b border-hairline">
-  <img src="../Images/Photo Image Library/Piha 2.jpg" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 40%;" />
+  <img src="../Images/web/piha-2.jpg" alt="Waves rolling in at Piha beach" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 40%;" fetchpriority="high" />
   <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(246,241,232,0.92) 0%, rgba(246,241,232,0.82) 50%, rgba(235,220,195,0.60) 100%);"></div>
-  <div class="relative z-10 max-w-[860px] mx-auto px-8 py-28">
-    <a href="../" class="inline-flex items-center gap-2 text-sm text-muted hover:text-ink transition-colors duration-150 focus-ring rounded-sm mb-10">
-      <span>&#8592;</span> <span>Arua</span>
-    </a>
+  <div class="relative z-10 max-w-[1280px] mx-auto px-8 lg:px-16 pt-12 md:pt-14 pb-24 md:pb-32">
     <div class="flex items-center gap-3 mb-6">
+      <span class="inline-block bg-caramel-wash text-accent-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill">Sexual health</span>
       <span class="inline-block bg-accent text-accent-ink font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill">Coming soon</span>
-      <span class="font-mono text-[11px] text-muted">Sexual health</span>
     </div>
-    <h1 class="dp font-[380] tracking-display leading-[1.0] text-[42px] md:text-[58px] mb-6">
+    <h1 class="dp font-[380] tracking-display leading-[1.0] mb-6" style="font-size:clamp(44px,5.5vw,72px)">
       Erectile dysfunction.
     </h1>
-    <p class="text-[19px] leading-[1.6] text-ink-soft max-w-[600px]">
-      A clinical assessment, a registered clinician, and a treatment plan that actually works. All handled privately and delivered to your door.
+    <p class="text-[19px] leading-[1.6] text-ink-soft max-w-[600px] mb-10">
+      A clinical assessment, a registered clinician, and a treatment plan that actually works. All handled privately: to your door, or a pharmacy near you.
     </p>
+    <div class="flex gap-3 flex-wrap items-center">
+      <a href="../arua-questionnaire/questionnaire/ed-screening.html" class="h-12 px-7 rounded-pill bg-ink text-page text-[15px] font-medium
+                   hover:bg-[#2e2d25] active:scale-[.97] transition-[background,transform] duration-150 focus-ring inline-flex items-center">
+        Get started
+      </a>
+      <span class="text-[14px] text-muted">Takes 5 minutes</span>
+    </div>
   </div>
 </header>
 
-
 <!-- WHAT THIS IS -->
-<section class="max-w-[860px] mx-auto px-8 py-20">
+<section class="max-w-[1280px] mx-auto px-8 lg:px-16 py-20 md:py-28">
   <div class="grid md:grid-cols-2 gap-16 items-start">
 
     <div>
       <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-6">The problem</p>
-      <h2 class="dp font-[380] tracking-display text-[28px] leading-[1.15] mb-5">
+      <h2 class="dp font-[380] tracking-display text-[30px] md:text-[36px] leading-[1.12] mb-5">
         ED is common. Leaving it untreated isn't necessary.
       </h2>
       <p class="text-[16px] leading-[1.7] text-ink-soft mb-4">
         Around 1 in 5 New Zealand men experience erectile dysfunction at some point. Most don't seek help. Not because they don't want to, but because the path to treatment hasn't been built for how men actually make decisions about things like this.
       </p>
-      <p class="text-[16px] leading-[1.7] text-ink-soft">
+      <p class="text-[16px] leading-[1.7] text-ink-soft mb-10">
         ED is also frequently a signal. Low testosterone, cardiovascular changes, sleep issues, and stress all show up here first. A proper clinical assessment doesn't just treat the symptom.
       </p>
+      <div class="photo-frame rounded-card-lg aspect-[16/10] hidden md:block">
+        <img src="../Images/web/man-warm-light-2.jpg" alt="A man at home in warm evening light" class="w-full h-full object-cover" loading="lazy" decoding="async" />
+      </div>
     </div>
 
     <div>
       <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-6">The Arua approach</p>
       <div class="flex flex-col gap-5">
-        <div class="border border-hairline-soft rounded-card p-6 bg-surface">
-          <p class="font-medium text-[15px] mb-2">Complete your assessment online</p>
-          <p class="text-[14px] leading-[1.65] text-ink-soft">A structured clinical questionnaire. No waiting room, no face-to-face conversation required at the start.</p>
+        <div class="border border-hairline-soft rounded-card-lg p-7 bg-surface flex gap-5">
+          <p class="dp font-[380] tracking-display text-[24px] text-sage-deep leading-none pt-[2px]">01</p>
+          <div>
+            <p class="font-medium text-[15px] mb-2">Complete your assessment online</p>
+            <p class="text-[14px] leading-[1.65] text-ink-soft">A structured clinical questionnaire. No waiting room, no face-to-face conversation required at the start.</p>
+          </div>
         </div>
-        <div class="border border-hairline-soft rounded-card p-6 bg-surface">
-          <p class="font-medium text-[15px] mb-2">A NZ clinician reviews your case</p>
-          <p class="text-[14px] leading-[1.65] text-ink-soft">A registered clinician reviews your answers, asks follow-up questions if needed, and determines the right treatment.</p>
+        <div class="border border-hairline-soft rounded-card-lg p-7 bg-surface flex gap-5">
+          <p class="dp font-[380] tracking-display text-[24px] text-sage-deep leading-none pt-[2px]">02</p>
+          <div>
+            <p class="font-medium text-[15px] mb-2">A NZ clinician reviews your case</p>
+            <p class="text-[14px] leading-[1.65] text-ink-soft">A registered clinician reviews your answers, asks follow-up questions if needed, and determines what's appropriate for you.</p>
+          </div>
         </div>
-        <div class="border border-hairline-soft rounded-card p-6 bg-surface">
-          <p class="font-medium text-[15px] mb-2">Treatment delivered to your door</p>
-          <p class="text-[14px] leading-[1.65] text-ink-soft">Discreet packaging. No markings. Delivered within 48 hours of approval. Repeats managed automatically.</p>
+        <div class="border border-hairline-soft rounded-card-lg p-7 bg-surface flex gap-5">
+          <p class="dp font-[380] tracking-display text-[24px] text-sage-deep leading-none pt-[2px]">03</p>
+          <div>
+            <p class="font-medium text-[15px] mb-2">Treatment delivered to your door</p>
+            <p class="text-[14px] leading-[1.65] text-ink-soft">Plain packaging. No markings. Delivered within 48 hours of approval, or pick up from a local pharmacy. Repeats managed automatically.</p>
+          </div>
+        </div>
+        <div class="bg-caramel text-page rounded-card-lg p-7">
+          <p class="text-[14px] leading-[1.7]" style="color:rgba(246,241,232,.85)">ED affects roughly 1 in 5 men over 40. Most cases are circulatory, not psychological. Most are treatable.</p>
         </div>
       </div>
     </div>
@@ -188,18 +259,18 @@
 
 <!-- TREATMENTS -->
 <section class="bg-page-alt border-y border-hairline">
-  <div class="max-w-[860px] mx-auto px-8 py-16">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16 py-20">
     <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-10">What we treat</p>
     <div class="grid sm:grid-cols-3 gap-6">
-      <div class="bg-surface border border-hairline-soft rounded-card p-7">
+      <div class="bg-surface border border-hairline-soft rounded-card-lg p-7">
         <p class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Erectile dysfunction</p>
         <p class="text-[13px] leading-[1.65] text-ink-soft">Difficulty getting or maintaining an erection. Treatable in most men with the right clinical assessment.</p>
       </div>
-      <div class="bg-surface border border-hairline-soft rounded-card p-7">
+      <div class="bg-surface border border-hairline-soft rounded-card-lg p-7">
         <p class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Performance anxiety</p>
         <p class="text-[13px] leading-[1.65] text-ink-soft">Psychological and physical factors often overlap. A clinician can help identify what's driving the issue.</p>
       </div>
-      <div class="bg-surface border border-hairline-soft rounded-card p-7">
+      <div class="bg-surface border border-hairline-soft rounded-card-lg p-7">
         <p class="dp font-[380] tracking-display text-[20px] leading-[1.2] mb-3">Hormonal causes</p>
         <p class="text-[13px] leading-[1.65] text-ink-soft">Low testosterone and other hormonal changes are a common underlying factor. Assessed as part of your consultation.</p>
       </div>
@@ -208,35 +279,50 @@
 </section>
 
 <!-- READ MORE -->
-<section class="border-t border-hairline py-16">
-  <div class="max-w-[860px] mx-auto px-8">
+<section class="border-t border-hairline py-20">
+  <div class="max-w-[1280px] mx-auto px-8 lg:px-16">
     <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-8">Read more</p>
-    <div class="grid sm:grid-cols-3 gap-5">
+    <div class="grid sm:grid-cols-3 gap-6">
 
-      <a href="../Articles/why-ed-happens.html" class="lift focus-ring block border border-hairline-soft rounded-card p-6 bg-surface">
-        <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Sexual Health</span>
-        <h3 class="dp font-[380] tracking-display text-[17px] leading-[1.25] mb-3">Why ED happens: the physiological causes most men don't know about.</h3>
-        <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
-          <span class="font-mono text-[11px] text-muted">7 min read</span>
-          <span class="text-sm font-medium text-ink">Read &#8594;</span>
+      <a href="../Articles/why-ed-happens.html" class="lift focus-ring block border border-hairline-soft rounded-card-lg bg-surface overflow-hidden">
+        <div class="photo-frame aspect-[16/9]">
+          <img src="../Images/web/card/man-cool-light-3.jpg" alt="" class="w-full h-full object-cover" loading="lazy" decoding="async" />
+        </div>
+        <div class="p-6">
+          <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Sexual health</span>
+          <h3 class="dp font-[380] tracking-display text-[17px] leading-[1.25] mb-3">Why ED happens: the physiological causes most men don't know about.</h3>
+          <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
+            <span class="font-mono text-[11px] text-muted">7 min read</span>
+            <span class="text-sm font-medium text-ink">Read &#8594;</span>
+          </div>
         </div>
       </a>
 
-      <a href="../Articles/ed-and-mental-health.html" class="lift focus-ring block border border-hairline-soft rounded-card p-6 bg-surface">
-        <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Sexual Health</span>
-        <h3 class="dp font-[380] tracking-display text-[17px] leading-[1.25] mb-3">The connection between ED and mental health.</h3>
-        <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
-          <span class="font-mono text-[11px] text-muted">7 min read</span>
-          <span class="text-sm font-medium text-ink">Read &#8594;</span>
+      <a href="../Articles/ed-and-mental-health.html" class="lift focus-ring block border border-hairline-soft rounded-card-lg bg-surface overflow-hidden">
+        <div class="photo-frame aspect-[16/9]">
+          <img src="../Images/web/card/piha-6.jpg" alt="" class="w-full h-full object-cover" style="object-position:center 40%;" loading="lazy" decoding="async" />
+        </div>
+        <div class="p-6">
+          <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Sexual health</span>
+          <h3 class="dp font-[380] tracking-display text-[17px] leading-[1.25] mb-3">The connection between ED and mental health.</h3>
+          <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
+            <span class="font-mono text-[11px] text-muted">7 min read</span>
+            <span class="text-sm font-medium text-ink">Read &#8594;</span>
+          </div>
         </div>
       </a>
 
-      <a href="../Articles/testosterone-decline.html" class="lift focus-ring block border border-hairline-soft rounded-card p-6 bg-surface">
-        <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Hormonal Health</span>
-        <h3 class="dp font-[380] tracking-display text-[17px] leading-[1.25] mb-3">Testosterone decline after 30: what's normal, what's not.</h3>
-        <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
-          <span class="font-mono text-[11px] text-muted">8 min read</span>
-          <span class="text-sm font-medium text-ink">Read &#8594;</span>
+      <a href="../Articles/testosterone-decline.html" class="lift focus-ring block border border-hairline-soft rounded-card-lg bg-surface overflow-hidden">
+        <div class="photo-frame aspect-[16/9]">
+          <img src="../Images/web/card/man-running-1.jpg" alt="" class="w-full h-full object-cover" style="object-position:center 72%;" loading="lazy" decoding="async" />
+        </div>
+        <div class="p-6">
+          <span class="inline-block bg-sage text-sage-deep font-mono text-[11px] tracking-tag uppercase px-3 py-[5px] rounded-pill mb-4">Hormonal health</span>
+          <h3 class="dp font-[380] tracking-display text-[17px] leading-[1.25] mb-3">Testosterone decline after 30: what's normal, what's not.</h3>
+          <div class="flex justify-between items-center pt-4 border-t border-hairline-soft">
+            <span class="font-mono text-[11px] text-muted">8 min read</span>
+            <span class="text-sm font-medium text-ink">Read &#8594;</span>
+          </div>
         </div>
       </a>
 
@@ -245,23 +331,26 @@
 </section>
 
 <!-- EARLY ACCESS -->
-<section id="early-access" class="py-28 relative overflow-hidden">
-  <img src="../Images/Photo Image Library/Waikato 2.jpg" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 50%;" />
+<section id="early-access" class="py-32 md:py-40 relative overflow-hidden">
+  <img src="../Images/web/waikato-2.jpg" alt="Waikato farmland at dusk" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 50%;" loading="lazy" decoding="async" />
   <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(246,241,232,0.88) 0%, rgba(246,241,232,0.80) 100%);"></div>
   <div class="relative z-10 max-w-[600px] mx-auto px-8 text-center">
-    <span class="inline-block font-mono text-[11px] tracking-tag uppercase bg-accent text-accent-ink px-3 py-[5px] rounded-pill mb-7">Coming soon</span>
+    <p class="font-mono text-[11px] tracking-eyebrow uppercase text-muted mb-6">Early access</p>
     <h2 class="dp font-[380] tracking-display leading-[1.0] text-[42px] md:text-[54px] mb-5">
       Be first in the door.
     </h2>
     <p class="text-[17px] leading-[1.6] text-ink-soft mb-10 max-w-[440px] mx-auto">
-      Arua is launching shortly. Sign up and we'll reach out the moment we're live.
+      Arua launches in New Zealand soon. Leave your email and we'll let you know when access opens.
     </p>
 
-    <form id="ed-signup" class="flex flex-col sm:flex-row gap-3 justify-center max-w-[480px] mx-auto">
+    <form id="ed-signup" action="https://formspree.io/f/mykovjpr" method="POST" class="flex flex-col sm:flex-row gap-3 justify-center max-w-[480px] mx-auto">
+      <input type="hidden" name="_subject" value="Arua early access signup — ED page" />
       <input
         type="email"
+        name="email"
         placeholder="Your email address"
         required
+        autocomplete="email"
         class="w-full sm:flex-1 h-[56px] min-h-[56px] px-5 rounded-pill border border-hairline bg-surface text-[15px] text-ink placeholder:text-muted focus-ring focus:outline-none focus:border-accent transition-colors duration-150"
       />
       <button type="submit" class="h-[56px] px-7 rounded-pill bg-ink text-page text-[15px] font-medium whitespace-nowrap
@@ -271,7 +360,7 @@
     </form>
 
     <p class="font-mono text-[11px] tracking-mono-sm text-muted mt-5">
-      No referral needed&ensp;&#183;&ensp;Discreet packaging&ensp;&#183;&ensp;100% private
+      No spam&ensp;&#183;&ensp;No obligation&ensp;&#183;&ensp;Unsubscribe any time
     </p>
   </div>
 </section>
@@ -283,6 +372,17 @@
       <div>
         <p class="dp font-[380] tracking-display text-[52px] leading-none mb-5">arua</p>
         <p class="text-[13px] leading-[1.65] max-w-[240px]" style="color:rgba(246,241,232,.5)">Men's health. New Zealand.<br>Private, direct, evidence-based.</p>
+        <div class="flex items-center gap-5 mt-6">
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on Instagram (coming soon)" title="Instagram (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.6" cy="6.4" r="1.15" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on LinkedIn (coming soon)" title="LinkedIn (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+          </a>
+          <a href="#" class="focus-ring rounded-sm" style="color:rgba(246,241,232,.55); transition:color 150ms ease;" onmouseover="this.style.color='#F6F1E8'" onmouseout="this.style.color='rgba(246,241,232,.55)'" aria-label="Arua on Facebook (coming soon)" title="Facebook (coming soon)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94z"/></svg>
+          </a>
+        </div>
       </div>
       <div>
         <p class="font-mono text-[11px] tracking-eyebrow uppercase mb-5" style="color:rgba(246,241,232,.38)">Conditions</p>
@@ -324,10 +424,26 @@
     nav.style.boxShadow   = s ? '0 2px 24px -8px rgba(21,20,15,.10)' : 'none'
   }, { passive: true })
 
-  document.getElementById('ed-signup').addEventListener('submit', function(e) {
-    e.preventDefault()
-    this.innerHTML = '<p class="dp-i font-[340] text-[18px] text-ink-soft">You\'re on the list. We\'ll be in touch.</p>'
-  })
+  // Mobile menu toggle
+  const mobBtn  = document.getElementById('mob-menu-btn')
+  const mobMenu = document.getElementById('mob-menu')
+  const mbar1   = document.getElementById('mbar1')
+  const mbar2   = document.getElementById('mbar2')
+  const mbar3   = document.getElementById('mbar3')
+  let menuOpen  = false
+
+  function toggleMenu(force) {
+    menuOpen = force !== undefined ? force : !menuOpen
+    mobMenu.style.display = menuOpen ? 'flex' : 'none'
+    mobMenu.style.flexDirection = 'column'
+    mobBtn.setAttribute('aria-expanded', menuOpen)
+    mbar1.style.transform = menuOpen ? 'translateY(6px) rotate(45deg)' : ''
+    mbar2.style.opacity   = menuOpen ? '0' : ''
+    mbar3.style.transform = menuOpen ? 'translateY(-6px) rotate(-45deg)' : ''
+  }
+
+  mobBtn.addEventListener('click', () => toggleMenu())
+  mobMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)))
 </script>
 
 </body>
