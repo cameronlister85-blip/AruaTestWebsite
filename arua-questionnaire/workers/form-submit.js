@@ -59,12 +59,13 @@ export default {
       return new Response('Invalid JSON', { status: 400, headers: CORS });
     }
 
-    const first  = clip(data.first);
-    const last   = clip(data.last);
-    const dob    = clip(data.dob);
-    const email  = clip(data.email);
-    const mobile = clip(data.mobile);
-    const flags  = typeof data.flags === 'string' ? data.flags.trim().slice(0, 2000) : '';
+    const first    = clip(data.first);
+    const last     = clip(data.last);
+    const dob      = clip(data.dob);
+    const email    = clip(data.email);
+    const mobile   = clip(data.mobile);
+    const pathway  = clip(data.pathway);
+    const flags    = typeof data.flags === 'string' ? data.flags.trim().slice(0, 2000) : '';
 
     // Basic server-side guard
     if (!first || !last || !email || !mobile) {
@@ -92,7 +93,7 @@ export default {
           'Mobile':        mobile,
           'Outcome':        data.outcome === 'S2' ? 'Needs review' : 'Clear',
           'Flags':          flags,
-          'Submitted from': 'ED screening',
+          'Submitted from': pathway === 'hair-loss' ? 'Hair loss screening' : 'ED screening',
         }
       }),
     });

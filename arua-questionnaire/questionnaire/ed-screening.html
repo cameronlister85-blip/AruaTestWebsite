@@ -705,7 +705,7 @@ async function submitContact() {
     await fetch(WORKER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ first, last, dob: dobVal, email, mobile, outcome: s2FlagList.length > 0 ? 'S2' : 'S3', flags: s2FlagList.join(', ') }),
+      body: JSON.stringify({ first, last, dob: dobVal, email, mobile, pathway: 'ed', outcome: s2FlagList.length > 0 ? 'S2' : 'S3', flags: s2FlagList.join(', ') }),
     });
   } catch (err) {
     console.warn('Submission POST failed:', err);
